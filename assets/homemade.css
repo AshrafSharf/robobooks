@@ -1,0 +1,12 @@
+/* ============ Homemade Robots additions on top of book.css + arduino.css ============ */
+.prose p.step{padding-left:.9rem;border-left:3px solid var(--accent-2-soft)}
+.prose p.step strong:first-child{color:var(--accent-2);font-family:var(--sans)}
+.prose ul.parts{columns:2 15rem;column-gap:2rem;padding:.9rem 1rem .9rem 2.2rem;margin:1.2rem 0;
+  background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--radius);font-family:var(--sans);font-size:.92rem}
+.prose ul.parts li{break-inside:avoid;margin:.15rem 0}
+.prose p.res strong:first-child{font-family:var(--sans);color:var(--accent)}
+.prose p.dedic{font-style:italic;text-align:center;font-size:1.15rem}
+figure.fig figcaption{font-weight:600;color:var(--ink)}
+.tbl-wrap{overflow-x:auto;margin:1.2rem 0}
+.prose .tbl-wrap table.tbl{margin:0;display:table;width:100%}
+.prose table.tbl.data td,.prose table.tbl.data th{text-align:left;vertical-align:top;font-size:.82rem}

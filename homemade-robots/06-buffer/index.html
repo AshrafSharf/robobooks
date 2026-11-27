@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buffer — Homemade Robots</title>
+<meta name="description" content="Homemade Robots · Chapter 6: Buffer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../assets/book.css">
+<link rel="stylesheet" href="../../assets/arduino.css">
+<link rel="stylesheet" href="../../assets/homemade.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../index.html">Library</a> · <a href="../index.html">Homemade Robots</a></span><span class="c2">Buffer</span></div>
+  <a class="tb-btn" data-nav="prev" href="../05-wobbler/index.html" title="Wobbler">←</a><details class="drawer"><summary class="tb-btn" title="All chapters">☰</summary><div class="drawer-panel"><div class="dh">Homemade Robots</div><a href="../00-about/index.html">About the Author &amp; Acknowledgments</a><a href="../00-introduction/index.html">Introduction</a><a href="../01-building-tools-and-supplies/index.html">Chapter 1 · Building Tools and Supplies</a><a href="../02-getting-started-with-electronics/index.html">Chapter 2 · Getting Started with Electronics</a><a href="../03-motors/index.html">Chapter 3 · Motors</a><a href="../04-soldering-and-desoldering/index.html">Chapter 4 · Soldering and Desoldering</a><a href="../05-wobbler/index.html">Chapter 5 · Wobbler</a><a href="../06-buffer/index.html" aria-current=page>Chapter 6 · Buffer</a><a href="../07-daze/index.html">Chapter 7 · Daze</a><a href="../08-barreller/index.html">Chapter 8 · Barreller</a><a href="../09-lazy/index.html">Chapter 9 · Lazy</a><a href="../10-skitter/index.html">Chapter 10 · Skitter</a><a href="../11-inchworm/index.html">Chapter 11 · Inchworm</a><a href="../12-walker/index.html">Chapter 12 · Walker</a><a href="../13-sail/index.html">Chapter 13 · Sail</a><a href="../14-flip-flop/index.html">Chapter 14 · Flip Flop</a><a href="../app-a-reference-materials/index.html">Appendix A · Reference Materials</a><a href="../app-b-cutting-and-drilling-templates/index.html">Appendix B · Cutting and drilling templates</a></div></details><a class="tb-btn" data-nav="next" href="../07-daze/index.html" title="Daze">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:44.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6</a></p>
+  <h1>Buffer</h1>
+  <p class="sec-meta">Buffer Overview · Constructing Buffer</p>
+</div>
+<article class="prose">
+<p>Buffer is very similar to Wobbler in many regards, but the main difference is its wheels. For this bot, you’ll attach two round “buffer” wheels to downward-facing motors that are rotating toward each other, so when you turn the bot on, it propels itself in the direction the scrubbers are spinning. Buffer looks a bit like a tiny street sweeper, but it moves differently from its larger cousin. However, it may actually clean your floor. Buffer is an easy little bot to build and fun to use.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="725" height="244" style="width:655px" loading="lazy" alt=""></a></figure>
+<h3>Tools and Supplies</h3>
+<ul class="parts"><li>Two continuous-rotation servo motors with the controllers removed</li><li>A 4 × AA battery holder</li><li>Lid from a 12-inch plastic rectangular container</li><li>Two dryer lint–catching brushes</li><li>Two stainless-steel plumbing flange repair rings</li><li>A 24-inch aluminum ruler</li><li>Four ¼- inch nuts and bolts</li><li>Two 4-40 × ¼-inch nuts and bolts</li><li>Zip ties of assorted sizes</li><li>Power drill</li><li>Three drill bits: 1/8, 1/4, and 1/2 inch</li><li>Hacksaw</li><li>Wire stripper/cutting pliers</li><li>Marker</li></ul>
+<h2>Buffer Overview</h2>
+<p>First, you’ll modify the servos, just like you did with Wobbler (see also Chapter 4) or use one of the geared motor alternatives from Appendix A. Once this is completed, you’ll build the lint-brush buffer wheels. Then, you’ll attach the motors to the box lid and the buffing wheels to the motors, facedown toward the ground. Finally, you’ll wire together and power up the whole circuit.</p>
+<h2>Constructing Buffer</h2>
+<p class="step"><strong>Step 1.</strong> Prepare the crossbars for Buffer’s brush wheels. You’ll use these crossbars to attach the servo horn to the wheel itself. Cut the ruler into two 7-inch sections, which should be the diameter of the stainless-steel plumbing flange repair rings.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="385" height="286" style="width:404px" loading="lazy" alt="Step 1"></a><figcaption>Step 1</figcaption></figure>
+<p class="step"><strong>Step 2.</strong> You’re going to drill holes into the sections of ruler to attach those ruler sections to the repair ring and begin making Buffer’s wheels. First, position one ruler section across your repair ring, and with a marker pen, mark the ruler through the repair ring’s mounting holes at both ends of the ruler piece, as shown here. Try to get the mark as near to the center of the ruler’s width as possible. Repeat with the second section of the ruler.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="624" height="271" style="width:655px" loading="lazy" alt="Step 2"></a><figcaption>Step 2</figcaption></figure>
+<p class="step"><strong>Step 3.</strong> Firmly clamp down the ruler sections, drill 1/8-inch pilot holes into the marks on them, and then widen the holes to ¼ inch.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="644" height="339" style="width:655px" loading="lazy" alt="Step 3"></a><figcaption>Step 3</figcaption></figure>
+<p class="step"><strong>Step 4.</strong> Remove the screws attaching the servo horns to the servo motors and pull the horns off the motor boxes.</p>
+<p class="step"><strong>Step 5.</strong> Drill 1/8-inch holes through the ends of each servo horn.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="388" height="305" style="width:407px" loading="lazy" alt="Step 4"></a><figcaption>Step 4</figcaption></figure>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="388" height="190" style="width:407px" loading="lazy" alt="Step 5"></a><figcaption>Step 5</figcaption></figure>
+<p class="step"><strong>Step 6.</strong> Align a servo horn with the center of one ruler section. Two of the holes you previously drilled into the servo horn should hang over the edges of the ruler. Mark the ruler through the other two holes you previously drilled into the servo horn. Do the same for the other ruler section.</p>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="800" height="387" style="width:655px" loading="lazy" alt="Step 6"></a><figcaption>Step 6</figcaption></figure>
+<p class="step"><strong>Step 7.</strong> Using a 1/8-inch drill bit, drill holes where you just marked each section of ruler.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="620" height="294" style="width:651px" loading="lazy" alt="Step 7"></a><figcaption>Step 7</figcaption></figure>
+<p class="step"><strong>Step 8.</strong> Using your ¼-inch nuts and bolts, fasten each ruler section to a repair ring through the larger holes you drilled.</p>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="675" height="297" style="width:655px" loading="lazy" alt="Step 8"></a><figcaption>Step 8</figcaption></figure>
+<p class="step"><strong>Step 9.</strong> Chop the handles off your lint-catching brushes.</p>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="600" height="506" style="width:630px" loading="lazy" alt="Step 9"></a><figcaption>Step 9</figcaption></figure>
+<p class="step"><strong>Step 10.</strong> To complete Buffer’s wheels, bend a lint brush around the bottom face of a repair ring so it forms a circle, zip-tying it in place as you go. Cut off excess zip-tie leads and any extra lint brush that remains. Repeat the process for the second lint brush and repair ring.</p>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="800" height="240" style="width:655px" loading="lazy" alt="Step 10"></a><figcaption>Step 10</figcaption></figure>
+<p class="step"><strong>Step 11.</strong> Take the plastic box lid and mark it about ¾ inch in from each of the shorter edges of the lid. Try to get the marks in the center. Drill a ½-inch hole where you placed your two marks. If the plastic cracks or chips a little, it’s okay, so long as you can still zip-tie the motor in place.</p>
+<figure class="fig"><a href="img/fig-12.webp" target="_blank" rel="noopener"><img src="img/fig-12.webp" width="602" height="281" style="width:632px" loading="lazy" alt="Step 11"></a><figcaption>Step 11</figcaption></figure>
+<p class="step"><strong>Step 12.</strong> Now you’ll add holes to mount the servo motors with zip ties. Position the servo motor shaft into the center of one of the holes you just drilled. Make a mark on the lid over each of the four servo-mounting holes. Repeat this process for the other hole you drilled. Finally, drill holes through these eight marks using a 1/8-inch drill bit.</p>
+<figure class="fig"><a href="img/fig-13.webp" target="_blank" rel="noopener"><img src="img/fig-13.webp" width="516" height="387" style="width:542px" loading="lazy" alt="Step 12"></a><figcaption>Step 12</figcaption></figure>
+<p class="step"><strong>Step 13.</strong> Through these holes, zip-tie the motors to the box lid such that the lid’s lip points in the opposite direction of the motor shafts.</p>
+<figure class="fig"><a href="img/fig-14.webp" target="_blank" rel="noopener"><img src="img/fig-14.webp" width="648" height="375" style="width:655px" loading="lazy" alt="Step 13"></a><figcaption>Step 13</figcaption></figure>
+<p class="step"><strong>Step 14.</strong> Now position the battery holder on the center of the lid and mark the lid through the battery holder’s two mounting holes. Drill through these marks using a 1/8-inch drill bit.</p>
+<figure class="fig"><a href="img/fig-15.webp" target="_blank" rel="noopener"><img src="img/fig-15.webp" width="617" height="439" style="width:648px" loading="lazy" alt="Step 14"></a><figcaption>Step 14</figcaption></figure>
+<p class="step"><strong>Step 15.</strong> Fasten the battery holder to the same side of the lid as your motors with the 4-40 × ¼-inch nuts and bolts.</p>
+<figure class="fig"><a href="img/fig-16.webp" target="_blank" rel="noopener"><img src="img/fig-16.webp" width="731" height="438" style="width:655px" loading="lazy" alt="Step 15"></a><figcaption>Step 15</figcaption></figure>
+<p class="step"><strong>Step 16.</strong> Reattach the servo horns to the servos.</p>
+<figure class="fig"><a href="img/fig-17.webp" target="_blank" rel="noopener"><img src="img/fig-17.webp" width="748" height="392" style="width:655px" loading="lazy" alt="Step 16"></a><figcaption>Step 16</figcaption></figure>
+<p class="step"><strong>Step 17.</strong> Zip-tie the buffer wheels to the servo horns through the mounting holes you drilled earlier. For each wheel and servo-horn pair, pass a zip tie down through the servo horn and a hole in the ruler, then back up through one of the holes in the servo horn that sticks off the edge of the ruler, and then tie the zip tie. Repeat this process with the second zip tie, and make sure everything is firmly secured. Trim all excess zip-tie leads.</p>
+<figure class="fig"><a href="img/fig-18.webp" target="_blank" rel="noopener"><img src="img/fig-18.webp" width="682" height="324" style="width:655px" loading="lazy" alt="Step 17"></a><figcaption>Step 17</figcaption></figure>
+<p class="step"><strong>Step 18.</strong> Connect the red wire from one servo to the black wire on the other servo. Connect the remaining two black and red servo wires together. Attach one of these pairs to the red wire of the battery pack. Attach the other pair to the black wire. Zip-tie all of the wires neatly together, making certain that none of the exposed solder joints can touch each other and short the bot. Alternatively, insulate the connections with shrink tube.</p>
+<figure class="fig"><a href="img/fig-19.webp" target="_blank" rel="noopener"><img src="img/fig-19.webp" width="683" height="263" style="width:655px" loading="lazy" alt="Step 18"></a><figcaption>Step 18</figcaption></figure>
+<p class="step"><strong>Step 19.</strong> Insert some batteries into the battery holder, put Buffer down, and watch it go!</p>
+<figure class="fig"><a href="img/fig-20.webp" target="_blank" rel="noopener"><img src="img/fig-20.webp" width="800" height="470" style="width:655px" loading="lazy" alt="Step 19"></a><figcaption>Step 19</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p>Be sure to remove the batteries to turn the bot off. See Appendix A for instructions on adding a power switch.</p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../05-wobbler/index.html"><span class="dir">← Previous</span><span class="t">Wobbler</span><span class="ch">Chapter 5</span></a><a class="nx" data-nav="next" href="../07-daze/index.html"><span class="dir">Next →</span><span class="t">Daze</span><span class="ch">Chapter 7</span></a></nav>
+</main><footer class="site">Homemade Robots · Randy Sarafan · © 2021 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../assets/book.js"></script>
+</body>
+</html>

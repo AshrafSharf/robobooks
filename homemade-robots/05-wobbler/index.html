@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wobbler — Homemade Robots</title>
+<meta name="description" content="Homemade Robots · Chapter 5: Wobbler">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../assets/book.css">
+<link rel="stylesheet" href="../../assets/arduino.css">
+<link rel="stylesheet" href="../../assets/homemade.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../index.html">Library</a> · <a href="../index.html">Homemade Robots</a></span><span class="c2">Wobbler</span></div>
+  <a class="tb-btn" data-nav="prev" href="../04-soldering-and-desoldering/index.html" title="Soldering and Desoldering">←</a><details class="drawer"><summary class="tb-btn" title="All chapters">☰</summary><div class="drawer-panel"><div class="dh">Homemade Robots</div><a href="../00-about/index.html">About the Author &amp; Acknowledgments</a><a href="../00-introduction/index.html">Introduction</a><a href="../01-building-tools-and-supplies/index.html">Chapter 1 · Building Tools and Supplies</a><a href="../02-getting-started-with-electronics/index.html">Chapter 2 · Getting Started with Electronics</a><a href="../03-motors/index.html">Chapter 3 · Motors</a><a href="../04-soldering-and-desoldering/index.html">Chapter 4 · Soldering and Desoldering</a><a href="../05-wobbler/index.html" aria-current=page>Chapter 5 · Wobbler</a><a href="../06-buffer/index.html">Chapter 6 · Buffer</a><a href="../07-daze/index.html">Chapter 7 · Daze</a><a href="../08-barreller/index.html">Chapter 8 · Barreller</a><a href="../09-lazy/index.html">Chapter 9 · Lazy</a><a href="../10-skitter/index.html">Chapter 10 · Skitter</a><a href="../11-inchworm/index.html">Chapter 11 · Inchworm</a><a href="../12-walker/index.html">Chapter 12 · Walker</a><a href="../13-sail/index.html">Chapter 13 · Sail</a><a href="../14-flip-flop/index.html">Chapter 14 · Flip Flop</a><a href="../app-a-reference-materials/index.html">Appendix A · Reference Materials</a><a href="../app-b-cutting-and-drilling-templates/index.html">Appendix B · Cutting and drilling templates</a></div></details><a class="tb-btn" data-nav="next" href="../06-buffer/index.html" title="Buffer">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:38.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5</a></p>
+  <h1>Wobbler</h1>
+  <p class="sec-meta">Wobbler Overview · Constructing Wobbler</p>
+</div>
+<article class="prose">
+<p>As you likely guessed from the name, Wobbler is a bot that moves around by wobbling back and forth. While it might seem a little clumsy initially, don’t let first impressions fool you. Wobbler is an enthusiastic and persistent little bot ready to take on the world.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="726" height="319" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>The parts for this project are all easy to find, and the Wobbler should be straightforward to put together, even for less-experienced bot builders. More-experienced bot builders will have some fun modifying this one, as the design’s simplicity leaves a lot of room for expansion and experimentation.</p>
+<h3>Tools and Supplies</h3>
+<ul class="parts"><li>Two continuous-rotation servo motors with the controllers removed</li><li>Two self-adhesive oval coat hooks</li><li>A 4 × AA battery holder</li><li>Four AA batteries</li><li>Small plastic container with lid</li><li>Four zip ties</li><li>Marker</li><li>Wire stripper/cutting pliers</li><li>Power drill</li><li>A 1/8-inch drill bit</li><li>A 3/8-inch or ½-inch drill bit</li></ul>
+<h2>Wobbler Overview</h2>
+<p>You’ll build Wobbler in stages. First, you need to have premodified the continuous-rotation servo motors for direct drive (Chapter 4) or sourced one of the geared motor alternatives as outlined in Appendix A. Once that’s complete, you’ll mark and drill the plastic box to mount the motors, attach the motors inside the box, and wire up the circuit. Finally, you’ll mount Wobbler’s oval “wheels” on the outside of the box.</p>
+<h2>Constructing Wobbler</h2>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="441" height="327" style="width:463px" loading="lazy" alt="Step 1"></a><figcaption>Step 1</figcaption></figure>
+<p class="step"><strong>Step 1.</strong> Remove the servo horns from the motors. (A servo horn is the part attached to the motor shaft that spins.)</p>
+<p class="step"><strong>Step 2.</strong> Place the servos inside the plastic container such that they’re mirrored back to back. The servo shafts where the horns used to be should be located near the bottom of the plastic container and a little off-center to help Wobbler wobble.</p>
+<p class="step"><strong>Step 3.</strong> Mark the plastic container with a marker over the mounting screw holes and the motors’ shafts to indicate their positions.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="382" height="272" style="width:401px" loading="lazy" alt="Step 2"></a><figcaption>Step 2</figcaption></figure>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="388" height="272" style="width:407px" loading="lazy" alt="Step 3"></a><figcaption>Step 3</figcaption></figure>
+<p class="step"><strong>Step 4.</strong> Drill holes in the plastic container where you made the marks.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="535" height="388" style="width:562px" loading="lazy" alt="Step 4"></a><figcaption>Step 4</figcaption></figure>
+<p>For the smaller mounting holes, a 1/8-inch drill bit should be suitable. For the motor shaft, use either a 3/8-inch or ½-inch drill bit.</p>
+<p class="step"><strong>Step 5.</strong> Position the motors inside the plastic container and zip-tie them securely in place.</p>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="620" height="322" style="width:651px" loading="lazy" alt="Step 5"></a><figcaption>Step 5</figcaption></figure>
+<p class="step"><strong>Step 6.</strong> Connect a red wire from one of the motors to a black wire from the other motor. Connect the paired wires with one of the wires from the battery holder. Next, connect together the remaining three loose wires to form another grouping. You can either solder these wires or use a mechanical connector.</p>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="625" height="398" style="width:655px" loading="lazy" alt="Step 6"></a><figcaption>Step 6</figcaption></figure>
+<p class="step"><strong>Step 7.</strong> Place the battery holder inside the plastic container. Then close the plastic container and reattach the servo horns.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="388" height="375" style="width:407px" loading="lazy" alt="Step 7"></a><figcaption>Step 7</figcaption></figure>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="388" height="377" style="width:407px" loading="lazy" alt="Step 8"></a><figcaption>Step 8</figcaption></figure>
+<p class="step"><strong>Step 8.</strong> Although this step isn’t entirely necessary, take the coat hooks and trim off the hook part with diagonal cutting pliers or a small saw. You’ll be left with self-adhesive oval wheels.</p>
+<p class="step"><strong>Step 9.</strong> Peel off the adhesive backing and stick the wheels to the servo horns such that each horn is completely hidden behind its wheel. Make sure to stick the wheels so they’re very off-center from the axis of rotation to give the bot a good wobble.</p>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="486" height="305" style="width:510px" loading="lazy" alt="Step 9"></a><figcaption>Step 9</figcaption></figure>
+<p class="step"><strong>Step 10.</strong> Remove the lid, insert batteries into the battery holder, close the lid again, and let Wobbler go. The robot will keep going so long as the batteries are installed.</p>
+<aside class="note"><span class="lbl">NOTE</span><p>Be sure to remove the batteries to turn the bot off. See Appendix A for instructions on adding a power switch.</p></aside>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="608" height="521" style="width:638px" loading="lazy" alt="Step 10"></a><figcaption>Step 10</figcaption></figure>
+<p>Experiment with setting the bot on different sides to observe all the ways it moves. Also try replacing the coat hook “wheels” with other objects to get unique results. Simply attach different objects to the servo horn with double-sided tape or zip ties.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../04-soldering-and-desoldering/index.html"><span class="dir">← Previous</span><span class="t">Soldering and Desoldering</span><span class="ch">Chapter 4</span></a><a class="nx" data-nav="next" href="../06-buffer/index.html"><span class="dir">Next →</span><span class="t">Buffer</span><span class="ch">Chapter 6</span></a></nav>
+</main><footer class="site">Homemade Robots · Randy Sarafan · © 2021 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../assets/book.js"></script>
+</body>
+</html>

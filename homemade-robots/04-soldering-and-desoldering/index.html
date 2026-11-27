@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Soldering and Desoldering — Homemade Robots</title>
+<meta name="description" content="Homemade Robots · Chapter 4: Soldering and Desoldering">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../assets/book.css">
+<link rel="stylesheet" href="../../assets/arduino.css">
+<link rel="stylesheet" href="../../assets/homemade.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../index.html">Library</a> · <a href="../index.html">Homemade Robots</a></span><span class="c2">Soldering and Desoldering</span></div>
+  <a class="tb-btn" data-nav="prev" href="../03-motors/index.html" title="Motors">←</a><details class="drawer"><summary class="tb-btn" title="All chapters">☰</summary><div class="drawer-panel"><div class="dh">Homemade Robots</div><a href="../00-about/index.html">About the Author &amp; Acknowledgments</a><a href="../00-introduction/index.html">Introduction</a><a href="../01-building-tools-and-supplies/index.html">Chapter 1 · Building Tools and Supplies</a><a href="../02-getting-started-with-electronics/index.html">Chapter 2 · Getting Started with Electronics</a><a href="../03-motors/index.html">Chapter 3 · Motors</a><a href="../04-soldering-and-desoldering/index.html" aria-current=page>Chapter 4 · Soldering and Desoldering</a><a href="../05-wobbler/index.html">Chapter 5 · Wobbler</a><a href="../06-buffer/index.html">Chapter 6 · Buffer</a><a href="../07-daze/index.html">Chapter 7 · Daze</a><a href="../08-barreller/index.html">Chapter 8 · Barreller</a><a href="../09-lazy/index.html">Chapter 9 · Lazy</a><a href="../10-skitter/index.html">Chapter 10 · Skitter</a><a href="../11-inchworm/index.html">Chapter 11 · Inchworm</a><a href="../12-walker/index.html">Chapter 12 · Walker</a><a href="../13-sail/index.html">Chapter 13 · Sail</a><a href="../14-flip-flop/index.html">Chapter 14 · Flip Flop</a><a href="../app-a-reference-materials/index.html">Appendix A · Reference Materials</a><a href="../app-b-cutting-and-drilling-templates/index.html">Appendix B · Cutting and drilling templates</a></div></details><a class="tb-btn" data-nav="next" href="../05-wobbler/index.html" title="Wobbler">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:33.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4</a></p>
+  <h1>Soldering and Desoldering</h1>
+  <p class="sec-meta">Soldering Tools and Materials · Getting Started · Modifying the Servo for Direct Drive</p>
+</div>
+<article class="prose">
+<p>Solder is a fusible metal alloy used to make permanent electrical connections between wires and other electronic components. If you really want to dive deep into robotics, eventually you’ll need to learn to solder. By using solder that melts under relatively low temperatures of a few hundred degrees, you can join two pieces of metal together and create an electrical bond. This requires both a particular set of tools and a number of safety precautions.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="725" height="273" style="width:655px" loading="lazy" alt=""></a></figure>
+<h2>Soldering Tools and Materials</h2>
+<p>You’ll need a number of basic items before soldering. First is a soldering iron. Although you can spend hundreds of dollars on a fancy soldering iron, a $15 adjustable iron (rated for about 60 W) should suffice to get started.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="693" height="59" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Once you have a soldering iron, you’ll need a heatproof stand on which to rest the soldering iron when you are not using it. Most soldering irons typically come with a stand, but if yours does not, you absolutely need to purchase one.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="696" height="256" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>A cleaning pad is also necessary for cleaning the tip of the soldering iron after each use. Two commonly available options are wire pads, which tend to last longer, and slightly dampened sponges, which you should be able to find around your house. Use whichever you prefer.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="469" height="265" style="width:492px" loading="lazy" alt=""></a></figure>
+<p>You’ll also need some solder. I highly recommend getting a roll of lead-free solder. It melts at a slightly higher temperature than lead solder and is a bit harder to work with, but it’s not as toxic to handle. At the end of the day, your health should take priority over ease of use.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="592" height="388" style="width:622px" loading="lazy" alt=""></a></figure>
+<p>Desoldering braid, for undoing soldering mistakes, is another essential item for the projects in this book. It is also critical for removing solder from the circuit board inside of servo motors in order to detach the circuit from the motor itself, which is an action you’ll need to take repeatedly when building these bots.</p>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="787" height="63" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Finally, you should get a fume extractor fan to remove soldering fumes and protect your lungs. When melted, solder releases nasty fumes that you should avoid breathing in. It is best to use a filtered exhaust fan while soldering. At the very least, solder in a place with decent airflow blowing away from you to prevent the exhaust fumes from lingering.</p>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="543" height="367" style="width:570px" loading="lazy" alt=""></a></figure>
+<h2>Getting Started</h2>
+<p>Before you plug in your soldering iron, it is important to understand how to handle it safely when it is powered up. Hold the soldering iron much in the same way as you would hold a pencil, but with a very important exception. Instead of grasping the soldering iron near the tip, your hand should always grasp the insulated handle.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="632" height="309" style="width:655px" loading="lazy" alt=""></a></figure>
+<aside class="note"><span class="lbl">WARNING</span><p>Never touch the metal part of the soldering iron with your hands when it is plugged in. It will be as hot (or hotter) than the surface of an oven and can seriously burn you.</p></aside>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="531" height="400" style="width:558px" loading="lazy" alt=""></a></figure>
+<p>Once you have a grasp on that, place the soldering iron in its holder, plug it in, and wait a few minutes for it to heat up to a temperature hot enough to melt solder. You can test that it’s ready simply by touching the tip to some solder and seeing if it melts. If it does, you are ready to begin soldering. Also, while you are at it, turn on your exhaust fan, and make sure that you have the solder and soldering iron cleaning pad on hand.</p>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="800" height="258" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>The first time you use the soldering iron, you’ll want to <em>tin</em> the tip. This means melting a coating of solder around the surface of the tip to coat it and keep it working well.</p>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="608" height="313" style="width:638px" loading="lazy" alt=""></a></figure>
+<p>Melt solder all over the surface of the soldering iron tip until it has a nice, shiny silver coating. This will protect the metal tip from oxidizing and allow it to melt solder easily.</p>
+<h3>Soldering Wires</h3>
+<p>The best way to practice soldering is to solder two wires together. Strip the ends off of two sections of wire and twist or hook the metallic ends together. Next, heat up the metal ends of the wires while pushing a piece of solder into the joint. The solder should liquify and spread over the joint, fusing the two together. If done correctly, the joint should look silver and shiny without any black patches or bulbous bits of solder protruding from it.</p>
+<figure class="fig"><a href="img/fig-12.webp" target="_blank" rel="noopener"><img src="img/fig-12.webp" width="640" height="257" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>After you have effectively soldered the two pieces of wire together, clean the tip of the soldering iron by dragging it across the cleaning pad two or three times until the excess solder is removed.</p>
+<figure class="fig"><a href="img/fig-13.webp" target="_blank" rel="noopener"><img src="img/fig-13.webp" width="633" height="353" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>If your solder connection is gray, black, bulbous, or feels rough in texture when cooled, you have created a <em>cold solder joint</em> by not sufficiently heating up the wires you are soldering together. You’ll likely need to redo it. The easiest way is to trim the wires and start over.</p>
+<figure class="fig"><a href="img/fig-14.webp" target="_blank" rel="noopener"><img src="img/fig-14.webp" width="666" height="467" style="width:655px" loading="lazy" alt=""></a></figure>
+<aside class="note"><span class="lbl">WARNING</span><p>Don’t ignore bad solder connections, because they can cause your circuit not to work; even worse, they can cause mysterious intermittent problems that will be difficult to figure out.</p></aside>
+<p>The last thing to consider is that it’s best practice to insulate the wire connection. This helps prevent short circuits and other unwanted errors. The best way to do this is to use shrink tube to cover the solder joints.</p>
+<p>Keep in mind that you’ll need to slide the shrink tube on the wire <em>prior </em>to soldering the wire together, and then you’ll position it once the wires are soldered. Finally, you’ll want to shrink it using a heat gun so it fits snugly around the solder connection.</p>
+<p>A heat gun is basically a turbocharged hair dryer that gets very, very hot. You need to be careful to point it away from you; otherwise, you could burn yourself. You also need to be careful not to point it at anything that might accidentally catch on fire (like paper).</p>
+<figure class="fig"><a href="img/fig-15.webp" target="_blank" rel="noopener"><img src="img/fig-15.webp" width="640" height="334" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Aside from soldering wires together, you can solder wires to components, such as motor terminals and switches. You can also solder components and wires directly to circuit boards, such as the components inside the servo motor.</p>
+<figure class="fig"><a href="img/fig-16.webp" target="_blank" rel="noopener"><img src="img/fig-16.webp" width="688" height="437" style="width:655px" loading="lazy" alt=""></a></figure>
+<h3>Desoldering</h3>
+<p>If you mess up and solder the wrong things together, you can use desoldering braid to remove solder and separate parts. To desolder, unwind some desoldering braid from its spool and lay it flat on the soldering connection you want to undo. Next, press down on the desoldering braid with your soldering iron until the solder starts to melt and be absorbed into the braid.</p>
+<figure class="fig"><a href="img/fig-17.webp" target="_blank" rel="noopener"><img src="img/fig-17.webp" width="503" height="415" style="width:528px" loading="lazy" alt=""></a></figure>
+<p>This is a little bit tricky and takes some practice to get right, but you’re about to get a bit of practice doing this as you begin to modify a servo for direct drive.</p>
+<h2>Modifying the Servo for Direct Drive</h2>
+<p>As you start building bots, you’ll find yourself repeating these steps often. At least one modified servo is called for with every bot in this book. You may find the desoldering process frustrating at times, but stick with it. The more you do it, the easier it will become.</p>
+<p>Open the servo motor by removing the four screws holding the servo’s back lid on and then removing the lid.</p>
+<figure class="fig"><a href="img/fig-18.webp" target="_blank" rel="noopener"><img src="img/fig-18.webp" width="791" height="491" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Unwind a few inches of desoldering braid from its spool.</p>
+<figure class="fig"><a href="img/fig-19.webp" target="_blank" rel="noopener"><img src="img/fig-19.webp" width="451" height="361" style="width:474px" loading="lazy" alt=""></a></figure>
+<p>Locate the two solder connections for the DC motor on the servo’s circuit board. These connections will be the two largest blobs of solder on one end of the circuit board. Often there will be a cutaway in the circuit board itself, and you might even be able to see a little bit of the metal motor casing.</p>
+<figure class="fig"><a href="img/fig-20.webp" target="_blank" rel="noopener"><img src="img/fig-20.webp" width="630" height="496" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Place the desoldering braid over the motor’s solder joints.</p>
+<figure class="fig"><a href="img/fig-21.webp" target="_blank" rel="noopener"><img src="img/fig-21.webp" width="596" height="328" style="width:626px" loading="lazy" alt=""></a></figure>
+<p>Press down on top of the desoldering braid with your soldering iron until you see and/or feel the solder beneath the braid start to liquify and flow. You’ll see the desoldering braid around the tip of the soldering iron begin to turn silver.</p>
+<figure class="fig"><a href="img/fig-22.webp" target="_blank" rel="noopener"><img src="img/fig-22.webp" width="799" height="423" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Once the desoldering braid has started turning silver, count to two and simultaneously lift away the soldering iron and the desoldering braid by gripping its packaging (and not the exposed metal braid).</p>
+<figure class="fig"><a href="img/fig-23.webp" target="_blank" rel="noopener"><img src="img/fig-23.webp" width="604" height="352" style="width:634px" loading="lazy" alt=""></a></figure>
+<aside class="note"><span class="lbl">WARNING</span><p>The desoldering braid is hot, so be careful handling it until it has cooled.</p></aside>
+<p>On the braid, you should now see a shiny solder blob. If all went well, most of the blob of solder on the circuit board will be gone, and the circuit board will be detached from the motor pin. If solder is still attaching the motor pin to the circuit board, simply repeat the process until the motor pin has been completely desoldered from the board. Repeat this same process for the second motor pin.</p>
+<figure class="fig"><a href="img/fig-24.webp" target="_blank" rel="noopener"><img src="img/fig-24.webp" width="453" height="356" style="width:476px" loading="lazy" alt=""></a></figure>
+<p>Once both pins have been freed, remove the circuit board from the body of the servo.</p>
+<figure class="fig"><a href="img/fig-25.webp" target="_blank" rel="noopener"><img src="img/fig-25.webp" width="433" height="437" style="width:455px" loading="lazy" alt=""></a></figure>
+<p>Now you can practice your soldering skills. To begin, cut a red wire and black wire to 6 inches in length and then strip 1/2 inch of insulation off the end of each. Next, apply a light coat of solder to the end of each wire.</p>
+<figure class="fig"><a href="img/fig-26.webp" target="_blank" rel="noopener"><img src="img/fig-26.webp" width="456" height="454" style="width:479px" loading="lazy" alt=""></a></figure>
+<p>This is called <em>tinning</em>, just as you did with the soldering iron tip earlier. You do this because solder really likes to stick to other solder. Since the motor pins already have a little solder on them, applying a little bit of solder to each wire makes it much easier to connect the wires and pins together.</p>
+<p>Place the red wire against the motor pin closest to the red dot on the back of the motor. If your motor doesn’t have a red dot, pick a side of the servo motor to be designated the “left side” and always attach your red wires to that side.</p>
+<figure class="fig"><a href="img/fig-27.webp" target="_blank" rel="noopener"><img src="img/fig-27.webp" width="800" height="354" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Once that is squared away, carefully apply the soldering iron to the joint where the wire and pin meet and melt a little bit of solder into it. You should see the solder start to liquify and spread over both. When this happens, remove the soldering iron and solder and then wait for the solder joint to cool and solidify before handling it.</p>
+<aside class="note"><span class="lbl">NOTE</span><p>Don’t forget to clean the tip of the soldering iron.</p></aside>
+<p>Repeat this process using the black wire and the other motor pin.</p>
+<figure class="fig"><a href="img/fig-28.webp" target="_blank" rel="noopener"><img src="img/fig-28.webp" width="474" height="404" style="width:498px" loading="lazy" alt=""></a></figure>
+<p>Tie the motor’s wires in a knot such that the knot would be located outside of the servo’s enclosure should you pull on the cord. Once you are sure of this, place the knot inside of the servo’s enclosure. Having this knot inside the servo will prevent the motor’s wires from becoming detached from the motor pin if you pull on them.</p>
+<figure class="fig"><a href="img/fig-29.webp" target="_blank" rel="noopener"><img src="img/fig-29.webp" width="800" height="404" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>Reassemble the servo and reinsert the screws holding it together.</p>
+<figure class="fig"><a href="img/fig-30.webp" target="_blank" rel="noopener"><img src="img/fig-30.webp" width="614" height="471" style="width:645px" loading="lazy" alt=""></a></figure>
+<p>Your servo is now able to be powered directly from batteries. To make it spin, simply connect each wire from your servo to the power wire with the same color coming from a battery pack.</p>
+<figure class="fig"><a href="img/fig-31.webp" target="_blank" rel="noopener"><img src="img/fig-31.webp" width="728" height="427" style="width:655px" loading="lazy" alt=""></a></figure>
+<aside class="note"><span class="lbl">WARNING</span><p>Be sure to unplug the soldering iron when you are finished with it.</p></aside>
+<figure class="fig"><a href="img/fig-32.webp" target="_blank" rel="noopener"><img src="img/fig-32.webp" width="559" height="397" style="width:587px" loading="lazy" alt=""></a></figure>
+<p>While soldering and desoldering are necessary skills for advancing in robotics, if you are not quite ready to try them, you can build entire circuits without any soldering at all. To discover alternatives for making electrical connections without soldering, check out Appendix A.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../03-motors/index.html"><span class="dir">← Previous</span><span class="t">Motors</span><span class="ch">Chapter 3</span></a><a class="nx" data-nav="next" href="../05-wobbler/index.html"><span class="dir">Next →</span><span class="t">Wobbler</span><span class="ch">Chapter 5</span></a></nav>
+</main><footer class="site">Homemade Robots · Randy Sarafan · © 2021 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../assets/book.js"></script>
+</body>
+</html>

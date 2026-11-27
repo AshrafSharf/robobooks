@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flip Flop — Homemade Robots</title>
+<meta name="description" content="Homemade Robots · Chapter 14: Flip Flop">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../assets/book.css">
+<link rel="stylesheet" href="../../assets/arduino.css">
+<link rel="stylesheet" href="../../assets/homemade.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../index.html">Library</a> · <a href="../index.html">Homemade Robots</a></span><span class="c2">Flip Flop</span></div>
+  <a class="tb-btn" data-nav="prev" href="../13-sail/index.html" title="Sail">←</a><details class="drawer"><summary class="tb-btn" title="All chapters">☰</summary><div class="drawer-panel"><div class="dh">Homemade Robots</div><a href="../00-about/index.html">About the Author &amp; Acknowledgments</a><a href="../00-introduction/index.html">Introduction</a><a href="../01-building-tools-and-supplies/index.html">Chapter 1 · Building Tools and Supplies</a><a href="../02-getting-started-with-electronics/index.html">Chapter 2 · Getting Started with Electronics</a><a href="../03-motors/index.html">Chapter 3 · Motors</a><a href="../04-soldering-and-desoldering/index.html">Chapter 4 · Soldering and Desoldering</a><a href="../05-wobbler/index.html">Chapter 5 · Wobbler</a><a href="../06-buffer/index.html">Chapter 6 · Buffer</a><a href="../07-daze/index.html">Chapter 7 · Daze</a><a href="../08-barreller/index.html">Chapter 8 · Barreller</a><a href="../09-lazy/index.html">Chapter 9 · Lazy</a><a href="../10-skitter/index.html">Chapter 10 · Skitter</a><a href="../11-inchworm/index.html">Chapter 11 · Inchworm</a><a href="../12-walker/index.html">Chapter 12 · Walker</a><a href="../13-sail/index.html">Chapter 13 · Sail</a><a href="../14-flip-flop/index.html" aria-current=page>Chapter 14 · Flip Flop</a><a href="../app-a-reference-materials/index.html">Appendix A · Reference Materials</a><a href="../app-b-cutting-and-drilling-templates/index.html">Appendix B · Cutting and drilling templates</a></div></details><a class="tb-btn" data-nav="next" href="../app-a-reference-materials/index.html" title="Reference Materials">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:88.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 14</a></p>
+  <h1>Flip Flop</h1>
+  <p class="sec-meta">Flip Flop Overview · Constructing Flip Flop</p>
+</div>
+<article class="prose">
+<p>Flip Flop Bot is a prime example of a <em>state machine</em>, as it follows a specific routine and has different modes of operation. For instance, if the first set of switches is activated, the bot is in its first mode and travels in a forward direction. If the other set of switches is activated, the bot is in its second mode and travels in a backward direction. Essentially, this bot drives forward until it hits something, and then it reverses and goes the other way until it hits something else. If you put the bot in a door frame, it travels back and forth endlessly (or until the batteries run out).</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="712" height="290" style="width:655px" loading="lazy" alt=""></a></figure>
+<p>If you want to create something a little more dynamic, swap out the round wheels for wheels of a different shape (oval perhaps). Then Flip Flop Bot will no longer travel back and forth in a straight line continuously.</p>
+<p>The beauty of this bot is that it can change its state and then stay in that new state until it receives new input.</p>
+<h3>Tools and Supplies</h3>
+<ul class="parts"><li>Two continuous-rotation servo motors with the controllers removed</li><li>A 4 × AA battery holder</li><li>Four AA batteries</li><li>Two 3-inch casters</li><li>Two 3-inch round reflectors</li><li>A 6 V 3PDT relay</li><li>A 3PDT relay socket</li><li>An 8 × 5 × 1-inch tray (or similar)</li><li>Four snap-action lever switches</li><li>Two 1/4-20 leveling mounts</li><li>A 3/8-inch diameter shrink tube</li><li>Four 8-inch zip ties</li><li>Assorted zip ties</li><li>Saw</li><li>Drill</li><li>A 1/8-inch drill bit</li><li>A ¼-inch drill bit</li><li>Wire stripper</li><li>Diagonal cutting pliers</li><li>Screwdriver</li><li>Ruler</li><li>Marker</li></ul>
+<h2>Flip Flop Overview</h2>
+<p>To make this bot, first modify two continuous-rotation servos for direct drive by removing their controller boards (Chapter 4) or use two geared motor alternatives, as outlined in Appendix A. You’ll drill the servo horns and attach them to the caster wheels. From there, you’ll mark and modify the tray to attach it to the servo motors. You’ll wire up each pair of switches, attaching them to the reflectors and attaching the reflectors to the tray. Then, you’ll wire up the whole circuit using a 3PDT relay. This is similar to a DPDT relay (or switch) but has an additional set of SPDT pins built in. You can learn more about this relay in Appendix A on page 161. Once that is wired, you’ll secure the relay and reattach the wheels. To complete the bot, you’ll add zip-tie antennae to the switches, and you’ll be ready to power up the bot.</p>
+<h2>Constructing Flip Flop</h2>
+<p class="step"><strong>Step 1.</strong> Remove the center bolts to separate the wheels from the caster frames.</p>
+<p class="step"><strong>Step 2.</strong> Widen the second-from-the-last hole in each end of the servo horn using a 1/8-inch drill bit. Repeat for the other servo horn.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 1"></a><figcaption>Step 1</figcaption></figure>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 2"></a><figcaption>Step 2</figcaption></figure>
+<p class="step"><strong>Step 3.</strong> Undo the mounting screws to remove the servo horns from the servos.</p>
+<p class="step"><strong>Step 4.</strong> Center a servo horn on each wheel and use a thin screwdriver to press marks into the frame of each wheel to use as drill guides.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="388" height="333" style="width:407px" loading="lazy" alt="Step 3"></a><figcaption>Step 3</figcaption></figure>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 4"></a><figcaption>Step 4</figcaption></figure>
+<p class="step"><strong>Step 5.</strong> Use the indents you just made as guides to drill 1/8-inch holes straight down through the wheels.</p>
+<p class="step"><strong>Step 6.</strong> Zip-tie the servo horns to the wheels and trim away the remaining tails.</p>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="388" height="230" style="width:407px" loading="lazy" alt="Step 5"></a><figcaption>Step 5</figcaption></figure>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="388" height="230" style="width:407px" loading="lazy" alt="Step 6"></a><figcaption>Step 6</figcaption></figure>
+<p class="step"><strong>Step 7.</strong> Make a mark centered on each of the long edges of the tray.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="388" height="242" style="width:407px" loading="lazy" alt="Step 7"></a><figcaption>Step 7</figcaption></figure>
+<p class="step"><strong>Step 8.</strong> Line up the servo shaft with the center marks and then trace two cut marks onto each long edge of the tray to outline the body of the servo.</p>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="800" height="368" style="width:655px" loading="lazy" alt="Step 8"></a><figcaption>Step 8</figcaption></figure>
+<p class="step"><strong>Step 9.</strong> With the lines you drew in step 8 as a guide, use a saw to cut out a hole large enough to insert the motor into it on each long side of the tray. The motors should be resting along the bottom of the tray.</p>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="267" height="325" style="width:280px" loading="lazy" alt="Step 9"></a><figcaption>Step 9</figcaption></figure>
+<p class="step"><strong>Step 10.</strong> Make marks to indicate the servo mounting holes along the edge of the tray. If only the bottommost holes line up with the edge of the tray, it’s okay.</p>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="487" height="325" style="width:511px" loading="lazy" alt="Step 10"></a><figcaption>Step 10</figcaption></figure>
+<p class="step"><strong>Step 11.</strong> Drill through the marks on the sides of the tray using a 1/8-inch drill bit.</p>
+<p class="step"><strong>Step 12.</strong> Zip-tie the motors to the edges of the tray.</p>
+<figure class="fig"><a href="img/fig-12.webp" target="_blank" rel="noopener"><img src="img/fig-12.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 11"></a><figcaption>Step 11</figcaption></figure>
+<figure class="fig"><a href="img/fig-13.webp" target="_blank" rel="noopener"><img src="img/fig-13.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 12"></a><figcaption>Step 12</figcaption></figure>
+<p class="step"><strong>Step 13.</strong> Stack two switches along the edge of each round reflector. Make marks on each reflector on both sides of the switch to serve as drill guides for a zip tie.</p>
+<p class="step"><strong>Step 14.</strong> Make another mark roughly in the center of each reflector.</p>
+<figure class="fig"><a href="img/fig-14.webp" target="_blank" rel="noopener"><img src="img/fig-14.webp" width="391" height="260" style="width:411px" loading="lazy" alt="Step 13"></a><figcaption>Step 13</figcaption></figure>
+<figure class="fig"><a href="img/fig-15.webp" target="_blank" rel="noopener"><img src="img/fig-15.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 14"></a><figcaption>Step 14</figcaption></figure>
+<p class="step"><strong>Step 15.</strong> Drill all the marks on the reflectors with a 1/8-inch drill bit.</p>
+<p class="step"><strong>Step 16.</strong> Peel the adhesive back from each reflector and stick a switch along the edge between the 1/8-inch holes.</p>
+<figure class="fig"><a href="img/fig-16.webp" target="_blank" rel="noopener"><img src="img/fig-16.webp" width="388" height="296" style="width:407px" loading="lazy" alt="Step 15"></a><figcaption>Step 15</figcaption></figure>
+<figure class="fig"><a href="img/fig-17.webp" target="_blank" rel="noopener"><img src="img/fig-17.webp" width="388" height="296" style="width:407px" loading="lazy" alt="Step 16"></a><figcaption>Step 16</figcaption></figure>
+<p class="step"><strong>Step 17.</strong> Stack another switch on top of the one on the adhesive reflector and zip-tie it in place. Repeat this process with the remaining reflector and lever switches.</p>
+<figure class="fig"><a href="img/fig-18.webp" target="_blank" rel="noopener"><img src="img/fig-18.webp" width="388" height="319" style="width:407px" loading="lazy" alt="Step 17"></a><figcaption>Step 17</figcaption></figure>
+<p class="step"><strong>Step 18.</strong> One pair of switches should have their normally closed (NC) connections wired <em>in series</em>. This means you need to wire the common pins together, attach a long red wire to the NC pin on one switch, and attach a long black wire to the NC pin on the other switch.</p>
+<p>The other pair of switches should have their NO (normally open) connections wired <em>in parallel</em>. This means you need to wire the common pins together and then wire the NO pins together. Finally, attach a long red wire to the NO connections and a long black wire to the common connections.</p>
+<figure class="fig"><a href="img/fig-19.webp" target="_blank" rel="noopener"><img src="img/fig-19.webp" width="800" height="345" style="width:655px" loading="lazy" alt="Step 18"></a><figcaption>Step 18</figcaption></figure>
+<p class="step"><strong>Step 19.</strong> Stick one of the reflectors to the bottom of the tray such that the switch is right up against one of the short edges of the tray.</p>
+<p class="step"><strong>Step 20.</strong> Attach the remaining adhesive reflector to the bottom of the tray along the other short edge.</p>
+<figure class="fig"><a href="img/fig-20.webp" target="_blank" rel="noopener"><img src="img/fig-20.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 19"></a><figcaption>Step 19</figcaption></figure>
+<figure class="fig"><a href="img/fig-21.webp" target="_blank" rel="noopener"><img src="img/fig-21.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 20"></a><figcaption>Step 20</figcaption></figure>
+<p class="step"><strong>Step 21.</strong> Drill through both the center of the reflector and the tray using a ¼-inch drill bit.</p>
+<figure class="fig"><a href="img/fig-22.webp" target="_blank" rel="noopener"><img src="img/fig-22.webp" width="800" height="387" style="width:655px" loading="lazy" alt="Step 21"></a><figcaption>Step 21</figcaption></figure>
+<p class="step"><strong>Step 22.</strong> Attach the leveling mounts directly below the reflectors and lock them in place with their mounting nuts.</p>
+<figure class="fig"><a href="img/fig-23.webp" target="_blank" rel="noopener"><img src="img/fig-23.webp" width="800" height="244" style="width:655px" loading="lazy" alt="Step 22"></a><figcaption>Step 22</figcaption></figure>
+<p class="step"><strong>Step 23.</strong> Place the relay socket on top of the tray and make two marks along both edges to indicate where its mounting holes will be.</p>
+<p class="step"><strong>Step 24.</strong> Drill each of the four markings with a 1/8-inch drill bit.</p>
+<figure class="fig"><a href="img/fig-24.webp" target="_blank" rel="noopener"><img src="img/fig-24.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 23"></a><figcaption>Step 23</figcaption></figure>
+<figure class="fig"><a href="img/fig-25.webp" target="_blank" rel="noopener"><img src="img/fig-25.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 24"></a><figcaption>Step 24</figcaption></figure>
+<p class="step"><strong>Step 25.</strong> Build the circuit using the relay socket as outlined in the following wiring diagram. Go slow and make sure that all the correct connections to the relay socket terminals are made. You can learn more about how this circuit works in Appendix A on page 161. When you are done building the circuit, the motors, switches, and battery holder should all be wired to the relay socket, as shown.</p>
+<figure class="fig"><a href="img/fig-26.webp" target="_blank" rel="noopener"><img src="img/fig-26.webp" width="776" height="1125" style="width:655px" loading="lazy" alt="Step 25"></a><figcaption>Step 25</figcaption></figure>
+<p class="step"><strong>Step 26.</strong> Insert the 3PDT relay into the relay socket.</p>
+<p class="step"><strong>Step 27.</strong> Attach the wheels to the servo hubs using the servo horns’ mounting screws.</p>
+<figure class="fig"><a href="img/fig-27.webp" target="_blank" rel="noopener"><img src="img/fig-27.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 26"></a><figcaption>Step 26</figcaption></figure>
+<figure class="fig"><a href="img/fig-28.webp" target="_blank" rel="noopener"><img src="img/fig-28.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 27"></a><figcaption>Step 27</figcaption></figure>
+<p class="step"><strong>Step 28.</strong> Zip-tie the relay socket firmly to the bottom of the tray. While you are at it, you can optionally clean up the wires using zip ties as well.</p>
+<p class="step"><strong>Step 29.</strong> Slide the shrink tube all the way onto the 8-inch zip ties. Then slide the shrink tube and zip-tie assemblies onto each lever of the snap-action switches to create antennae. Once these are positioned, use a heat gun to shrink the tubing.</p>
+<figure class="fig"><a href="img/fig-29.webp" target="_blank" rel="noopener"><img src="img/fig-29.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 28"></a><figcaption>Step 28</figcaption></figure>
+<figure class="fig"><a href="img/fig-30.webp" target="_blank" rel="noopener"><img src="img/fig-30.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 29"></a><figcaption>Step 29</figcaption></figure>
+<p class="step"><strong>Step 30.</strong> Insert the batteries into the battery holder and let the bot go.</p>
+<figure class="fig"><a href="img/fig-31.webp" target="_blank" rel="noopener"><img src="img/fig-31.webp" width="388" height="258" style="width:407px" loading="lazy" alt="Step 30"></a><figcaption>Step 30</figcaption></figure>
+<p>When the bot collides with an object, the switches should compress, and the bot should reverse. If it doesn’t behave as expected, check your wiring against the diagram. See Appendix A for a more detailed description of this circuit.</p>
+<aside class="note"><span class="lbl">NOTE</span><p>Be sure to remove the batteries to turn the bot off. See Appendix A for instructions on adding a power switch.</p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../13-sail/index.html"><span class="dir">← Previous</span><span class="t">Sail</span><span class="ch">Chapter 13</span></a><a class="nx" data-nav="next" href="../app-a-reference-materials/index.html"><span class="dir">Next →</span><span class="t">Reference Materials</span><span class="ch">Appendix A</span></a></nav>
+</main><footer class="site">Homemade Robots · Randy Sarafan · © 2021 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../assets/book.js"></script>
+</body>
+</html>

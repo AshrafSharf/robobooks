@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Walker — Homemade Robots</title>
+<meta name="description" content="Homemade Robots · Chapter 12: Walker">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../assets/book.css">
+<link rel="stylesheet" href="../../assets/arduino.css">
+<link rel="stylesheet" href="../../assets/homemade.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../index.html">Library</a> · <a href="../index.html">Homemade Robots</a></span><span class="c2">Walker</span></div>
+  <a class="tb-btn" data-nav="prev" href="../11-inchworm/index.html" title="Inchworm">←</a><details class="drawer"><summary class="tb-btn" title="All chapters">☰</summary><div class="drawer-panel"><div class="dh">Homemade Robots</div><a href="../00-about/index.html">About the Author &amp; Acknowledgments</a><a href="../00-introduction/index.html">Introduction</a><a href="../01-building-tools-and-supplies/index.html">Chapter 1 · Building Tools and Supplies</a><a href="../02-getting-started-with-electronics/index.html">Chapter 2 · Getting Started with Electronics</a><a href="../03-motors/index.html">Chapter 3 · Motors</a><a href="../04-soldering-and-desoldering/index.html">Chapter 4 · Soldering and Desoldering</a><a href="../05-wobbler/index.html">Chapter 5 · Wobbler</a><a href="../06-buffer/index.html">Chapter 6 · Buffer</a><a href="../07-daze/index.html">Chapter 7 · Daze</a><a href="../08-barreller/index.html">Chapter 8 · Barreller</a><a href="../09-lazy/index.html">Chapter 9 · Lazy</a><a href="../10-skitter/index.html">Chapter 10 · Skitter</a><a href="../11-inchworm/index.html">Chapter 11 · Inchworm</a><a href="../12-walker/index.html" aria-current=page>Chapter 12 · Walker</a><a href="../13-sail/index.html">Chapter 13 · Sail</a><a href="../14-flip-flop/index.html">Chapter 14 · Flip Flop</a><a href="../app-a-reference-materials/index.html">Appendix A · Reference Materials</a><a href="../app-b-cutting-and-drilling-templates/index.html">Appendix B · Cutting and drilling templates</a></div></details><a class="tb-btn" data-nav="next" href="../13-sail/index.html" title="Sail">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:77.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12</a></p>
+  <h1>Walker</h1>
+  <p class="sec-meta">Walker Overview · Constructing Walker</p>
+</div>
+<article class="prose">
+<p>My goal with Walker Bot was to build a four-legged walking bot that could be made in 10 minutes. This bot ultimately took 3 hours to make. That said, my goal wasn’t to make one in 10 minutes myself, but to make one that <em>could </em>be made in 10 minutes. I’m pretty confident that, now that I know what I am doing, should I need to make a second one I could feasibly do it in 10 minutes. At the very least, you’ll be hard-pressed to make a simpler walking bot than this one, so I consider this project a glowing success.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="563" height="341" style="width:591px" loading="lazy" alt=""></a></figure>
+<h3>Tools and Supplies</h3>
+<ul class="parts"><li>Two continuous-rotation servo motors with the controllers removed</li><li>Four AA batteries</li><li>A 4 × AA battery holder</li><li>DPDT lever switch</li><li>A “classic” telephone handset (search online for “vintage telephone handset”)</li><li>Two CDs (these should not be from anyone’s music collection)</li><li>Two 1/4-20 × 6-inch bolts</li><li>Two 1/4-20 × 5-inch bolts</li><li>Four 1/4-20 nuts</li><li>Four ¼-inch rubber bolt covers</li><li>Two 4-40 × 1-inch nuts and bolts</li><li>Roll of painter’s tape</li><li>An assortment of zip ties</li><li>Cut template (see Appendix B)</li><li>Drill</li><li>Three drill bits: 1/4, 1/8, and 3/16 inch</li><li>Scissors</li><li>Cutting pliers</li><li>Wire stripper</li></ul>
+<h2>Walker Overview</h2>
+<p>To build Walker Bot, you’ll use the same modified servo motors (Chapter 4) or the geared motor alternatives (Appendix A) used for the previous bots. Once you’ve modified the motors, the next step will be to take apart the telephone handset and place the servos where the microphone and speaker used to be. From there, you’ll zip-tie the DPDT switch to one end of the headset. Next, you’ll mount the battery holder to the telephone handset’s handle, and you’ll wire the switch in an H-bridge configuration to complete the circuit. Then, you’ll trace and cut out or print the CD cutting templates, which you’ll tape to the CDs (or DVDs). You’ll use these templates as guides for drilling and cutting the appropriate holes and shapes into the CDs. Once this is completed, you’ll zip-tie the CDs to the motors and insert bolts through the CDs to act as legs. Finally, you’ll insert batteries and put Walker Bot down so it can walk around.</p>
+<h2>Constructing Walker</h2>
+<p class="step"><strong>Step 1.</strong> Widen the second-from-last hole on each end of the motor horns using a 1/8-inch drill bit.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="388" height="243" style="width:407px" loading="lazy" alt="Step 1"></a><figcaption>Step 1</figcaption></figure>
+<p class="step"><strong>Step 2.</strong> Remove the covers from the telephone handset and then pull out the speaker, microphone, and jack. They should come right out.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 2"></a><figcaption>Step 2</figcaption></figure>
+<p class="step"><strong>Step 3.</strong> Drill four 3/16-inch holes in each end of the telephone handset, as pictured. Essentially, you should drill the holes so that they create a square on the backside of each opening.</p>
+<p class="step"><strong>Step 4.</strong> Starting on the side of the handset opposite where the jack was, pass the motor’s wires through the body of the phone and out the hole created by removing the jack. Insert the first motor into the handset opening on the opposite side of the jack so that the horn faces inward.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 3"></a><figcaption>Step 3</figcaption></figure>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 4"></a><figcaption>Step 4</figcaption></figure>
+<p class="step"><strong>Step 5.</strong> Pass the second motor’s wires through the hole created by the jack and insert that motor into the end of the handset. Make certain that the horn for this motor also faces inward. Zip-tie them both in place using the holes you drilled earlier.</p>
+<p class="step"><strong>Step 6.</strong> Zip-tie the DPDT switch to the round mouthpiece opening, right above the hole created by removing the jack. There should be a small lip upon which the switch can sit. Make certain that the lever of the switch points upward (toward the gear on the motor).</p>
+<p class="step"><strong>Step 7.</strong> Using the mounting holes in the battery pack as guides, drill two 1/8-inch holes into the center of the handset such that they line up with the mounting holes of your AA battery holder.</p>
+<p class="step"><strong>Step 8.</strong> Bolt the battery holder onto the handset with your pair of 1-inch nuts and bolts.</p>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 5"></a><figcaption>Step 5</figcaption></figure>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 6"></a><figcaption>Step 6</figcaption></figure>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 7"></a><figcaption>Step 7</figcaption></figure>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 8"></a><figcaption>Step 8</figcaption></figure>
+<p class="step"><strong>Step 9.</strong> Solder the red and black wires from the battery holder to each of the center terminals of the DPDT switch.</p>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 9"></a><figcaption>Step 9</figcaption></figure>
+<p>Solder two short wires to form an X between the outer terminals of the switch. Basically, the back left should be connected to the front right, and the front left to the back right. This causes power to be applied backward when the switch is flipped.</p>
+<p>Solder together the red wire from motor one with the black wire from motor two, and solder the black wire from motor one with the red wire from motor two (which motor is designated to be which is unimportant).</p>
+<p>Finally, solder the red and black wire pairs to either set of outer terminals. For instance, solder one pair to the back-left terminal and the other pair to the back-right terminal.</p>
+<aside class="note"><span class="lbl">NOTE</span><p>Refer to the “H-Bridges” section on page 30 in Chapter 3 for more information on how to change the direction a motor is spinning.</p></aside>
+<p class="step"><strong>Step 10.</strong> To prepare the CDs (or DVDs) that will mount to the bot, trace the cutting templates and then cut out the two large circles.</p>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 10"></a><figcaption>Step 10</figcaption></figure>
+<p class="step"><strong>Step 11.</strong> Center and tape a template on top of each CD.</p>
+<p class="step"><strong>Step 12.</strong> For the two large outer circles, drill ¼-inch holes. For the four smaller inner circles, drill 1/8-inch holes.</p>
+<figure class="fig"><a href="img/fig-12.webp" target="_blank" rel="noopener"><img src="img/fig-12.webp" width="388" height="329" style="width:407px" loading="lazy" alt="Step 11"></a><figcaption>Step 11</figcaption></figure>
+<figure class="fig"><a href="img/fig-13.webp" target="_blank" rel="noopener"><img src="img/fig-13.webp" width="285" height="329" style="width:299px" loading="lazy" alt="Step 12"></a><figcaption>Step 12</figcaption></figure>
+<p class="step"><strong>Step 13.</strong> Find the CD with the outer notch and cut it out carefully with scissors.</p>
+<figure class="fig"><a href="img/fig-14.webp" target="_blank" rel="noopener"><img src="img/fig-14.webp" width="800" height="476" style="width:655px" loading="lazy" alt="Step 13"></a><figcaption>Step 13</figcaption></figure>
+<p class="step"><strong>Step 14.</strong> Zip-tie the CDs to the motors so that the two outer holes on each CD are perpendicular to the handset and the CD with the outer notch aligns with the lever from the DPDT toggle switch.</p>
+<figure class="fig"><a href="img/fig-15.webp" target="_blank" rel="noopener"><img src="img/fig-15.webp" width="388" height="198" style="width:407px" loading="lazy" alt="Step 14"></a><figcaption>Step 14</figcaption></figure>
+<p class="step"><strong>Step 15.</strong> Pass the shorter 5-inch bolts through the notched CD. Pass the longer 6-inch bolts upward through the other CD. Fasten all of them in place with nuts.</p>
+<p class="step"><strong>Step 16.</strong> Cover all of the bolts with rubber bolt covers to give them a bit more traction.</p>
+<figure class="fig"><a href="img/fig-16.webp" target="_blank" rel="noopener"><img src="img/fig-16.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 15"></a><figcaption>Step 15</figcaption></figure>
+<figure class="fig"><a href="img/fig-17.webp" target="_blank" rel="noopener"><img src="img/fig-17.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 16"></a><figcaption>Step 16</figcaption></figure>
+<p class="step"><strong>Step 17.</strong> Insert the batteries and then let the bot go.</p>
+<aside class="note"><span class="lbl">NOTE</span><p>If, when you power up the bot, the switch doesn’t make the motor move back and forth, remove the batteries, rotate the switch 180º, and try again.</p></aside>
+<figure class="fig"><a href="img/fig-18.webp" target="_blank" rel="noopener"><img src="img/fig-18.webp" width="800" height="405" style="width:655px" loading="lazy" alt="Step 17"></a><figcaption>Step 17</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p>Be sure to remove the batteries to turn the bot off. See Appendix A for instructions on adding a power switch.</p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../11-inchworm/index.html"><span class="dir">← Previous</span><span class="t">Inchworm</span><span class="ch">Chapter 11</span></a><a class="nx" data-nav="next" href="../13-sail/index.html"><span class="dir">Next →</span><span class="t">Sail</span><span class="ch">Chapter 13</span></a></nav>
+</main><footer class="site">Homemade Robots · Randy Sarafan · © 2021 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../assets/book.js"></script>
+</body>
+</html>

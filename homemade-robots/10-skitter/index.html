@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skitter — Homemade Robots</title>
+<meta name="description" content="Homemade Robots · Chapter 10: Skitter">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../assets/book.css">
+<link rel="stylesheet" href="../../assets/arduino.css">
+<link rel="stylesheet" href="../../assets/homemade.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../index.html">Library</a> · <a href="../index.html">Homemade Robots</a></span><span class="c2">Skitter</span></div>
+  <a class="tb-btn" data-nav="prev" href="../09-lazy/index.html" title="Lazy">←</a><details class="drawer"><summary class="tb-btn" title="All chapters">☰</summary><div class="drawer-panel"><div class="dh">Homemade Robots</div><a href="../00-about/index.html">About the Author &amp; Acknowledgments</a><a href="../00-introduction/index.html">Introduction</a><a href="../01-building-tools-and-supplies/index.html">Chapter 1 · Building Tools and Supplies</a><a href="../02-getting-started-with-electronics/index.html">Chapter 2 · Getting Started with Electronics</a><a href="../03-motors/index.html">Chapter 3 · Motors</a><a href="../04-soldering-and-desoldering/index.html">Chapter 4 · Soldering and Desoldering</a><a href="../05-wobbler/index.html">Chapter 5 · Wobbler</a><a href="../06-buffer/index.html">Chapter 6 · Buffer</a><a href="../07-daze/index.html">Chapter 7 · Daze</a><a href="../08-barreller/index.html">Chapter 8 · Barreller</a><a href="../09-lazy/index.html">Chapter 9 · Lazy</a><a href="../10-skitter/index.html" aria-current=page>Chapter 10 · Skitter</a><a href="../11-inchworm/index.html">Chapter 11 · Inchworm</a><a href="../12-walker/index.html">Chapter 12 · Walker</a><a href="../13-sail/index.html">Chapter 13 · Sail</a><a href="../14-flip-flop/index.html">Chapter 14 · Flip Flop</a><a href="../app-a-reference-materials/index.html">Appendix A · Reference Materials</a><a href="../app-b-cutting-and-drilling-templates/index.html">Appendix B · Cutting and drilling templates</a></div></details><a class="tb-btn" data-nav="next" href="../11-inchworm/index.html" title="Inchworm">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:66.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 10</a></p>
+  <h1>Skitter</h1>
+  <p class="sec-meta">Skitter Overview · Constructing Skitter</p>
+</div>
+<article class="prose">
+<p>As the name suggests, Skitter Bot really likes to get around. Using just a single motor and a DPDT switch wired as an H-bridge, Skitter’s feet shuffle back and forth to move it forward. This is perhaps one of the simplest and most reliable walking-type bots you might ever construct. It is designed to do only one thing, and it does it very well. In spite of having only a single purpose, one nice side effect of its scrub-brush feet is that it’ll sweep your floor wherever it goes.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="738" height="355" style="width:655px" loading="lazy" alt=""></a></figure>
+<h3>Tools and Supplies</h3>
+<ul class="parts"><li>Continuous-rotation servo motor with the controller removed</li><li>A 3 × AA battery holder</li><li>Three AA batteries</li><li>DPDT toggle switch</li><li>Four scrub brushes (with long handles)</li><li>Small plastic container (mine is 3½ × 2½ × 2 inches)</li><li>BIC Round Stic pen</li><li>A 1½ × 3/8-inch corner brace</li><li>Drill</li><li>1/4-inch and 1/8-inch drill bits</li><li>Wire stripper</li><li>Cutting pliers</li><li>Box cutter</li><li>Hot glue</li><li>An assortment of zip ties</li></ul>
+<h2>Skitter Overview</h2>
+<p>To build Skitter, you’ll first modify a continuous-rotation servo for direct drive by removing its controller board (Chapter 4) or use one of the geared motor alternatives, as outlined in Appendix A. The next step is to attach two scrub brushes to the rear of the servo motor. You’ll then mount the motor itself onto the lid of a plastic container. After that, you’ll attach the battery to the plastic container itself and attach the remaining two scrub brushes to the front. You’ll then fasten the DPDT switch to the lid and then wire the switch in an H-bridge configuration to complete the circuit. You’ll extend the switch’s lever with a tube from a pen so it can make contact with the oscillating scrub brushes. Finally, you’ll insert the batteries and snap the lid shut to make the bot go.</p>
+<h2>Constructing Skitter</h2>
+<p class="step"><strong>Step 1.</strong> Drill a 1/8-inch hole in each of the four ends of the servo horn.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="388" height="228" style="width:407px" loading="lazy" alt="Step 1"></a><figcaption>Step 1</figcaption></figure>
+<p class="step"><strong>Step 2.</strong> Choose two adjacent holes that you made in the servo horn and pass a zip tie down through each. Next, pass the zip ties through the two adjacent centermost holes in the corner brace. Then, pass the zip ties through the hanging holes in two of the brush handles. Finally, zip-tie everything firmly together.</p>
+<p class="step"><strong>Step 3.</strong> Use the two free holes in the corner brace as a guide for drilling downward through each of the brushes.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="388" height="328" style="width:407px" loading="lazy" alt="Step 2"></a><figcaption>Step 2</figcaption></figure>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="388" height="328" style="width:407px" loading="lazy" alt="Step 3"></a><figcaption>Step 3</figcaption></figure>
+<p class="step"><strong>Step 4.</strong> Securely zip-tie the brushes to the corner brace using the holes you just drilled. For extra support, zip-tie the brush handle hanging holes to the unused back holes of the servo horn.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="458" height="425" style="width:481px" loading="lazy" alt="Step 4"></a><figcaption>Step 4</figcaption></figure>
+<p class="step"><strong>Step 5.</strong> Center the backside of your servo near one of the short edges of the plastic container lid. Trace the outline of the back of the servo and then cut out the shape with a box cutter. Finally, pass the motor wires through the hole and slide the plastic container lid down over the servo.</p>
+<p class="step"><strong>Step 6.</strong> Drill 1/8-inch holes in the plastic container lid that line up with the servo’s mounting holes.</p>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="388" height="296" style="width:407px" loading="lazy" alt="Step 5"></a><figcaption>Step 5</figcaption></figure>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="388" height="296" style="width:407px" loading="lazy" alt="Step 6"></a><figcaption>Step 6</figcaption></figure>
+<p class="step"><strong>Step 7.</strong> Zip-tie the motor firmly in place, and trim away the excess.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="480" height="452" style="width:504px" loading="lazy" alt="Step 7"></a><figcaption>Step 7</figcaption></figure>
+<p class="step"><strong>Step 8.</strong> Center the battery holder over the underside of the plastic container and use the holder’s mounting holes as a drill guide. Drill two 1/8-inch holes.</p>
+<p class="step"><strong>Step 9.</strong> Place the battery holder inside the plastic container and fasten the two items together using nuts and bolts.</p>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="388" height="356" style="width:407px" loading="lazy" alt="Step 8"></a><figcaption>Step 8</figcaption></figure>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="361" height="356" style="width:379px" loading="lazy" alt="Step 9"></a><figcaption>Step 9</figcaption></figure>
+<p class="step"><strong>Step 10.</strong> For each of the two remaining scrub brushes, measure 1 inch in from the end of the handle and make a mark. Drill a 1/8-inch hole down through the handle where you made this mark.</p>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="531" height="372" style="width:558px" loading="lazy" alt="Step 10"></a><figcaption>Step 10</figcaption></figure>
+<p class="step"><strong>Step 11.</strong> Turn the plastic container upside down. Mark, drill, and zip-tie the two remaining scrub brushes to the front of the plastic container such that they meet at a 90º angle and point evenly downward toward the direction of the plastic container opening. In other words, make two even-length front legs for your bot.</p>
+<p class="step"><strong>Step 12.</strong> Drill a ¼-inch centered hole near the short edge of the plastic container lid opposite the servo motor.</p>
+<figure class="fig"><a href="img/fig-12.webp" target="_blank" rel="noopener"><img src="img/fig-12.webp" width="388" height="229" style="width:407px" loading="lazy" alt="Step 11"></a><figcaption>Step 11</figcaption></figure>
+<figure class="fig"><a href="img/fig-13.webp" target="_blank" rel="noopener"><img src="img/fig-13.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 12"></a><figcaption>Step 12</figcaption></figure>
+<p class="step"><strong>Step 13.</strong> Pass the DPDT switch through the hole so that the shaft is pointing at the scrub-brush legs, and then fasten the switch on with a nut.</p>
+<figure class="fig"><a href="img/fig-14.webp" target="_blank" rel="noopener"><img src="img/fig-14.webp" width="516" height="387" style="width:542px" loading="lazy" alt="Step 13"></a><figcaption>Step 13</figcaption></figure>
+<p class="step"><strong>Step 14.</strong> Wire together the opposite corners of the DPDT switch. Solder the red battery wire to one of the center DPDT switch pins and the black battery wire to the other.</p>
+<figure class="fig"><a href="img/fig-15.webp" target="_blank" rel="noopener"><img src="img/fig-15.webp" width="643" height="429" style="width:655px" loading="lazy" alt="Step 14"></a><figcaption>Step 14</figcaption></figure>
+<p>Turn the switch so that there are only two pins facing you (as opposed to three). Solder the black motor wire to the DPDT pin closest to you on the right. Solder the red motor wire to the other pin on the left.</p>
+<aside class="note"><span class="lbl">NOTE</span><p>Refer to “H-Bridges” on page 30 in Chapter 3 for more information on how to change the direction that a motor is spinning using a switch.</p></aside>
+<p class="step"><strong>Step 15.</strong> Take apart the BIC pen and cut about 1½ inches from the end of the pen tube to use it as an extender for the switch’s lever.</p>
+<figure class="fig"><a href="img/fig-16.webp" target="_blank" rel="noopener"><img src="img/fig-16.webp" width="388" height="185" style="width:407px" loading="lazy" alt="Step 15"></a><figcaption>Step 15</figcaption></figure>
+<p class="step"><strong>Step 16.</strong> Make certain the switch is positioned between the two scrub brushes. Fill the pen cap with hot glue and, using pliers, quickly slide it onto the switch’s shaft. Hold the hot tube in place until it begins to set. Be careful not to push it on too far; otherwise, you could get hot glue inside the switch, which could prevent it from working.</p>
+<p class="step"><strong>Step 17.</strong> Put some batteries into the holder, and the legs will start to move.</p>
+<figure class="fig"><a href="img/fig-17.webp" target="_blank" rel="noopener"><img src="img/fig-17.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 16"></a><figcaption>Step 16</figcaption></figure>
+<figure class="fig"><a href="img/fig-18.webp" target="_blank" rel="noopener"><img src="img/fig-18.webp" width="600" height="450" style="width:630px" loading="lazy" alt="Step 17"></a><figcaption>Step 17</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p>If, when you power up the bot, the switch isn’t making the legs oscillate back and forth, remove the batteries. Then, simply rotate the switch 180º in its mounting hole. It should now work perfectly when you reinsert the batteries.</p></aside>
+<p class="step"><strong>Step 18.</strong> Quickly close the plastic container and let the bot go free.</p>
+<figure class="fig"><a href="img/fig-19.webp" target="_blank" rel="noopener"><img src="img/fig-19.webp" width="767" height="450" style="width:655px" loading="lazy" alt="Step 18"></a><figcaption>Step 18</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p>Be sure to remove the batteries to turn the bot off. See Appendix A for instructions on adding a power switch.</p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../09-lazy/index.html"><span class="dir">← Previous</span><span class="t">Lazy</span><span class="ch">Chapter 9</span></a><a class="nx" data-nav="next" href="../11-inchworm/index.html"><span class="dir">Next →</span><span class="t">Inchworm</span><span class="ch">Chapter 11</span></a></nav>
+</main><footer class="site">Homemade Robots · Randy Sarafan · © 2021 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Barreller — Homemade Robots</title>
+<meta name="description" content="Homemade Robots · Chapter 8: Barreller">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../assets/book.css">
+<link rel="stylesheet" href="../../assets/arduino.css">
+<link rel="stylesheet" href="../../assets/homemade.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../index.html">Library</a> · <a href="../index.html">Homemade Robots</a></span><span class="c2">Barreller</span></div>
+  <a class="tb-btn" data-nav="prev" href="../07-daze/index.html" title="Daze">←</a><details class="drawer"><summary class="tb-btn" title="All chapters">☰</summary><div class="drawer-panel"><div class="dh">Homemade Robots</div><a href="../00-about/index.html">About the Author &amp; Acknowledgments</a><a href="../00-introduction/index.html">Introduction</a><a href="../01-building-tools-and-supplies/index.html">Chapter 1 · Building Tools and Supplies</a><a href="../02-getting-started-with-electronics/index.html">Chapter 2 · Getting Started with Electronics</a><a href="../03-motors/index.html">Chapter 3 · Motors</a><a href="../04-soldering-and-desoldering/index.html">Chapter 4 · Soldering and Desoldering</a><a href="../05-wobbler/index.html">Chapter 5 · Wobbler</a><a href="../06-buffer/index.html">Chapter 6 · Buffer</a><a href="../07-daze/index.html">Chapter 7 · Daze</a><a href="../08-barreller/index.html" aria-current=page>Chapter 8 · Barreller</a><a href="../09-lazy/index.html">Chapter 9 · Lazy</a><a href="../10-skitter/index.html">Chapter 10 · Skitter</a><a href="../11-inchworm/index.html">Chapter 11 · Inchworm</a><a href="../12-walker/index.html">Chapter 12 · Walker</a><a href="../13-sail/index.html">Chapter 13 · Sail</a><a href="../14-flip-flop/index.html">Chapter 14 · Flip Flop</a><a href="../app-a-reference-materials/index.html">Appendix A · Reference Materials</a><a href="../app-b-cutting-and-drilling-templates/index.html">Appendix B · Cutting and drilling templates</a></div></details><a class="tb-btn" data-nav="next" href="../09-lazy/index.html" title="Lazy">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:55.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8</a></p>
+  <h1>Barreller</h1>
+  <p class="sec-meta">Barreller Overview · Constructing Barreller</p>
+</div>
+<article class="prose">
+<p>Barreller Bot has seemingly eternal forward propulsion in a given direction. Put simply, it has a motor that acts as an off-centered weight inside a can. When gravity pulls the weight (that is, the motor) down, the can rolls forward. A normal can would likely stop rolling at that point, but this can has a tilt switch that turns the motor on when it drops, causing the motor to rotate back upward (and turn off again), which restarts the process. If you can imagine this happening really quickly and for a sustained amount of time, you’ll understand what this bot does. The Barreller has the appearance of rolling forward on its own and even doing seemingly impossible things like rolling up inclines. This bot is great fun. If you don’t believe me, build one for yourself. It’s quick and easy to do.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="644" height="382" style="width:655px" loading="lazy" alt=""></a></figure>
+<h3>Tools and Supplies</h3>
+<ul class="parts"><li>Continuous-rotation servo motor with the controller removed</li><li>Paint can (or similar)</li><li>Two 1-inch paintbrushes</li><li>A 4 × AA battery holder</li><li>Four AA batteries</li><li>Tilt switch (Mouser #107-2002-EV)</li><li>Assorted zip ties</li><li>Drilling template (see Appendix B)</li></ul>
+<h2>Barreller Overview</h2>
+<p>The Barreller is built inside a paint can (I used a clear novelty can). Before you do anything, make sure you have modified the continuous servo motor for direct drive (Chapter 4) or are using one of the geared motor alternatives, as outlined in Appendix A. Once that is complete, the next step is building the inner “weight” mechanism, which is essentially a circuit consisting of a motor, battery pack, and tilt switch. You’ll insert this mechanism into the can and attach it to the center.</p>
+<h2>Constructing Barreller</h2>
+<p class="step"><strong>Step 1.</strong> Take apart both paintbrushes such that you are left with the two wooden handles.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="426" height="130" style="width:447px" loading="lazy" alt="Step 1"></a><figcaption>Step 1</figcaption></figure>
+<p class="step"><strong>Step 2.</strong> Put batteries into the battery holder and lay it down on top of a zip tie with the batteries facing down. Place the motor on top of the battery holder so that the servo horn sticks off perpendicularly in one direction and the wooden handles are sticking off in the opposite direction. Zip-tie everything firmly together until it is one singular unit and won’t pull apart.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="388" height="256" style="width:407px" loading="lazy" alt="Step 2"></a><figcaption>Step 2</figcaption></figure>
+<p class="step"><strong>Step 3.</strong> Twist together the black wire from the motor with the black wire from the battery holder and solder the connection. Solder the red wire from the battery holder to the little spike that sticks out of the tilt switch. Solder the red wire from the motor to the conductive metallic shell of the tilt switch. When the tilt switch is activated, electricity will flow between the spike and the outer shell.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="388" height="344" style="width:407px" loading="lazy" alt="Step 3"></a><figcaption>Step 3</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p>It’s easier to solder to the tilt switch if you place a small pool of solder on it first. Some newer tilt switches even have two wires and don’t require soldering a wire to the outer shell.</p></aside>
+<p class="step"><strong>Step 4.</strong> Prepare the can by removing anything that will prevent it from rolling, such as handles, and clean out anything that may be inside.</p>
+<p class="step"><strong>Step 5.</strong> Print (or trace) and cut out the template. Tape the template to the bottom of the can and drill the four smaller holes with a 1/8-inch drill bit or one appropriately sized for your zip ties.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="388" height="291" style="width:407px" loading="lazy" alt="Step 4"></a><figcaption>Step 4</figcaption></figure>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="388" height="303" style="width:407px" loading="lazy" alt="Step 5"></a><figcaption>Step 5</figcaption></figure>
+<p class="step"><strong>Step 6.</strong> Slip the tilt switch between two of the batteries in the battery holder such that it is parallel with them. However, make certain this doesn’t short out the switch. If you are concerned about this, you can cover it with shrink tube (not pictured).</p>
+<p class="step"><strong>Step 7.</strong> Widen the holes in the servo horn using a 1/8-inch drill bit such that they match the holes drilled in the bottom of the can.</p>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="388" height="263" style="width:407px" loading="lazy" alt="Step 6"></a><figcaption>Step 6</figcaption></figure>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="387" height="262" style="width:406px" loading="lazy" alt="Step 7"></a><figcaption>Step 7</figcaption></figure>
+<p class="step"><strong>Step 8.</strong> Zip-tie the servo horn to the holes you drilled in the bottom of the can. Trim the zip tie tails.</p>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="482" height="306" style="width:506px" loading="lazy" alt="Step 8"></a><figcaption>Step 8</figcaption></figure>
+<p class="step"><strong>Step 9.</strong> Put the lid back on when you are done.</p>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="383" height="387" style="width:402px" loading="lazy" alt="Step 9"></a><figcaption>Step 9</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p>If you tilt Barreller on its side, it’ll roll indefinitely until it collides with something. Store the can upright (in its normal position) to keep the bot from turning on.</p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../07-daze/index.html"><span class="dir">← Previous</span><span class="t">Daze</span><span class="ch">Chapter 7</span></a><a class="nx" data-nav="next" href="../09-lazy/index.html"><span class="dir">Next →</span><span class="t">Lazy</span><span class="ch">Chapter 9</span></a></nav>
+</main><footer class="site">Homemade Robots · Randy Sarafan · © 2021 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../assets/book.js"></script>
+</body>
+</html>
