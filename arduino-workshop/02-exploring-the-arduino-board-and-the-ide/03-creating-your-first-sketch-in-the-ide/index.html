@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creating Your First Sketch in the IDE — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 2: Exploring the Arduino Board and the IDE · Creating Your First Sketch in the IDE">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 2 · Creating Your First Sketch in the IDE</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../02-exploring-the-arduino-board-and-the-ide/02-taking-a-look-around-the-ide/index.html" title="Taking a Look Around the IDE">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 2 · Exploring the Arduino Board and the IDE</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-arduino-board/index.html">The Arduino Board</a><a href="../02-taking-a-look-around-the-ide/index.html">Taking a Look Around the IDE</a><a href="../03-creating-your-first-sketch-in-the-ide/index.html" aria-current=page>Creating Your First Sketch in the IDE</a><a href="../04-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../02-exploring-the-arduino-board-and-the-ide/04-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:6.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 2 · Exploring the Arduino Board and the IDE</a></p>
+  <h1>Creating Your First Sketch in the IDE</h1>
+  <p class="sec-meta">Book pages 27–31</p>
+</div>
+<article class="prose">
+<p>An Arduino sketch is a set of instructions that you create to accomplish a particular task; in other words, a sketch is a <em>program</em>. In this section you’ll create and upload a simple sketch that will cause the Arduino’s LED (shown in Figure 2-11) to blink repeatedly, by turning it on and then off for 1 second intervals.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="166" height="150" style="width:81px" loading="lazy" alt="Figure 2-11: The LED on the Arduino board, next to the capital L"></a><figcaption><b>Figure 2-11:</b> The  LED on the Arduino  board, next to the  capital L</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Don’t worry too much about the specific commands in the </em> <em>sketch we’re creating here. The goal is to show you how easy it </em> <em>is to get the Arduino to do something so that you’ll keep read-</em> <em>ing when you get to the harder stuff.</em></p></aside>
+<p>To begin, connect your Arduino to the computer with the USB cable. Then open the IDE, choose <strong>Tools</strong>4<strong>Serial Port</strong>, and make sure the USB port is selected. This ensures that the Arduino board is properly connected.</p>
+<h2>Comments</h2>
+<p>First, enter a comment as a reminder of what your sketch will be used for. A <em>comment</em> is a note of any length in a sketch, written for the user’s benefit. Comments in sketches are useful for adding notes to yourself or others, for entering instructions, or for noting miscellaneous details. When program-ming your Arduino (creating sketches), it’s a good idea to add comments regarding your intentions; these comments can prove useful later when you’re revisiting a sketch.</p>
+<p>To add a comment on a single line, enter two forward slashes and then the comment, like this:</p>
+<pre class="code"><code>// Blink LED sketch by Mary Smith, created 09/09/12</code></pre>
+<p>The two forward slashes tell the IDE to ignore the text that follows when verifying a sketch. (As mentioned earlier, when you verify a sketch, you’re asking the IDE to check that everything is written properly with no errors.)</p>
+<p>To enter a comment that spans two or more lines, enter the characters <code>/*</code> on a line before the comment, and then end the comment with the characters <code>*/</code> on the following line, like this:</p>
+<pre class="code"><code>/*
+Arduino Blink LED Sketch
+by Mary Smith, created 09/09/12
+*/</code></pre>
+<p>As with the two forward slashes that precede a single line comment, the <code>/*</code> and <code>*/</code> tell the IDE to ignore the text that they bracket.</p>
+<p>Enter a comment describing your Arduino sketch using one of these methods, and then save your sketch by choosing <strong>File</strong>4<strong>Save As</strong>. Enter a short name for your sketch (such as <em>blinky</em>), and then click <strong>OK</strong>.</p>
+<p>The default filename extension for Arduino sketches is <em>.ino</em>, and the IDE should add this automatically. The name for your sketch should be, in this case, <em>blinky.ino</em>, and you should be able to see it in your Sketchbook.</p>
+<h2>The Setup Function</h2>
+<p>The next stage in creating any sketch is to add the <code>void setup()</code> function. This function contains a set of instructions for the Arduino to execute once only, each time it is reset or turned on. To create the <code>setup</code> function, add the following lines to your sketch, after the comments:</p>
+<pre class="code"><code>void setup()
+{
+}</code></pre>
+<h2>Controlling the Hardware</h2>
+<p>Our program will blink the user LED on the Arduino. The user LED is connected to the Arduino’s digital pin 13. A digital pin can either detect an electrical signal or generate one on command. In this project, we’ll generate an electrical signal that will light the LED. This may seem a little complicated, but you’ll learn more about digital pins in future chapters. For now, just continue with creating the sketch.</p>
+<p>Enter the following into your sketch between the braces (<code>{</code> and <code>}</code>):</p>
+<pre class="code"><code>  pinMode(13, OUTPUT); // set digital pin 13 to output</code></pre>
+<p>The number <code>13</code> in the listing represents the digital pin you’re addressing. You’re setting this pin to <code>OUTPUT</code>, which means it will generate (output) an electrical signal. If you wanted it to detect an incoming electrical signal, then you would use <code>INPUT</code> instead. Notice that the function <code>pinMode()</code> ends with a semi­ colon (<code>;</code>). Every function in your Arduino sketches will end with a semicolon.</p>
+<p>Save your sketch again to make sure that you don’t lose any of your work.</p>
+<h2>The Loop Function</h2>
+<p>Remember that our goal is to make the LED blink repeatedly. To do this, we’ll create a <code>loop</code> function to tell the Arduino to execute an instruction over and over until the power is shut off or someone presses the RESET button.</p>
+<p>Enter the code shown in boldface after the <code>void setup()</code> section in the following listing to create an empty <code>loop</code> function. Be sure to end this new section with another brace (<code>}</code>), and then save your sketch again.</p>
+<pre class="code"><code>/*
+Arduino Blink LED Sketch
+by Mary Smith, created 09/09/12
+*/
+void setup()
+{
+  pinMode(13, OUTPUT); // set digital pin 13 to output
+}
+void loop()
+{
+  // place your main loop code here:
+}</code></pre>
+<aside class="note"><span class="lbl">WARNING</span><p><em>The Arduino IDE does not automatically save sketches, so save your work frequently!</em></p></aside>
+<p>Next, enter the actual functions into <code>void loop()</code> for the Arduino to execute.</p>
+<p>Enter the following between the <code>loop</code> function’s braces, and then click <strong>Verify</strong> to make sure that you’ve entered everything correctly:</p>
+<pre class="code"><code>  digitalWrite(13, HIGH); // turn on digital pin 13
+  delay(1000); // pause for one second
+  digitalWrite(13, LOW); // turn off digital pin 13
+  delay(1000); // pause for one second</code></pre>
+<p>Let’s take this all apart. The <code>digitalWrite()</code> function controls the voltage that is output from a digital pin: in this case, pin 13 to the LED. By setting the second parameter of this function to <code>HIGH</code>, a “high” digital voltage is output; then current will flow from the pin and the LED will turn on. (If you were to set this parameter to <code>LOW</code>, then the current flowing through the LED would stop.)</p>
+<p>With the LED turned on, the light pauses for 1 second with <code>delay(1000)</code>. The <code>delay()</code> function causes the sketch to do nothing for a period of time—in this case, 1,000 milliseconds, or 1 second.</p>
+<p>Next, we turn off the voltage to the LED with <code>digitalWrite(13, LOW);</code>. Finally, we pause again for 1 second while the LED is off, with <code>delay(1000);</code>.</p>
+<p>The completed sketch should look like this:</p>
+<pre class="code"><code>/*
+ Arduino Blink LED Sketch
+ by Mary Smith, created 09/09/12
+*/
+void setup()
+{
+  pinMode(13, OUTPUT); // set digital pin 13 to output
+}
+void loop()
+{
+  digitalWrite(13, HIGH); // turn on digital pin 13
+  delay(1000); // pause for one second
+  digitalWrite(13, LOW); // turn off digital pin 13
+  delay(1000); // pause for one second
+}</code></pre>
+<p>Before you do anything further, save your sketch!</p>
+<h2>Verifying Your Sketch</h2>
+<p>When you verify your sketch, you ensure that it has been written correctly in a way that the Arduino can understand. To verify your complete sketch, click <strong>Verify</strong> in the IDE and wait a moment. Once the sketch has been verified, a note should appear in the message window, as shown in Figure 2-12.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="689" height="236" style="width:335px" loading="lazy" alt="Figure 2-12: The sketch has been verified."></a><figcaption><b>Figure 2-12:</b> The sketch has been verified.</figcaption></figure>
+<p>This “Done compiling” message tells you that the sketch is okay to upload to your Arduino. It also shows how much memory it will use (1,076 bytes in this case) of the total available on the Arduino (32,256 bytes).</p>
+<p>But what if your sketch isn’t okay? Say, for example, you forgot to add a semicolon at the end of the second <code>delay(1000)</code> function. If something is broken in your sketch, then when you click <strong>Verify</strong>, the message window should display a verification error message similar to the one shown in Figure 2-13.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="689" height="336" style="width:335px" loading="lazy" alt="Figure 2-13: The message window with a verification error"></a><figcaption><b>Figure 2-13:</b> The message window with a verification error</figcaption></figure>
+<p>The message tells you that the error occurs in the <code>void loop</code> function, lists the line number of the sketch where the IDE thinks the error is located (<code>blinky:16</code>, or line 16 of your <em>blinky</em> sketch), and displays the error itself (the missing semicolon, <code>error: expected &#x27;;&#x27; before &#x27;}&#x27; token</code>). Furthermore, the IDE should also highlight in yellow the location of the error or a spot just after it. This helps you easily locate and rectify the mistake.</p>
+<h2>Uploading and Running Your Sketch</h2>
+<p>Once you’re satisfied that your sketch has been entered correctly, save it, ensure that your Arduino board is connected, and click <strong>Upload</strong> in the IDE. The IDE may verify your sketch again and then upload it to your Arduino board. During this process, the TX/RX LEDs on your board (shown in Figure 2-6) should blink, indicating that information is traveling between the Arduino and your computer.</p>
+<p>Now for the moment of truth: Your Arduino should start running the sketch. If you’ve done everything correctly, then the LED should blink on and off once every second!</p>
+<p>Congratulations. You now know the basics of how to enter, verify, and upload an Arduino sketch.</p>
+<h2>Modifying Your Sketch</h2>
+<p>After running your sketch, you may want to change how it operates, by, for example, adjusting the on or off delay time for the LED. Because the IDE is a lot like a word processor, you can open your saved sketch, adjust the values, and then save your sketch again and upload it to the Arduino. For example, to increase the rate of blinking, change both <code>delay</code> functions to make the LEDs blink for one-quarter of a second by adjusting the delay to <code>250</code> like this:</p>
+<pre class="code"><code>  delay(250); // pause for one-quarter of one second</code></pre>
+<p>Then upload the sketch again. The LED should now blink faster, for one-quarter of a second each time.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../02-exploring-the-arduino-board-and-the-ide/02-taking-a-look-around-the-ide/index.html"><span class="dir">← Previous</span><span class="t">Taking a Look Around the IDE</span><span class="ch">Chapter 2 · Exploring the Arduino Board and the IDE</span></a><a class="nx" data-nav="next" href="../../02-exploring-the-arduino-board-and-the-ide/04-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 2 · Exploring the Arduino Board and the IDE</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

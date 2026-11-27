@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #33: Creating a Keypad-Controlled Lock — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 9: Numeric Keypads · Project #33: Creating a Keypad-Controlled Lock">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 9 · Project #33: Creating a Keypad-Controlled Lock</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../09-numeric-keypads/02-making-decisions-with-switch-case/index.html" title="Making Decisions with switch-case ">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 9 · Numeric Keypads</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-a-numeric-keypad/index.html">Using a Numeric Keypad</a><a href="../02-making-decisions-with-switch-case/index.html">Making Decisions with switch-case </a><a href="../03-project-33-creating-a-keypad-controlled-lock/index.html" aria-current=page>Project #33: Creating a Keypad-Controlled Lock</a><a href="../04-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../09-numeric-keypads/04-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:55.5%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 9 · Numeric Keypads</a></p>
+  <h1>Project #33: Creating a Keypad-Controlled Lock</h1>
+  <p class="sec-meta">Book pages 190–193</p>
+</div>
+<article class="prose">
+<p>In this project, we’ll create the beginning part of a keypad-controlled lock. We’ll use the basic setup described in the sketch in Listing 9-1, but we’ll also include a secret code that will need to be entered on the keypad. The Serial Monitor will tell the user who types a code into the keypad whether the code is correct or not.</p>
+<p>The sketch will call different functions, depending on whether the six-digit secret code is correct. The secret code is stored in the sketch but is not displayed to the user. To activate and deactivate the lock, the user must press <strong>*</strong> and then the secret number, followed by <strong>#</strong>.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload this sketch:</p>
+<pre class="code"><code> // Project 33 - Creating a Keypad-Controlled Lock
+ // Beginning of necessary code
+ #include &quot;Keypad.h&quot;
+ const byte ROWS = 4;                  // set display to four rows
+ const byte COLS = 3;                  // set display to three columns
+ char keys[ROWS][COLS] =
+  {{&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;},
+   {&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;},
+   {&#x27;7&#x27;,&#x27;8&#x27;,&#x27;9&#x27;},
+   {&#x27;*&#x27;,&#x27;0&#x27;,&#x27;#&#x27;}};
+ byte rowPins[ROWS] = {5, 4, 3, 2};
+ byte colPins[COLS] = {8, 7, 6};
+ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+ // End of necessary code
+<span class="cm">❶</span> char PIN[6]={&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;,&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;}; // our secret number
+ char attempt[6]={0,0,0,0,0,0};
+ int z=0;
+ void setup()
+ {
+   Serial.begin(9600);
+ }
+ void correctPIN()  // do this if the correct PIN is entered
+ {
+   Serial.println(&quot;Correct PIN entered...&quot;);
+ }
+ void incorrectPIN() // do this if an incorrect PIN is entered
+ {
+   Serial.println(&quot;Incorrect PIN entered!&quot;);
+ }
+ void checkPIN()
+ {
+   int correct=0;
+   int i;
+<span class="cm">❷</span>   for ( i = 0; i &lt; 6 ; i++ )
+   {
+     if (attempt[q]==PIN[q])
+     {
+       correct++;
+     }
+   }
+   if (correct==6)
+   {
+<span class="cm">❸</span>     correctPIN();
+   } else
+   {
+<span class="cm">❹</span>     incorrectPIN();
+   }
+   for (int zz=0; zz&lt;6; zz++) // remove previously entered code attempt from
+   {
+     attempt[zz]=0;
+   }
+ }
+ void readKeypad()
+ {
+   char key = keypad.getKey();
+   if (key != NO_KEY)
+   {
+<span class="cm">❺</span>     switch(key)
+     {
+     case &#x27;*&#x27;:
+       z=0;
+       break;
+     case &#x27;#&#x27;:
+       delay(100);  // removes the possibility of switch bounce
+       checkPIN();
+       break;
+     default:
+       attempt[z]=key;
+       z++;
+     }
+   }
+ }
+ void loop()
+ {
+<span class="cm">❻</span>   readKeypad();
+ }</code></pre>
+<h2>How It Works</h2>
+<p>After the usual setup routines (as described in Listing 9-1), the sketch continually “listens” to the keypad by running the function <code>readKeypad()</code> at <span class="co">❻</span>. After a key is pressed, the value of the key is examined using a <code>switch-case</code> statement at <span class="co">❺</span>. The values of the keys pressed on the keypad are stored in the array <code>attempt[]</code>, and when the user presses #, the function <code>checkPin()</code> is called.</p>
+<p>At <span class="co">❷</span>, the values of keys pressed are compared against the PIN stored in the array <code>PIN[]</code> at <span class="co">❶</span>, which holds the secret number. If the correct sequence is entered, the function <code>correctPin()</code> at <span class="co">❸</span> is called, where you can add your own code to execute; but if the incorrect sequence is entered, the function <code>incorrectPin()</code> is called at <span class="co">❹</span>. Finally, once the user’s entry has been checked, it is removed from memory and the code is ready for the next test.</p>
+<h2>Testing the Sketch</h2>
+<p>After you’ve uploaded the sketch to the Arduino, open the Serial Monitor window, press the asterisk key (*) on the numeric keypad, type the secret number, and then press the pound sign key (#) when you’ve finished<code>.</code> Try entering both correct and incorrect numbers. Your results should be similar to the output shown in Figure 9-4.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="560" height="318" style="width:272px" loading="lazy" alt="Figure 9-4: Results from entering correct and incorrect PINs"></a><figcaption><b>Figure 9-4:</b> Results from entering correct and incorrect PINs</figcaption></figure>
+<p>This example served as a perfect foundation for your own PIN-activated devices, such as locks, alarms, or anything else you can imagine. Just be sure to replace the code in <code>correctPIN()</code> and <code>incorrectPIN()</code> with the required code to run when a correct or incorrect sequence is entered.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../09-numeric-keypads/02-making-decisions-with-switch-case/index.html"><span class="dir">← Previous</span><span class="t">Making Decisions with switch-case </span><span class="ch">Chapter 9 · Numeric Keypads</span></a><a class="nx" data-nav="next" href="../../09-numeric-keypads/04-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 9 · Numeric Keypads</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #7: Trying Out a Piezo Buzzer — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · Project #7: Trying Out a Piezo Buzzer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · Project #7: Trying Out a Piezo Buzzer</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/12-piezoelectric-buzzers/index.html" title="Piezoelectric Buzzers">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html">Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html">The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html">Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html">Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html">Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html">Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html">The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html" aria-current=page>Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/14-project-8-creating-a-quick-read-thermometer/index.html" title="Project #8: Creating a Quick-Read Thermometer">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:22.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>Project #7: Trying Out a Piezo Buzzer</h1>
+  <p class="sec-meta">Book pages 88–89</p>
+</div>
+<article class="prose">
+<p>If you have a piezo handy and want to try it out, upload the following demonstration sketch to your Arduino:</p>
+<pre class="code"><code> // Project 7 - Trying Out a Piezo Buzzer
+ #define PIEZO 3  // pin 3 is capable of PWM output to drive tones
+ int del = 500;
+ void setup()
+ {
+   pinMode(PIEZO, OUTPUT);
+ }
+ void loop()
+ {
+<span class="cm">❶</span>   analogWrite(PIEZO, 128);  // 50 percent duty cycle tone to the piezo
+   delay(del);
+   digitalWrite(PIEZO, LOW); // turn the piezo off
+   delay(del);
+ }</code></pre>
+<p>This sketch uses pulse-width modulation on digital pin three. If you change the duty cycle in the <code>analogWrite()</code> function (currently it’s 128, which is 50 percent on) at <span class="co">❶</span>, then you can alter the volume of the buzzer.</p>
+<p>To increase the volume of your piezo, increase the voltage applied to it. The voltage is currently limited to 5 V, but the buzzer would be much louder at 9 or 12 V. Because higher voltages can’t be sourced from the Arduino, you would need to use an external power source for the buzzer, such as a 9 V battery, and then switch the power into the buzzer using a transistor as an electronic switch. You can use the same sketch with the schematic shown in Figure 4-39.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="904" height="973" style="width:439px" loading="lazy" alt="Figure 4-39: Schematic for Project 7"></a><figcaption><b>Figure 4-39:</b> Schematic for Project 7</figcaption></figure>
+<p>The part of the schematic labeled 12 V will be the positive side of the higher-power supply, whose negative side will connect to the Arduino GND pin.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/12-piezoelectric-buzzers/index.html"><span class="dir">← Previous</span><span class="t">Piezoelectric Buzzers</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/14-project-8-creating-a-quick-read-thermometer/index.html"><span class="dir">Next →</span><span class="t">Project #8: Creating a Quick-Read Thermometer</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Many Arduino Boards — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 11: Meet the Arduino Family · The Many Arduino Boards">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 11 · The Many Arduino Boards</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../11-meet-the-arduino-family/01-project-37-creating-your-own-breadboard-arduino/index.html" title="Project #37: Creating Your Own Breadboard Arduino">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 11 · Meet the Arduino Family</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-37-creating-your-own-breadboard-arduino/index.html">Project #37: Creating Your Own Breadboard Arduino</a><a href="../02-the-many-arduino-boards/index.html" aria-current=page>The Many Arduino Boards</a><a href="../03-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../11-meet-the-arduino-family/03-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:61.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 11 · Meet the Arduino Family</a></p>
+  <h1>The Many Arduino Boards</h1>
+  <p class="sec-meta">Book pages 217–224</p>
+</div>
+<article class="prose">
+<p>Although we have been working exclusively with the Arduino Uno board throughout the book, you can choose from many alternative boards. These will vary in physical size, the number of input and output pins, memory space for sketches, and purchase price.</p>
+<p>One of the crucial differences between boards is the microcontroller used. Current boards generally use the ATmega328 or the ATmega2560 microcontroller, and the Due uses another, more powerful version. The main differences between the two (including both versions of the ATmega328) are summarized in Table 11-2.</p>
+<figure class="fig table-fig"><img src="img/fig-01.webp" width="1148" height="745" loading="lazy" alt="Table 11-2: Microcontroller Comparison Chart"><figcaption><b>Table 11-2:</b> Microcontroller Comparison Chart</figcaption></figure>
+<p>The main parameters used to compare various Arduino-compatible boards are the types of memory they contain and the amount of each type. Following are the three types of memory:</p>
+<ul><li><em>Flash memory</em> is the space available to store a sketch after it has been compiled and uploaded by the IDE.</li><li><em>EEPROM (electrically erasable programmable read-only memory)</em> is a small space that can store byte variables, as you’ll learn in Chapter 16.</li><li><em>SRAM</em> is the space available to store variables from your programs.</li></ul>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Many Arduino boards are available in addition to the Uno, and the few described </em> <em>here are only the tip of the iceberg. When you’re planning large or complex projects, </em> <em>don’t be afraid to scale up to the larger Mega boards. By the same token, if you </em> <em>need only a few I/O pins for a more permanent project, consider the Nano or even </em> <em>a LilyPad.</em></p></aside>
+<p>Let’s explore the range of the available boards.</p>
+<h2>Arduino Uno</h2>
+<p>The Uno is currently considered the standard Arduino board. All Arduino shields ever made should be compatible with the Uno. The Uno is considered to be the easiest-to-use Arduino board due to its built-in USB interface and removable microcontroller.</p>
+<h2>Freetronics Eleven</h2>
+<p>Many boards on the market emulate the function of the Arduino Uno, and some have even improved on the standard design. One of these is the Freetronics Eleven, shown in Figure 11-16.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="601" height="489" style="width:292px" loading="lazy" alt="Figure 11-16: Freetronics Eleven"></a><figcaption><b>Figure 11-16:</b> Freetronics Eleven</figcaption></figure>
+<p>Although the Eleven is completely compatible with the Arduino Uno, it offers several improvements that make it a worthwhile product. The first is the large prototyping area just below the digital I/O pins. This area allows you to construct your own circuit directly on the main board, which can save space and money, since you won’t need to purchase a separate prototyping shield.</p>
+<p>Second, the transmitter/receiver (TX/RX), power, and D13 LEDs are positioned on the far-right side of the board; this placement allows them to be visible even when a shield is attached. Finally, it uses a micro-USB socket, which is much smaller than the standard USB socket used on the Uno. This makes designing your own shield simpler, since you don’t have to worry about your connections bumping into the USB socket. It is available from <em>http://www.freetronics.com/products/eleven/</em>.</p>
+<h2>The Freeduino</h2>
+<p>The Freeduino board comes from a collaborative open source project that describes and publishes files to allow people to construct their own Arduino-compatible boards. One of the more popular designs is the Duemilanove-compatible board kit, shown in Figure 11-17.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="940" height="629" style="width:457px" loading="lazy" alt="Figure 11-17: An assembled Duemilanove-compatible Freeduino board"></a><figcaption><b>Figure 11-17:</b> An assembled Duemilanove-compatible Freeduino board</figcaption></figure>
+<p>You can use the Freeduino board to run all the projects in this book. Two of the major benefits of the Freeduino are that it’s cheap and that assembling a board by hand is intrinsically satisfying. The Freeduino kit is available from <em>http://www.seeedstudio.com/</em>.</p>
+<h2>The Boarduino</h2>
+<p>The Boarduino is a minimalist interpretation of an Arduino designed for working with solderless breadboards. It comes in a kit and needs to be soldered together. The assembled version is shown in Figure 11-18.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="604" height="234" style="width:294px" loading="lazy" alt="Figure 11-18: An assembled Boarduino"></a><figcaption><b>Figure 11-18:</b> An assembled Boarduino</figcaption></figure>
+<p>The Boarduino kit is available from <em>http://www.adafruit.com/</em>. It offers all the functionality of the Freeduino kit but requires a separate power supply when more than 500 mA of current is required.</p>
+<h2>The Arduino Nano</h2>
+<p>When you need a compact, assembled Arduino-compatible board, the Nano should fit the bill. Designed to work in a solderless breadboard, the Nano (Figure 11-19) is a tiny but powerful Arduino.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="919" height="406" style="width:447px" loading="lazy" alt="Figure 11-19: An Arduino Nano"></a><figcaption><b>Figure 11-19:</b> An Arduino Nano</figcaption></figure>
+<p>The Nano measures only 0.7 inches by 1.7 inches, yet it offers all the functionality of the Boarduino and the Freeduino. Furthermore, it uses the SMD version of the ATmega328P, so it has two extra analog input pins (A6 and A7). The Nano is available from <em>http://www.gravitech.us/arna30wiatp.html</em>.</p>
+<h2>The Arduino LilyPad</h2>
+<p>The LilyPad is designed to be integrated inside creative projects, such as wearable electronics. In fact, you can actually wash a LilyPad with water and a mild detergent, so it’s ideal to use for lighting up a sweatshirt, for example. The board design is unique, as shown in Figure 11-20.</p>
+<figure class="fig side-fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="337" height="332" style="width:164px" loading="lazy" alt="Figure 11-20: An Arduino LilyPad"></a><figcaption><b>Figure 11-20:</b> An Arduino  LilyPad</figcaption></figure>
+<p>The I/O pins on the LilyPad require that wires be soldered to the board, so the LilyPad is more suited for use with permanent projects. As part of its minimalist design, it has no voltage regulation circuitry, so it’s up to the user to provide his or her own supply between 2.7 and 5.5 V. The LilyPad also lacks a USB interface, so a 5 V FTDI cable is required to upload sketches. You can get Arduino LilyPad boards from almost any Arduino retailer.</p>
+<h2>The Arduino Mega 2560</h2>
+<p>When you run out of I/O pins on your Arduino Uno or you need space for much larger sketches, consider a Mega 2560. It is physically a much larger board than the Arduino, measuring 4.3 inches by 2.1 inches; it’s shown in Figure 11-21.</p>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="676" height="396" style="width:329px" loading="lazy" alt="Figure 11-21: Arduino Mega 2560"></a><figcaption><b>Figure 11-21:</b> Arduino Mega 2560</figcaption></figure>
+<p>Although the Mega 2560 board is much larger than the Uno, you can still use most Arduino shields with it, and Mega-sized prototyping shields are available for larger projects that the Uno can’t accommodate. Since the Mega uses the ATmega2560 microcontroller, its memory space and I/O capabilities (as described in Table 11-2) are much greater than those of the Uno. Additionally, four separate serial communication lines increase its data transmission capabilities. You can get Mega 2560 boards from almost any Arduino retailer.</p>
+<h2>The Freetronics EtherMega</h2>
+<p>When you need an Arduino Mega 2560, a microSD card shield, and an Ethernet shield to connect to the Internet, your best alternative is an EtherMega (Figure 11-22), because it has all these functions on a single board and is less expensive than purchasing each component separately. The EtherMega is available from <em>http://www.freetronics.com/</em> <em>ethermega/</em>.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="900" height="695" style="width:437px" loading="lazy" alt="Figure 11-22: Freetronics EtherMega"></a><figcaption><b>Figure 11-22:</b> Freetronics EtherMega</figcaption></figure>
+<h2>The Arduino Due</h2>
+<p>With an 84 MHz processor that can run your sketches much faster, this is the most powerful Arduino board ever released. As you can see in Figure 11-23, the board is quite similar to the Arduino Mega 2560, but there is an extra USB port for external devices and different pin labels.</p>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="888" height="474" style="width:432px" loading="lazy" alt="Figure 11-23: Arduino Due"></a><figcaption><b>Figure 11-23:</b> Arduino Due</figcaption></figure>
+<p>Furthermore, the Due has just over 16 times the memory of an Uno board, so you can really create complex and detailed sketches. However, the Due operates only on 3.3 V—so any circuits, shields, or other devices connected to the analog or digital pins cannot have a voltage greater than 3.3 V. Despite these limitations, the benefits of using the Due outweigh the changes in the hardware.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>When shopping for your next Arduino board or accessory, be sure to buy from a repu-</em> <em>table retailer that offers support and a guarantee. Although the Internet is flooded </em> <em>with cheap alternatives, corners are often cut to produce products at abnormally low </em> <em>prices, and you might have no way of seeking recompense if you’re sold a faulty or </em> <em>incorrectly specified product.</em></p></aside>
+<aside class="sidebar"><h4 class="st">Open Source Hardware</h4><p>The Arduino hardware design is released to the public so that anyone can manufacture, modify, distribute, and use it as they see fit.  This type of distribution falls under the umbrella of <em>open source hardware</em>—a recent movement that is an antithesis to the concept of copyrights and legal protection of intellectual property.  The Arduino team decided to allow its designs to be free for the benefit of the larger hardware community and for the greater good.</p><p>In the spirit of open source hardware, many organizations that produce accessories or modifications of the original Arduino boards publish their designs under the same license.  This allows for a much faster process of product improvement than would be possible for a single organization developing the product alone.</p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../11-meet-the-arduino-family/01-project-37-creating-your-own-breadboard-arduino/index.html"><span class="dir">← Previous</span><span class="t">Project #37: Creating Your Own Breadboard Arduino</span><span class="ch">Chapter 11 · Meet the Arduino Family</span></a><a class="nx" data-nav="next" href="../../11-meet-the-arduino-family/03-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 11 · Meet the Arduino Family</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

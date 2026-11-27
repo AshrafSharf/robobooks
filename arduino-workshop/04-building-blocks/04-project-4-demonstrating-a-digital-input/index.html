@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #4: Demonstrating a Digital Input — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · Project #4: Demonstrating a Digital Input">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · Project #4: Demonstrating a Digital Input</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/03-digital-inputs/index.html" title="Digital Inputs">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html">Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html">The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html" aria-current=page>Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html">Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html">Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html">Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html">The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html">Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/05-boolean-variables/index.html" title="Boolean Variables">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:16.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>Project #4: Demonstrating a Digital Input</h1>
+  <p class="sec-meta">Book pages 65–72</p>
+</div>
+<article class="prose">
+<p>Our goal in this project is to create a button that turns on an LED for half a second when pressed.</p>
+<h2>The Algorithm</h2>
+<p>Here is our algorithm:</p>
+<ol><li>Test to see if the button has been pressed.</li><li>If the button has been pressed, then turn on the LED for half a second, and then turn it off.</li><li>If the button has not been pressed, then do nothing.</li><li>Repeat indefinitely.</li></ol>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>One push button</li><li>One LED</li><li>One 560 Ω resistor</li><li>One 10 kΩ resistor</li><li>One 100 nF capacitor</li><li>Various connecting wires</li><li>One breadboard</li><li>Arduino and USB cable</li></ul>
+<h2>The Schematic</h2>
+<p>First we create the circuit on the breadboard with the schematic shown in Figure 4-19. Notice how the 10 kΩ resistor is connected between GND and digital pin seven. We call this a <em>pull-down resistor, </em>because it pulls the voltage at the digital pin almost to zero. Furthermore, by adding a 100 nF capacitor across the 10 kΩ resistor, we create a simple <em>debounce</em> circuit to help filter out the switch bounce. When the button is pressed, the digital pin goes immediately to high. But when the button is released, digital pin seven is pulled down to GND via the 10 kΩ resistor, and the 100 nF capacitor creates a small delay. This effectively covers up the bouncing pulses by slowing down the voltage falling to GND, thereby eliminating most of the false readings due to floating voltage and erratic button behavior.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="786" height="922" style="width:382px" loading="lazy" alt="Figure 4-19: Schematic for Project 4"></a><figcaption><b>Figure 4-19:</b> Schematic for Project 4</figcaption></figure>
+<p>Because this is the first time you’re building a circuit with a schematic, follow these step-by-step instructions as you walk through the schematic; this should help you understand how the components connect:</p>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="375" height="482" style="width:182px" loading="lazy" alt="Figure 4-20: Push button inserted into breadboard"></a><figcaption><b>Figure 4-20:</b> Push button inserted  into breadboard</figcaption></figure>
+<ol><li>Insert the push button into the breadboard, as shown in Figure 4-20.</li><li>Turn the breadboard 90 degrees counterclockwise and insert the 10 kΩ resistor, a short link wire, and the capacitor, as shown in Figure 4-21.</li></ol>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="835" height="457" style="width:406px" loading="lazy" alt="Figure 4-21: 10 kΩ resistor, capacitor, and push button"></a><figcaption><b>Figure 4-21:</b> 10 kΩ resistor, capacitor, and push button</figcaption></figure>
+<ol start="3"><li>Connect one wire from the Arduino 5 V pin to the leftmost vertical column on the breadboard, and connect another wire from the Arduino GND pin to the vertical row to the right of the 5 V column, as shown in Figure 4-22.</li></ol>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="992" height="726" style="width:482px" loading="lazy" alt="Figure 4-22: The 5 V (red) and GND (black) wires"></a><figcaption><b>Figure 4-22:</b> The 5 V (red) and GND (black) wires</figcaption></figure>
+<ol start="4"><li>Run a wire from Arduino digital pin 7 to the breadboard near the top-right corner of the button, as shown in Figure 4-23.</li></ol>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="765" height="719" style="width:372px" loading="lazy" alt="Figure 4-23: Connecting the button to the digital input"></a><figcaption><b>Figure 4-23:</b> Connecting the button to the digital input</figcaption></figure>
+<ol start="5"><li>Insert the LED into the breadboard with the short leg (the cathode) connected to the GND column, and the long leg (the anode) in a row to the right. Next, connect the 560 Ω resistor to the right of the LED, as shown in Figure 4-24.</li></ol>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="711" height="425" style="width:346px" loading="lazy" alt="Figure 4-24: Inserting the LED and 560 Ω resistor"></a><figcaption><b>Figure 4-24:</b> Inserting the LED and 560 Ω resistor</figcaption></figure>
+<ol start="6"><li>Connect a wire from the right side of the 560 Ω resistor to Arduino digital pin 12, as shown in Figure 4-25.</li></ol>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="645" height="690" style="width:313px" loading="lazy" alt="Figure 4-25: Connecting the LED branch to the Arduino"></a><figcaption><b>Figure 4-25:</b> Connecting the LED branch to the Arduino</figcaption></figure>
+<p>Before continuing, review the schematic for this circuit and check that your components are wired correctly. Compare the schematic against the actual wiring of the circuit.</p>
+<h2>The Sketch</h2>
+<p>For the sketch, enter and upload Listing 4-1:</p>
+<figure class="listing"><pre class="code"><code> // Project 4 - Demonstrating a Digital Input
+<span class="cm">❶</span> #define LED    12
+ #define BUTTON 7
+ void setup()
+ {
+<span class="cm">❷</span>   pinMode(LED, OUTPUT);   // output for the LED
+   pinMode(BUTTON, INPUT); // input for the button
+ }
+ void loop()
+ {
+   if ( digitalRead(BUTTON) == HIGH )
+   {
+     digitalWrite(LED, HIGH);   // turn on the LED
+     delay(500);                // wait for 0.5 seconds
+     digitalWrite(LED, LOW);    // turn off the LED
+   }
+ }</code></pre><figcaption><b>Listing 4-1:</b> Digital input</figcaption></figure>
+<p>After you’ve uploaded your sketch, tap the push button briefly and your LED should stay on for half a second.</p>
+<h2>Modifying Your Sketch</h2>
+<p>Once you’ve had some success, try modifying your sketch by changing the length of time that the light stays on or by adding a push button control to Project 3. (Don’t disassemble this circuit, though; we’ll use it again in the next example.)</p>
+<h2>Understanding the Sketch</h2>
+<p>Let’s examine the new items in the sketch for Project 4—specifically, <code>#define</code>, digital input pins, and the <code>if-then</code> function.</p>
+<h2>Creating Constants with #define</h2>
+<p>Before <code>void setup()</code>, we use <code>#define</code> statements at <span class="co">❶</span> to create fixed variables: When the sketch is compiled, the IDE replaces any instance of the defined word with the number that follows it. For example, when the IDE sees <code>LED</code> in the line at <span class="co">❷</span>, it replaces it with the number <code>12</code>.</p>
+<p>We’re basically using the <code>#define</code> command to label the digital pins for the LED and button in the sketch. Also notice that we do not use a semicolon after a <code>#define</code> value. It’s a good idea to label pin numbers and other fixed values (such as a time delay) in this way, because if the value is used repeatedly in the sketch, then you won’t have to edit the same item more than once. In this example, <code>LED</code> is used three times in the sketch; to edit this value, we’d simply have to change its definition once in its <code>#define</code> statement.</p>
+<h2>Reading Digital Input Pins</h2>
+<p>To read the status of a button, we first define a digital I/O pin as an input in <code>void setup()</code> using the following:</p>
+<pre class="code"><code>   pinMode(BUTTON, INPUT); // input for button</code></pre>
+<p>Next, to discover whether the button is connecting a voltage through to the digital input (that is, it’s being pressed), we use <code>digitalRead(pin)</code>, where <code>pin</code> is the digital pin number to read. The function returns either <code>HIGH</code> (voltage is close to 5 V at the pin) or <code>LOW</code> (voltage is close to 0 V at the pin).</p>
+<h2>Making Decisions with if</h2>
+<p>Using <code>if</code>, we can make decisions in our sketch and tell the Arduino to run different code, depending on the decision. For example, in the sketch for Project 4, we used Listing 4-2:</p>
+<figure class="listing"><pre class="code"><code>// Listing 4-2
+if (digitalRead(BUTTON) == HIGH)
+{
+    digitalWrite(LED, HIGH);    // turn on the LED
+    delay(500);                 // wait for 0.5 seconds
+    digitalWrite(LED, LOW);     // turn off the LED
+}</code></pre><figcaption><b>Listing 4-2:</b> A simple <code>if-then</code> example</figcaption></figure>
+<p>The first line in the code begins with <code>if</code> tests for a condition. If the condition is true (that is, voltage is <code>HIGH</code>), then it means that the button is pressed and the code that follows inside the curly brackets will run.</p>
+<p>To determine whether the button is pressed (<code>digitalRead(BUTTON)</code> is set to <code>HIGH</code>), we use a <em>comparison operator,</em> a double equal sign (<code>==</code>). If we were to replace <code>==</code> with <code>!=</code> (not equal to) in the sketch, then the LED would turn off when the button is pressed instead. Try it and see.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>A common mistake is to use a single equal sign (</em><code>=</code><em>), which means “make equal to,” in </em> <em>a test statement instead of a double equal sign (</em><code>==</code><em>), which says “test if it is equal to.” </em> <em>You may not get an error message, but your </em><code>if</code><em> statement may not work!</em></p></aside>
+<h2>Making More Decisions with if-then-else</h2>
+<p>You can add another action to an <code>if</code> statement by using <code>else</code>. For example, if we rewrite Listing 4-1 by adding <code>else</code> as shown in Listing 4-3, then the LED will turn on <em>if</em> the button is pressed, or <em>else</em> it will be off. Using <code>else</code> forces the Arduino to run another section of code if the test in the <code>if</code> statement is not true.</p>
+<figure class="listing"><pre class="code"><code>// Listing 4-3
+#define LED    12
+#define BUTTON 7
+void setup()
+{
+  pinMode(LED, OUTPUT);   // output for the LED
+  pinMode(BUTTON, INPUT); // input for the button
+}
+void loop()
+{
+  if ( digitalRead(BUTTON) == HIGH )
+  {
+    digitalWrite(LED, HIGH);
+  }
+  else
+  {
+    digitalWrite(LED, LOW);
+  }
+}</code></pre><figcaption><b>Listing 4-3:</b> Adding <code>else</code></figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/03-digital-inputs/index.html"><span class="dir">← Previous</span><span class="t">Digital Inputs</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/05-boolean-variables/index.html"><span class="dir">Next →</span><span class="t">Boolean Variables</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

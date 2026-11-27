@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Expanding Sketches with Libraries — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · Expanding Sketches with Libraries">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · Expanding Sketches with Libraries</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/03-project-28-creating-a-custom-shield-with-eight-leds/index.html" title="Project #28: Creating a Custom Shield with Eight LEDs">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html">Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html" aria-current=page>Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html">MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html">Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html">Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html">Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html">Interrupts</a><a href="../11-project-32-using-interrupts/index.html">Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/05-microsd-memory-cards/index.html" title="MicroSD Memory Cards">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:48.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>Expanding Sketches with Libraries</h1>
+  <p class="sec-meta">Book pages 169–173</p>
+</div>
+<article class="prose">
+<p>Just as an Arduino shield can expand our hardware, a <em>library</em> can add useful functions for particular tasks that we can add to our sketches or add extra functions that allow the use of various hardware specific to a manufacturer. Anyone can create a library, just as suppliers of various Arduino shields often write their own libraries to match their hardware.</p>
+<p>The Arduino IDE already includes a set of preinstalled libraries. To include them in your sketches, choose <strong>Sketch</strong>4<strong>Import Library</strong>, and you should see the collection of preinstalled libraries with names such as Ethernet, LiquidCrystal, Servo, and so on. Many of these names will be self-explanatory. (If a library is required in your project work, it will be explained in detail.)</p>
+<h2>Importing a Shield’s Libraries</h2>
+<p>If you buy a shield, you’ll generally need to download and install its libraries from the shield vendor’s site or from a link provided.</p>
+<p>To demonstrate how this is done, let’s download the library required by the microSD card shield shown in Figure 8-3.</p>
+<ol><li>Download the latest file from <em>http://code.google.com/p/sdfatlib/downloads/</em> <em>list/. </em>Figure 8-14 shows this web page.</li></ol>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="735" height="397" style="width:357px" loading="lazy" alt="Figure 8-14: Library versions page"></a><figcaption><b>Figure 8-14:</b> Library versions page</figcaption></figure>
+<ol start="2"><li>Click the latest version of the library in the list of filenames at the left, which should launch the download page (Figure 8-15).</li></ol>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="735" height="396" style="width:357px" loading="lazy" alt="Figure 8-15: Library download page"></a><figcaption><b>Figure 8-15:</b> Library download page</figcaption></figure>
+<ol start="3"><li>Click the filename ending with <em>.zip</em>, and the file should start to down-load. Once you’ve downloaded the library, use the directions that follow to install it on your operating system.</li></ol>
+<h3>Installing the Library on Mac OS X</h3>
+<p>If you’re downloading to the Mac OS X system, follow these directions:</p>
+<ol><li>Open the <em>Downloads</em> folder on your Mac and find the downloaded <em>.zip</em> file, as shown in Figure 8-16.</li></ol>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="731" height="193" style="width:355px" loading="lazy" alt="Figure 8-16: Library file in the Downloads folder"></a><figcaption><b>Figure 8-16:</b> Library file in the Downloads folder</figcaption></figure>
+<ol start="2"><li>Double-click the downloaded file’s folder to reveal its contents, and then locate the <em>SdFat</em> folder, as shown in Figure 8-17.</li></ol>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="708" height="344" style="width:344px" loading="lazy" alt="Figure 8-17: Downloaded library folder"></a><figcaption><b>Figure 8-17:</b> Downloaded library folder</figcaption></figure>
+<ol start="3"><li>Copy the <em>SdFat</em> folder from the window shown in Figure 8-17 to your <em>Arduino/libraries</em> folder, as shown in Figure 8-18.</li></ol>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="684" height="298" style="width:332px" loading="lazy" alt="Figure 8-18: Completed library installation"></a><figcaption><b>Figure 8-18:</b> Completed library installation</figcaption></figure>
+<ol start="4"><li>Make sure that the <em>SdFat</em> library has been installed and is available by restarting the IDE software and selecting <strong>Sketch</strong>4<strong>Import Library</strong>. <em>SdFat</em> should show up in the list. (If it does not, try the installation procedure again.)</li></ol>
+<p>With your library installed, skip forward to “MicroSD Memory Cards” on page 173.</p>
+<h3>Installing the Library on Windows XP and Later</h3>
+<p>If you’re downloading to a Windows XP or later system, follow these directions:</p>
+<ol><li>After the download has completed, open the downloaded file folder to reveal its contents, and then locate the <em>SdFat</em> folder, as shown in Figure 8-19.</li></ol>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="722" height="295" style="width:351px" loading="lazy" alt="Figure 8-19: Downloaded library folder"></a><figcaption><b>Figure 8-19:</b> Downloaded library folder</figcaption></figure>
+<ol start="2"><li>Copy the <em>SdFat</em> folder from the window shown in Figure 8-19 to your <em>Arduino/libraries</em> folder, as shown in Figure 8-20.</li></ol>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="483" height="438" style="width:235px" loading="lazy" alt="Figure 8-20: Completed library installation"></a><figcaption><b>Figure 8-20:</b> Completed library installation</figcaption></figure>
+<ol start="3"><li>Make sure that the <em>SdFat</em> library has been installed and is available by restarting the IDE and selecting <strong>Sketch</strong>4<strong>Import Library</strong>. <em>SdFat</em> should appear in the list. (If it does not, try the installation procedure again from the beginning.)</li></ol>
+<p>With your library installed, skip forward to “MicroSD Memory Cards” on page 173.</p>
+<h3>Installing the Library on Ubuntu Linux 11.04 and Later</h3>
+<p>If you’re downloading to a system running Ubuntu Linux 11.04 or later, follow these directions:</p>
+<ol><li>Locate the downloaded file and double-click it. The Archive Manager window should appear with the <em>SdFat</em> folder, as shown in Figure 8-21.</li></ol>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="896" height="432" style="width:435px" loading="lazy" alt="Figure 8-21: Downloaded library folder"></a><figcaption><b>Figure 8-21:</b> Downloaded library folder</figcaption></figure>
+<ol start="2"><li>Right-click the <em>SdFat</em> folder in the window shown in Figure 8-21, and then click <strong>Extract </strong>to extract it to your <em>/libraries</em> folder (Figure 8-22).</li></ol>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="691" height="383" style="width:336px" loading="lazy" alt="Figure 8-22: Destination for library folder"></a><figcaption><b>Figure 8-22:</b> Destination for library folder</figcaption></figure>
+<ol start="3"><li>Make sure that the <em>SdFat</em> library has been installed and is available by restarting the IDE and selecting <strong>Sketch</strong>4<strong>Import Library</strong>. <em>SdFat</em> should appear in the list. (If it does not, try the installation procedure again from the beginning.)</li></ol>
+<p>With your library installed, move on to the next section.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/03-project-28-creating-a-custom-shield-with-eight-leds/index.html"><span class="dir">← Previous</span><span class="t">Project #28: Creating a Custom Shield with Eight LEDs</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/05-microsd-memory-cards/index.html"><span class="dir">Next →</span><span class="t">MicroSD Memory Cards</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

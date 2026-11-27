@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connecting the RTC Module — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 18: Real-time Clocks · Connecting the RTC Module">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 18 · Connecting the RTC Module</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../18-real-time-clocks/00-introduction/index.html" title="Chapter 18: Real-time Clocks">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 18 · Real-time Clocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-connecting-the-rtc-module/index.html" aria-current=page>Connecting the RTC Module</a><a href="../02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html">Project #57: Adding and Displaying Time and Date with an RTC</a><a href="../03-project-58-creating-a-simple-digital-clock/index.html">Project #58: Creating a Simple Digital Clock</a><a href="../04-project-59-creating-an-rfid-time-clock-system/index.html">Project #59: Creating an RFID Time-Clock System</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../18-real-time-clocks/02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html" title="Project #57: Adding and Displaying Time and Date with an RTC">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:90.2%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 18 · Real-time Clocks</a></p>
+  <h1>Connecting the RTC Module</h1>
+  <p class="sec-meta">Book page 322</p>
+</div>
+<article class="prose">
+<p>It’s easy to connect the RTC module to an Arduino, because it uses the I<sup>2</sup>C bus (discussed in Chapter 17). All you need are four wires: GND and VCC go to Arduino GND and 5V, respectively; SDA and SCL go to Arduino A4 and A5, respectively. Due to the module’s design, no extra pull-up resistors are required on the I<sup>2</sup>C bus, unless you have a long cable between the module and your Arduino. If so, solder across the pads on the underside marked “Pullups: SDA and SCL” to enable the built-in I<sup>2</sup>C pull-up resistors.</p>
+<p>For convenience, consider mounting the module on a blank ProtoShield so it can be integrated easily with other hardware for other projects. And make sure you have the backup battery installed, or your time data will be lost when you turn off the project!</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../18-real-time-clocks/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 18: Real-time Clocks</span><span class="ch">Chapter 18 · Real-time Clocks</span></a><a class="nx" data-nav="next" href="../../18-real-time-clocks/02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html"><span class="dir">Next →</span><span class="t">Project #57: Adding and Displaying Time and Date with an RTC</span><span class="ch">Chapter 18 · Real-time Clocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

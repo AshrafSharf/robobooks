@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #55: Using a Port Expander IC — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 17: Data Buses · Project #55: Using a Port Expander IC">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 17 · Project #55: Using a Port Expander IC</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../17-data-buses/02-project-54-using-an-external-eeprom/index.html" title="Project #54: Using an External EEPROM">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 17 · Data Buses</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-i2c-bus/index.html">The I2C Bus</a><a href="../02-project-54-using-an-external-eeprom/index.html">Project #54: Using an External EEPROM</a><a href="../03-project-55-using-a-port-expander-ic/index.html" aria-current=page>Project #55: Using a Port Expander IC</a><a href="../04-the-spi-bus/index.html">The SPI Bus</a><a href="../05-project-56-using-a-digital-rheostat/index.html">Project #56: Using a Digital Rheostat</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../17-data-buses/04-the-spi-bus/index.html" title="The SPI Bus">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:87.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 17 · Data Buses</a></p>
+  <h1>Project #55: Using a Port Expander IC</h1>
+  <p class="sec-meta">Book pages 313–315</p>
+</div>
+<article class="prose">
+<p>A <em>port expander</em> is another useful IC that is controlled via I<sup>2</sup>C. It’s designed to offer more digital outputs. In this project, we’ll use the Microchip Technology MCP23017 16-bit port expander IC (Figure 17-5), which has 16 digital outputs to add to your Arduino. It is available from retailers such as Newark (part number 31K2959) or element14 (part number 1332088).</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="588" height="192" style="width:286px" loading="lazy" alt="Figure 17-5: Microchip Technology’s MCP23017 port expander IC"></a><figcaption><b>Figure 17-5:</b> Microchip Technology’s MCP23017 port expander IC</figcaption></figure>
+<p>In this project, we’ll connect the MCP23017 to an Arduino and demonstrate how to control the 16 port expander outputs with the Arduino. Each of the port expander’s outputs can be treated like a regular Arduino digital output.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>Arduino and USB cable</li><li>One breadboard</li><li>Various connecting wires</li><li>One Microchip Technology MCP20317 port expander IC</li><li>Two 4.7 kΩ resistors</li><li>(Optional) An equal number of 560 Ω resistors and LEDs</li></ul>
+<h2>The Schematic</h2>
+<p>Figure 17-6 shows the basic schematic for an MCP23017. As with the EEPROM from Project 54, we can set the I<sup>2</sup>C bus address by using a specific wiring order. With the MCP23017, we connected pins 15 through 17 to GND to set the address to <code>0x20</code>.</p>
+<p>When you’re working with the MCP23017, it helps to have the pin-out diagram from the IC’s data sheet, as shown in Figure 17-7. Note that the 16 outputs are divided into two banks: GPA7 through GPA0 on the right side and GPB0 through GPB7 on the left. We’ll connect LEDs via 560 Ω resistors from some or all of the outputs to demonstrate when the outputs are being activated.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="944" height="773" style="width:459px" loading="lazy" alt="Figure 17-6: Basic schematic for Project 55"></a><figcaption><b>Figure 17-6:</b> Basic schematic for Project 55</figcaption></figure>
+<figure class="fig side-fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="508" height="407" style="width:247px" loading="lazy" alt="Figure 17-7: Pinout diagram for MCP23017"></a><figcaption><b>Figure 17-7:</b> Pinout diagram for MCP23017</figcaption></figure>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code> // Project 55 - Using a Port Expander IC
+ #include &quot;Wire.h&quot;
+ #define mcp23017 0x20
+ void setup()
+ {
+   Wire.begin(); // activate I2C bus
+<span class="cm">❶</span>   // setup MCP23017
+   // set I/O pins to outputs
+   Wire.beginTransmission(mcp23017);
+   Wire.write(0x00); // IODIRA register
+   Wire.write(0x00); // set all of bank A to outputs
+   Wire.write(0x00); // set all of bank B to outputs
+<span class="cm">❷</span>   Wire.endTransmission();
+ }
+ void loop()
+ {
+     Wire.beginTransmission(mcp23017);
+     Wire.write(0x12);
+<span class="cm">❸</span>     Wire.write(255);    // bank A
+<span class="cm">❹</span>     Wire.write(255);    // bank B
+     Wire.endTransmission();
+     delay(1000);
+     Wire.beginTransmission(mcp23017);
+     Wire.write(0x12);
+     Wire.write(0);    // bank A
+     Wire.write(0);    // bank B
+     Wire.endTransmission();
+     delay(1000);
+ }</code></pre>
+<p>To use the MCP23017, we need the lines listed in <code>void setup()</code> from <span class="co">❶</span> through <span class="co">❷</span>. To turn on and off the outputs on each bank, we send 1 byte representing each bank in order; that is, we send a value for bank GPA0 through GPA7 and then a value for GPB0 through GPB7.</p>
+<p>When setting individual pins, you can think of each bank as a binary number (as explained in “A Quick Course in Binary” on page 116). Thus, to turn on pins 7 through 4, you would send the number 11110000 in binary (240 in decimal), inserted into the <code>Wire.write()</code> function shown at <span class="co">❸</span> for bank GPA0 through GPA7 or <span class="co">❹</span> for bank GPB0 through GPB7.</p>
+<p>Hundreds of devices use the I<sup>2</sup>C bus for communication. Now that you know the basics of how to use these buses, you can use any of them with an Arduino board.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../17-data-buses/02-project-54-using-an-external-eeprom/index.html"><span class="dir">← Previous</span><span class="t">Project #54: Using an External EEPROM</span><span class="ch">Chapter 17 · Data Buses</span></a><a class="nx" data-nav="next" href="../../17-data-buses/04-the-spi-bus/index.html"><span class="dir">Next →</span><span class="t">The SPI Bus</span><span class="ch">Chapter 17 · Data Buses</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

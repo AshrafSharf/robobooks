@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Character LCD Modules — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 7: Liquid Crystal Displays · Character LCD Modules">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 7 · Character LCD Modules</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../07-liquid-crystal-displays/00-introduction/index.html" title="Chapter 7: Liquid Crystal Displays">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 7 · Liquid Crystal Displays</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-character-lcd-modules/index.html" aria-current=page>Character LCD Modules</a><a href="../02-project-25-defining-custom-characters/index.html">Project #25: Defining Custom Characters</a><a href="../03-graphic-lcd-modules/index.html">Graphic LCD Modules</a><a href="../04-project-26-seeing-the-text-functions-in-action/index.html">Project #26: Seeing the Text Functions in Action</a><a href="../05-project-27-creating-a-temperature-history-monitor/index.html">Project #27: Creating a Temperature History Monitor</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../07-liquid-crystal-displays/02-project-25-defining-custom-characters/index.html" title="Project #25: Defining Custom Characters">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:42.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 7 · Liquid Crystal Displays</a></p>
+  <h1>Character LCD Modules</h1>
+  <p class="sec-meta">Book pages 148–151</p>
+</div>
+<article class="prose">
+<p>LCD modules that display characters such as text and numbers are the most inexpensive and simplest to use of all LCDs. They can be purchased in various sizes, which are measured by the number of rows and columns of characters they can display. Some include a backlight and allow you to choose the color of the character and the background color. Any LCD with an HD44780- or KS0066-compatible interface should work with your Arduino. The first LCD we’ll use is a 16-character–by–2-row LCD module with a backlight, as shown in Figure 7-1.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="801" height="608" style="width:389px" loading="lazy" alt="Figure 7-1: Example LCD with trimpot and header pins"></a><figcaption><b>Figure 7-1:</b> Example LCD with trimpot and header pins</figcaption></figure>
+<p>The <em>trimpot</em> (the variable resistor for the LCD) has a value of 10 kΩ and is used to adjust the display contrast. The header pins are soldered into the row of holes along the top of the LCD to make insertion into our breadboard straightforward. The holes along the top of the LCD are numbered 1 through 16. Number 1 is closest to the corner of the module and marked as VSS (connected to GND) in the schematic shown in Figure 7-2. We’ll refer to this schematic for all of the LCD examples in this book.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="1137" height="793" style="width:553px" loading="lazy" alt="Figure 7-2: Basic LCD schematic"></a><figcaption><b>Figure 7-2:</b> Basic LCD schematic</figcaption></figure>
+<h2>Using a Character LCD in a Sketch</h2>
+<p>To use the character LCD shown in Figure 7-1, we will first explain the required functions and how they work through some simple demonstrations. Enter and upload the basic sketch shown in Listing 7-1:</p>
+<figure class="listing"><pre class="code"><code>// Listing 7-1
+#include &lt;LiquidCrystal.h&gt;
+LiquidCrystal lcd(4, 5, 6, 7, 8, 9);  // pins for RS, E, DB4, DB5, DB6, DB7
+void setup()
+{
+   lcd.begin(16, 2);
+   lcd.clear();
+}
+void loop()
+{
+  lcd.setCursor(0, 5);
+  lcd.print(&quot;Hello&quot;);
+  lcd.setCursor(1, 6);
+  lcd.print(&quot;world!&quot;);
+  delay(10000);
+}</code></pre><figcaption><b>Listing 7-1:</b> LCD demonstration sketch</figcaption></figure>
+<p>Figure 7-3 shows the result of Listing 7-1.</p>
+<figure class="fig side-fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="418" height="170" style="width:203px" loading="lazy" alt="Figure 7-3: LCD demonstration: “Hello world!”"></a><figcaption><b>Figure 7-3:</b> LCD demonstration: “Hello world!”</figcaption></figure>
+<p>Now to see how the sketch in Listing 7-1 works. First we need to include two initial lines in the sketch. Their purpose is to include the library for LCD modules (which is automatically installed with the Arduino IDE), and then we need to tell the library which pins are connected to the Arduino. To do this, we add the following lines <em>before </em>the <code>void setup()</code> method:</p>
+<pre class="code"><code>#include &lt;LiquidCrystal.h&gt;
+LiquidCrystal lcd(4, 5, 6, 7, 8, 9);  // pins for RS, E, DB4, DB5, DB6, DB7</code></pre>
+<p>If you need to use different digital pins on the Arduino, adjust the pin numbers in the second line of this code.</p>
+<p>Next, in <code>void setup()</code>, we tell the Arduino the size of the LCD in columns and rows. For example, here’s how we’d tell the Arduino that the LCD has two rows of 16 characters each:</p>
+<pre class="code"><code>  lcd.begin(16, 2);</code></pre>
+<h2>Displaying Text </h2>
+<p>With the LCD setup complete, clear the LCD’s display with the following:</p>
+<pre class="code"><code>  lcd.clear();</code></pre>
+<p>Then, to position the cursor, which is the starting point for the text, use this:</p>
+<pre class="code"><code>  lcd.setCursor(x, y);</code></pre>
+<p>Here, <code>x</code> is the column (0 to 15) and <code>y</code> is the row (0 or 1). So, for example, to display the word <em>text</em>, you would enter the following:</p>
+<pre class="code"><code>  lcd.print(&quot;text&quot;);</code></pre>
+<p>Now that you can position and locate text, let’s move on to displaying variable data.</p>
+<h2>Displaying Variables or Numbers</h2>
+<p>To display the contents of variables on the LCD screen, use this line:</p>
+<pre class="code"><code>  lcd.print(variable);</code></pre>
+<p>If you are displaying a float variable, you can specify the number of decimal places to use. For example, <code>lcd.print(pi, 3)</code> in the following example tells the Arduino to display the value of pi to three decimal places, as shown in Figure 7-4:</p>
+<pre class="code"><code>  float pi = 3.141592654;
+  lcd.print(&quot;pi: &quot;);
+  lcd.print(pi, 3);</code></pre>
+<figure class="fig side-fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="439" height="178" style="width:213px" loading="lazy" alt="Figure 7-4: LCD displaying a floating-point number"></a><figcaption><b>Figure 7-4:</b> LCD displaying a floating-point number</figcaption></figure>
+<p>When you want to display an integer on the LCD screen, you can display it in hexadecimal or binary, as shown in Listing 7-2.</p>
+<figure class="listing"><pre class="code"><code>// Listing 7-2
+  int zz = 170;
+  lcd.setCursor(0, 0);
+  lcd.print(&quot;Binary: &quot;);
+  lcd.print(zz, BIN);    // display 170 in binary
+  lcd.setCursor(0, 1);
+  lcd.print(&quot;Hexadecimal: &quot;);
+  lcd.print(zz, HX);     // display 170 in hexadecimal</code></pre><figcaption><b>Listing 7-2:</b> Functions for displaying binary and hexadecimal numbers</figcaption></figure>
+<p>The LCD will then display the text shown in Figure 7-5.</p>
+<figure class="fig side-fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="440" height="172" style="width:214px" loading="lazy" alt="Figure 7-5: Results of the code in Listing 7-2"></a><figcaption><b>Figure 7-5:</b> Results of the code in Listing 7-2</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../07-liquid-crystal-displays/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 7: Liquid Crystal Displays</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a><a class="nx" data-nav="next" href="../../07-liquid-crystal-displays/02-project-25-defining-custom-characters/index.html"><span class="dir">Next →</span><span class="t">Project #25: Defining Custom Characters</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

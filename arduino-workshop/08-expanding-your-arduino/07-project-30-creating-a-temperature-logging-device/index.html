@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #30: Creating a Temperature-Logging Device — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · Project #30: Creating a Temperature-Logging Device">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · Project #30: Creating a Temperature-Logging Device</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/06-project-29-writing-data-to-the-memory-card/index.html" title="Project #29: Writing Data to the Memory Card">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html">Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html">Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html">MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html" aria-current=page>Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html">Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html">Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html">Interrupts</a><a href="../11-project-32-using-interrupts/index.html">Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/08-timing-applications-with-millis-and-micros/index.html" title="Timing Applications with millis() and micros()">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:50.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>Project #30: Creating a Temperature-Logging Device</h1>
+  <p class="sec-meta">Book pages 177–179</p>
+</div>
+<article class="prose">
+<p>Now that you know how to record data, let’s measure the temperature every minute for 8 hours using our microSD card shield and the TMP36 temperature sensor that we introduced in Chapter 4. We’ll combine the functions for writing to the microSD card from Project 29 with temperature measurement from Project 27.</p>
+<h2>The Hardware</h2>
+<p>The following hardware is required:</p>
+<ul><li>One TMP36 temperature sensor</li><li>One breadboard</li><li>Various connecting wires</li><li>MicroSD card shield and card</li><li>Arduino and USB cable</li></ul>
+<p>Insert the microSD card into the shield, and then insert the shield into the Arduino. Connect the left (5V) pin of the TMP36 to Arduino 5V, the middle pin to analog, and the right pin to GND.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code>// Project 30 - Creating a Temperature-Logging Device
+#include &lt;SD.h&gt;
+float sensor, voltage, celsius;
+void setup()
+{
+  Serial.begin(9600);
+  Serial.print(&quot;Initializing SD card...&quot;);
+  pinMode(10, OUTPUT);
+  // check that the microSD card exists and can be used
+  if (!SD.begin(8))
+  {
+    Serial.println(&quot;Card failed, or not present&quot;);
+    // stop sketch
+    return;
+  }
+  Serial.println(&quot;microSD card is ready&quot;);
+}
+void loop()
+{
+  // create the file for writing
+  File dataFile = SD.open(&quot;DATA.TXT&quot;, FILE_WRITE);
+  // if the file is ready, write to it:
+  if (dataFile)
+  {
+    for ( int a = 0 ; a &lt; 481 ; a++ ) // 480 minutes in 8 hours
+    {
+      sensor = analogRead(0);
+      voltage = (sensor * 5000) / 1024; // convert raw sensor value to
+                                        // millivolts
+      voltage = voltage - 500;
+      celsius = voltage / 10;
+      dataFile.print(&quot; Log: &quot;);
+      dataFile.print(a, DEC);
+      dataFile.print(&quot; Temperature: &quot;);
+      dataFile.print(celsius, 2);
+      dataFile.println(&quot; degrees C&quot;);
+      delay(599900); // wait just under one minute
+    }
+    dataFile.close(); // mandatory
+    Serial.println(&quot;Finished!&quot;);
+    do {} while (1);
+  }
+}</code></pre>
+<p>The sketch will take a little more than 8 hours to complete, but you can alter this time period by lowering the value in <code>delay(599900)</code>.</p>
+<p>After the sketch has finished, remove the microSD card and open the log file in a text editor, as shown in Figure 8-26.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="487" height="358" style="width:237px" loading="lazy" alt="Figure 8-26: Results from Project 30"></a><figcaption><b>Figure 8-26:</b> Results from Project 30</figcaption></figure>
+<p>For more serious analysis of the captured data, delimit the lines of text written to the log file with spaces or colons so that the file can be easily imported into a spreadsheet. For example, you could import the file into OpenOffice Calc by choosing <strong>Insert</strong>4<strong>Sheet From File</strong> to produce a spread-sheet like the one shown in Figure 8-27, which you could then analyze the data of, as shown in Figure 8-28.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="915" height="333" style="width:445px" loading="lazy" alt="Figure 8-27: Importing data into a spreadsheet"></a><figcaption><b>Figure 8-27:</b> Importing data into a spreadsheet</figcaption></figure>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="671" height="487" style="width:326px" loading="lazy" alt="Figure 8-28: Temperature analysis"></a><figcaption><b>Figure 8-28:</b> Temperature analysis</figcaption></figure>
+<p>The temperature examples can be hacked to suit your own data analysis projects. You can use these same concepts to record any form of data that can be generated by an Arduino system.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/06-project-29-writing-data-to-the-memory-card/index.html"><span class="dir">← Previous</span><span class="t">Project #29: Writing Data to the Memory Card</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/08-timing-applications-with-millis-and-micros/index.html"><span class="dir">Next →</span><span class="t">Timing Applications with millis() and micros()</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #35: Creating a Two-Zone On/Off Touch Switch — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 10: Accepting User Input · Project #35: Creating a Two-Zone On/Off Touch Switch">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 10 · Project #35: Creating a Two-Zone On/Off Touch Switch</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../10-accepting-user-input/02-project-34-addressing-areas-on-the-touchscreen/index.html" title="Project #34: Addressing Areas on the Touchscreen">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 10 · Accepting User Input</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-touchscreens/index.html">Touchscreens</a><a href="../02-project-34-addressing-areas-on-the-touchscreen/index.html">Project #34: Addressing Areas on the Touchscreen</a><a href="../03-project-35-creating-a-two-zone-on-off-touch-switch/index.html" aria-current=page>Project #35: Creating a Two-Zone On/Off Touch Switch</a><a href="../04-project-36-creating-a-three-zone-touch-switch/index.html">Project #36: Creating a Three-Zone Touch Switch</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../10-accepting-user-input/04-project-36-creating-a-three-zone-touch-switch/index.html" title="Project #36: Creating a Three-Zone Touch Switch">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:58.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 10 · Accepting User Input</a></p>
+  <h1>Project #35: Creating a Two-Zone On/Off Touch Switch</h1>
+  <p class="sec-meta">Book pages 200–202</p>
+</div>
+<article class="prose">
+<p>In this project, we’ll use our touchscreen map to create an on/off switch. Start by dividing the touchscreen in half vertically, as shown in Figure 10-5: the left side will be “on” and the right side will be “off.”</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="930" height="567" style="width:452px" loading="lazy" alt="Figure 10-5: On/off switch map"></a><figcaption><b>Figure 10-5:</b> On/off switch map</figcaption></figure>
+<aside class="sidebar"><p>Y = 150Y = 150</p></aside>
+<p>The Arduino will determine which zone of the touchscreen is touched by comparing the recorded coordinates of the touches to the boundaries of each half of the screen. After the zone has been determined, a digital output could send the on or off signal, but for this sketch we’ll simply display in the Serial Monitor whether a zone has been turned on or off.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code> // Project 35 - Creating a Two-Zone On/Off Touch Switch
+ int x,y = 0;
+ void setup()
+ {
+   Serial.begin(9600);
+   pinMode(10, OUTPUT);
+ }
+ void switchOn()
+ {
+   digitalWrite(10, HIGH);
+   Serial.print(&quot;Turned ON at X = &quot;);
+   Serial.print(x);
+   Serial.print(&quot; Y = &quot;);
+   Serial.println(y);
+   delay(200);
+ }
+ void switchOff()
+ {
+   digitalWrite(10, LOW);
+   Serial.print(&quot;Turned OFF at X = &quot;);
+   Serial.print(x);
+   Serial.print(&quot; Y = &quot;);
+   Serial.println(y);
+   delay(200);
+ }
+ int readX()                  // returns the value of the touchscreen&#x27;s x-axis
+ {
+   int xr=0;
+   pinMode(A0, INPUT);
+   pinMode(A1, OUTPUT);
+   pinMode(A2, INPUT);
+   pinMode(A3, OUTPUT);
+   digitalWrite(A1, LOW);    // set A1 to GND
+   digitalWrite(A3, HIGH);   // set A3 as 5V
+   delay(5);
+   xr=analogRead(0);
+   return xr;
+ }
+ int readY()                 // returns the value of the touchscreen&#x27;s y-axis
+ {
+   int yr=0;
+   pinMode(A0, OUTPUT);
+   pinMode(A1, INPUT);
+   pinMode(A2, OUTPUT);
+   pinMode(A3, INPUT);
+   digitalWrite(A0, LOW);    // set A0 to GND
+   digitalWrite(A2, HIGH);   // set A2 as 5V
+   delay(5);
+   yr=analogRead(1);
+   return yr;
+ }
+ void loop()
+ {
+   x=readX();
+   y=readY();
+<span class="cm">❶</span> // test for ON
+   if (x&lt;=900 &amp;&amp; x&gt;=500)
+   {
+     switchOn();
+   }
+<span class="cm">❷</span> // test for OFF
+   if (x&lt;500 &amp;&amp; x&gt;=100)
+   {
+     switchOff();
+   }
+ }</code></pre>
+<h2>How It Works</h2>
+<p>The two <code>if</code> functions used in <code>void loop()</code> check for a touch on the left or right side of the screen. If the left side is touched, the touch is detected as an “on” press at <span class="co">❶</span>. If the right side is touched (an “off” press), the touch is detected at <span class="co">❷</span>.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>The y-axis is ignored because the touchscreen is split vertically. If we were to create </em> <em>horizontal boundaries, the y-axis would need to be checked as well—as you’ll see in </em> <em>Project 36.</em></p></aside>
+<h2>Testing the Sketch</h2>
+<p>The resulting output of the sketch that appears in the Serial Monitor is shown in Figure 10-6. The status of the switch and the coordinates are shown after each screen touch.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="535" height="287" style="width:260px" loading="lazy" alt="Figure 10-6: Output from Project 35"></a><figcaption><b>Figure 10-6:</b> Output from Project 35</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../10-accepting-user-input/02-project-34-addressing-areas-on-the-touchscreen/index.html"><span class="dir">← Previous</span><span class="t">Project #34: Addressing Areas on the Touchscreen</span><span class="ch">Chapter 10 · Accepting User Input</span></a><a class="nx" data-nav="next" href="../../10-accepting-user-input/04-project-36-creating-a-three-zone-touch-switch/index.html"><span class="dir">Next →</span><span class="t">Project #36: Creating a Three-Zone Touch Switch</span><span class="ch">Chapter 10 · Accepting User Input</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

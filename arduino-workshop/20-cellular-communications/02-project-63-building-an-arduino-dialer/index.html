@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #63: Building an Arduino Dialer — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 20: Cellular Communications · Project #63: Building an Arduino Dialer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 20 · Project #63: Building an Arduino Dialer</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../20-cellular-communications/01-the-hardware/index.html" title="The Hardware">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 20 · Cellular Communications</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-hardware/index.html">The Hardware</a><a href="../02-project-63-building-an-arduino-dialer/index.html" aria-current=page>Project #63: Building an Arduino Dialer</a><a href="../03-project-64-building-an-arduino-texter/index.html">Project #64: Building an Arduino Texter</a><a href="../04-project-65-setting-up-an-sms-remote-control/index.html">Project #65: Setting Up an SMS Remote Control </a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../20-cellular-communications/03-project-64-building-an-arduino-texter/index.html" title="Project #64: Building an Arduino Texter">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:98.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 20 · Cellular Communications</a></p>
+  <h1>Project #63: Building an Arduino Dialer</h1>
+  <p class="sec-meta">Book pages 356–358</p>
+</div>
+<article class="prose">
+<p>By the end of this project, your Arduino will dial a telephone number when an event occurs, as determined by your Arduino sketch. For example, if the temperature in your storage freezer rises above a certain level or your burglar alarm system activates, you could have the Arduino call you from a preset number for 20 seconds and then hang up. Your phone’s caller ID will identify the phone number as the Arduino.</p>
+<h2>The Hardware</h2>
+<p>This project uses the hardware described at the beginning of the chapter as well as any extra circuitry you choose for your application. For demonstration purposes, we’ll use a button to trigger the call.</p>
+<p>In addition to the hardware already discussed, here’s what you’ll need to create this project:</p>
+<ul><li>One push button</li><li>One 10 kΩ resistor</li><li>One 100 nF capacitor</li><li>Various connecting wires</li><li>One breadboard</li></ul>
+<h2>The Schematic</h2>
+<p>Connect the external circuitry, as shown in Figure 20-9.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="626" height="863" style="width:304px" loading="lazy" alt="Figure 20-9: Schematic for Project 63"></a><figcaption><b>Figure 20-9:</b> Schematic for Project 63</figcaption></figure>
+<h2>The Sketch</h2>
+<p>Enter <em>but don’t upload </em>the following sketch:</p>
+<pre class="code"><code> //  Project 63 - Building an Arduino Dialer
+ #include &lt;SoftwareSerial.h&gt;
+ SoftwareSerial cell(2,3);
+ void setup()
+ {
+   pinMode(7, INPUT);
+   cell.begin(9600);
+<span class="cm">❶</span>   delay(30000); // give the GSM module time to initialize network location
+ }
+<span class="cm">❷</span> void callSomeone()
+ {
+<span class="cm">❸</span>   cell.println(&quot;ATD xxxxxxxxxx &quot;); // dial the phone number xxxxxxxxxx
+   // change xxxxxxxxxx to your desired phone number (with area code)
+   delay(20000); // wait 20 seconds.
+   cell.println(&quot;ATH&quot;); // end call
+   delay(60000); // wait 60 seconds for GSM module
+ }
+ void loop()
+ {
+   if (digitalRead(7) == HIGH)
+   {
+<span class="cm">❹</span>     callSomeone();
+   }
+ }</code></pre>
+<h2>How It Works</h2>
+<p>The module is activated in <code>void setup</code>, and at <span class="co">❶</span> we give it some time to locate and register to the network. For our “event,” the Arduino monitors the button connected to digital pin 7. When this button is pressed, the function <code>callSomeone</code> is run at <span class="co">❷</span>. At <span class="co">❸</span>, the sketch sends the command to dial a telephone number.</p>
+<p>You’ll replace <code>xxxxxxxxxx</code> with the number you want your Arduino to call. Use the same dialing method that you’d use from your mobile phone. For example, if you wanted the Arduino to call 212.555.1212, you’d add this:</p>
+<pre class="code"><code>cell.println(&quot;ATD2125551212&quot;);</code></pre>
+<p>After you have entered the phone number, you can upload the sketch, wait a minute, and then test it by pressing the button. It’s very easy to integrate the dialing function into an existing sketch, because it’s simply called when required at <span class="co">❹</span>. From here, it’s up to you to find a reason for your Arduino to dial a phone number.</p>
+<p>Now let’s drag your Arduino into the 21st century by sending a text message.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../20-cellular-communications/01-the-hardware/index.html"><span class="dir">← Previous</span><span class="t">The Hardware</span><span class="ch">Chapter 20 · Cellular Communications</span></a><a class="nx" data-nav="next" href="../../20-cellular-communications/03-project-64-building-an-arduino-texter/index.html"><span class="dir">Next →</span><span class="t">Project #64: Building an Arduino Texter</span><span class="ch">Chapter 20 · Cellular Communications</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

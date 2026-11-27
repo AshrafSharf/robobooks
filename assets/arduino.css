@@ -1,0 +1,46 @@
+/* ============ Arduino Workshop additions on top of book.css ============ */
+:root{--code-bg:#f3eee6;--code-ink:#2b2620;--cm:#b0472b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--code-bg:#0f1114;--code-ink:#e3ddd3;--cm:#e4795a}}
+:root[data-theme="dark"]{--code-bg:#0f1114;--code-ink:#e3ddd3;--cm:#e4795a}
+
+.prose code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--code-bg);padding:.08em .32em;border-radius:4px}
+.prose pre.code{background:var(--code-bg);color:var(--code-ink);border:1px solid var(--rule);border-radius:10px;
+  padding:.9rem 1rem .9rem 2.2rem;overflow-x:auto;font-size:.84rem;line-height:1.5;margin:1.1rem 0;position:relative}
+.prose pre.code code{background:none;padding:0;font-size:inherit;border-radius:0}
+.prose pre.code .cm{position:absolute;left:.6rem;color:var(--cm);font-family:var(--sans)}
+.prose .co{color:var(--cm);font-family:var(--sans);font-weight:700}
+figure.listing{margin:1.1rem 0}
+figure.listing pre.code{margin:0}
+figure.listing figcaption,.prose p.caption{font-family:var(--sans);font-size:.85rem;color:var(--ink-soft);
+  margin:.4rem 0 1rem;text-align:left}
+.prose h2{margin-top:2.2rem}
+.prose sub,.prose sup{font-size:.7em}
+.prose ul,.prose ol{padding-left:1.5rem}
+.prose li{margin:.3rem 0}
+
+aside.note{display:flex;gap:.9rem;align-items:flex-start;margin:1.3rem 0;padding:.8rem 1rem;border-radius:10px;
+  background:var(--accent-2-soft);border-left:4px solid var(--accent-2)}
+aside.note .lbl{font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.1em;color:var(--accent-2);
+  padding-top:.3rem}
+aside.note p{margin:0;font-style:italic}
+
+aside.sidebar{margin:1.6rem 0;padding:1rem 1.3rem;border-radius:var(--radius);border:1px solid var(--rule);
+  background:var(--paper-2);box-shadow:var(--shadow);font-family:var(--sans);font-size:.95rem}
+aside.sidebar h4.st{margin:.1rem 0 .6rem;font-size:1.02rem;color:var(--accent)}
+aside.sidebar p{margin:.5rem 0}
+
+.prose table.tbl.data{font-family:var(--sans);font-size:.88rem}
+.prose table.tbl.data caption{caption-side:top;text-align:left;font-size:.85rem;color:var(--ink-soft);padding-bottom:.4rem}
+.prose table.tbl.data td{text-align:left}
+figure.fig figcaption b,figure.listing figcaption b,.prose table.tbl caption b{color:var(--ink)}
+figure.fig img{background:#fff;border-radius:6px}
+
+.book-hero{display:flex;gap:2rem;align-items:center;justify-content:center;text-align:left;flex-wrap:wrap}
+.book-hero .cover{width:min(240px,70vw);border-radius:6px;box-shadow:var(--shadow-lg);border:1px solid var(--rule)}
+.book-hero>div{max-width:28rem}
+.book-hero h1{margin:.2rem 0 .2rem}
+.book-hero p{margin:.35rem 0}
+.book-hero .subt{font-size:1.15rem;color:var(--ink-soft)}
+a.start{display:inline-block;margin-top:.5rem;padding:.55rem 1.1rem;border-radius:999px;background:var(--accent);
+  color:#fff;text-decoration:none;font-family:var(--sans);font-weight:600}

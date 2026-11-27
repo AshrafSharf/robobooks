@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 5: Working with Functions · Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 5 · Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../05-working-with-functions/03-creating-a-function-to-return-a-value/index.html" title="Creating a Function to Return a Value">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 5 · Working with Functions</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-9-creating-a-function-to-repeat-an-action/index.html">Project #9: Creating a Function to Repeat an Action</a><a href="../02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html">Project #10: Creating a Function to Set the Number of Blinks</a><a href="../03-creating-a-function-to-return-a-value/index.html">Creating a Function to Return a Value</a><a href="../04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html" aria-current=page>Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</a><a href="../05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html">Displaying Data from the Arduino in the Serial Monitor</a><a href="../06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html">Project #12: Displaying the Temperature in the Serial Monitor</a><a href="../07-making-decisions-with-while-statements/index.html">Making Decisions with while Statements</a><a href="../08-sending-data-from-the-serial-monitor-to-the-arduino/index.html">Sending Data from the Serial Monitor to the Arduino</a><a href="../09-project-13-multiplying-a-number-by-two/index.html">Project #13: Multiplying a Number by Two</a><a href="../10-long-variables/index.html">long Variables</a><a href="../11-project-14-using-long-variables/index.html">Project #14: Using long Variables</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../05-working-with-functions/05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html" title="Displaying Data from the Arduino in the Serial Monitor">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:26.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5 · Working with Functions</a></p>
+  <h1>Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</h1>
+  <p class="sec-meta">Book pages 98–101</p>
+</div>
+<article class="prose">
+<h2>Blinks the Temperature</h2>
+<p>Now that you know how to create custom functions, we’ll make a quick-read thermometer using the TMP36 temperature sensor from Chapter 4 and the Arduino’s built-in LED. If the temperature is below 20 degrees Celsius, the LED will blink twice and then pause; if the temperature falls between 20 and 26 degrees, the LED will blink four times and then pause; and if the temperature is above 26 degrees, the LED will blink six times.</p>
+<p>We’ll make our sketch more modular by breaking it up into distinct functions that will make the sketch easier to follow, and the functions will be reusable. Our thermometer will perform two main tasks: measure and categorize the temperature, and blink the LED a certain number of times (determined by the temperature).</p>
+<h2>The Hardware</h2>
+<p>The required hardware is minimal:</p>
+<ul><li>One TMP36 temperature sensor</li><li>One breadboard</li><li>Various connecting wires</li><li>Arduino and USB cable</li></ul>
+<h2>The Schematic</h2>
+<p>The circuit is very simple, as shown in Figure 5-1.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="896" height="703" style="width:435px" loading="lazy" alt="Figure 5-1: Schematic for Project 11"></a><figcaption><b>Figure 5-1:</b> Schematic for Project 11</figcaption></figure>
+<h2>The Sketch</h2>
+<p>We’ll need to create two functions for the sketch. The first one will read the value from the TMP36, convert it to Celsius, and then return a value of <em>2</em>, <em>4</em>, or <em>6</em>, corresponding to the number of times the LED should blink. We’ll alter the sketch from Project 8 for this purpose.</p>
+<p>For our second function, we’ll use <code>blinkLed()</code> from Project 9. Our <code>void</code> loop will call the functions in order and then pause for 2 seconds before restarting.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Remember to save your modified project sketches with new filenames so that you don’t </em> <em>accidentally delete your existing work!</em></p></aside>
+<p>For the sketch, enter this code into the IDE:</p>
+<pre class="code"><code>// Project 11 - Creating a Quick-Read Thermometer That Blinks the Temperature
+#define LED 13
+int blinks = 0;
+void setup()
+{
+  pinMode(LED, OUTPUT);
+}
+int checkTemp()
+{
+  float voltage  = 0;
+  float celsius  = 0;
+  float hotTemp  = 26;
+  float coldTemp = 20;
+  float sensor   = 0;
+  int result;
+  // read the temperature sensor and convert the result to degrees Celsius
+  sensor = analogRead(0);
+  voltage = (sensor * 5000) / 1024; // convert raw sensor value to millivolts
+  voltage = voltage - 500;          // remove voltage offset
+  celsius = voltage / 10;           // convert millivolts to Celsius
+  // act on temperature range
+  if (celsius &lt; coldTemp)
+  {
+    result = 2;
+  }
+else if (celsius &gt;= coldTemp &amp;&amp; celsius &lt;= hotTemp)
+  {
+    result = 4;
+  }
+  else
+  {
+    result = 6;    // (celsius &gt; hotTemp)
+  }
+  return result;
+}
+void blinkLED(int cycles, int del)
+{
+  for ( int z = 0 ; z &lt; cycles ; z++ )
+  {
+    digitalWrite(LED, HIGH);
+    delay(del);
+    digitalWrite(LED, LOW);
+    delay(del);
+  }
+}
+void loop()
+{
+  blinks = checkTemp();
+  blinkLED(blinks, 500);
+  delay(2000);
+}</code></pre>
+<p>Because we use custom functions, all we have to do in <code>void_loop()</code> is call them and set the delay. The function <code>checkTemp()</code> returns a value to the integer variable <code>blinks</code>, and then <code>blinkLED()</code> will blink the LED <code>blinks</code> times with a delay of 500 milliseconds. The sketch then pauses for 2 seconds before repeating.</p>
+<p>Upload the sketch and watch the LED to see this thermometer in action. (Be sure to keep this circuit assembled, since we’ll use it in the following examples.)</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../05-working-with-functions/03-creating-a-function-to-return-a-value/index.html"><span class="dir">← Previous</span><span class="t">Creating a Function to Return a Value</span><span class="ch">Chapter 5 · Working with Functions</span></a><a class="nx" data-nav="next" href="../../05-working-with-functions/05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html"><span class="dir">Next →</span><span class="t">Displaying Data from the Arduino in the Serial Monitor</span><span class="ch">Chapter 5 · Working with Functions</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

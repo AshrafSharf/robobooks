@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The SPI Bus — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 17: Data Buses · The SPI Bus">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 17 · The SPI Bus</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../17-data-buses/03-project-55-using-a-port-expander-ic/index.html" title="Project #55: Using a Port Expander IC">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 17 · Data Buses</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-i2c-bus/index.html">The I2C Bus</a><a href="../02-project-54-using-an-external-eeprom/index.html">Project #54: Using an External EEPROM</a><a href="../03-project-55-using-a-port-expander-ic/index.html">Project #55: Using a Port Expander IC</a><a href="../04-the-spi-bus/index.html" aria-current=page>The SPI Bus</a><a href="../05-project-56-using-a-digital-rheostat/index.html">Project #56: Using a Digital Rheostat</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../17-data-buses/05-project-56-using-a-digital-rheostat/index.html" title="Project #56: Using a Digital Rheostat">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:87.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 17 · Data Buses</a></p>
+  <h1>The SPI Bus</h1>
+  <p class="sec-meta">Book pages 315–317</p>
+</div>
+<article class="prose">
+<p>The SPI bus differs from the I<sup>2</sup>C bus in that it can be used to send data to and receive data from a device simultaneously and at different speeds, depending on the microcontroller used. Communication, however, is also <em>master-slave</em>: The Arduino acts as the <em>master</em> and determines which device (the <em>slave</em>) it will communicate with at one time.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="311" height="409" style="width:151px" loading="lazy" alt="Figure 17-8: SPI pins on an Arduino Uno"></a><figcaption><b>Figure 17-8:</b> SPI pins on an  Arduino Uno</figcaption></figure>
+<h2>Pin Connections</h2>
+<p>Each SPI device uses four pins to communicate with a master: <em>MOSI</em> (Master-Out, Slave-In), <em>MISO</em> (Master-In, Slave-Out), <em>SCK</em> (clock), and <em>SS</em> or <em>CS</em> (Slave Select or Chip Select). These SPI pins are connected to the Arduino as shown in Figure 17-8.</p>
+<p>A typical single Arduino-to-SPI device ­connection is shown in Figure 17-9. Arduino pins D11 through D13 are reserved for SPI, but the SS pin can use any other digital pin (often D10 is used because it’s next to the SPI pins).</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="817" height="226" style="width:397px" loading="lazy" alt="Figure 17-9: Typical Arduino-to-SPI device connection"></a><figcaption><b>Figure 17-9:</b> Typical Arduino-to-SPI device connection</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>As with I </em><sup><em>2</em></sup><em>C devices, your SPI device must either operate on 5 V or tolerate it since </em> <em>the Arduino runs on 5 V. Be sure to check this out with the seller or manufacturer </em> <em>before use.</em></p></aside>
+<h2>Implementing the SPI</h2>
+<p>Now let’s examine how to implement the SPI bus in a sketch. Before doing this, however, we’ll run through the functions used. First is the <code>SPI</code> library (included with the Arduino IDE software):</p>
+<pre class="code"><code>#include &quot;SPI.h&quot;</code></pre>
+<p>Next, you need to choose a pin to be used for SS and set it as a digital output in <code>void setup</code>. Because we’re using only one SPI device in our example, we’ll use D10 and set it up <code>HIGH</code> first, because most SPI devices have an “active low” SS pin:</p>
+<pre class="code"><code>pinMode(10, OUTPUT);
+digitalWrite(10, HIGH);</code></pre>
+<p>Here is the function to activate the SPI bus:</p>
+<pre class="code"><code>SPI.begin();</code></pre>
+<p>Finally, we need to tell the sketch which way to send and receive data. Some SPI devices require that their data be sent with the Most Significant Bit (MSB) first, and some want the MSB last. (Again, see “A Quick Course in Binary” on page 116 for more on MSB.) Therefore, in <code>void setup</code> we use the following function after <code>SPI.begin</code>:</p>
+<pre class="code"><code>SPI.setBitOrder( order );</code></pre>
+<p>Here, <code>order</code> is either <code>MSBFIRST</code> or <code>MSBLAST</code>.</p>
+<h2>Sending Data to an SPI Device</h2>
+<p>To send data to an SPI device, we first set the SS pin to <code>LOW</code>, which tells the SPI device that the master (the Arduino) wants to communicate with it. Next, we send bytes of data to the device with the following line, as often as necessary—that is, you use this once for each byte you are sending:</p>
+<pre class="code"><code>SPI.transfer(byte);</code></pre>
+<p>After you’ve finished communicating with the device, set the SS pin to <code>HIGH</code> to tell the device that the Arduino has finished communicating with it.</p>
+<p>Each SPI device requires a separate SS pin. For example, if you had two SPI devices, the second SPI device’s SS pin could be D9 and connected to the Arduino as shown in Figure 17-10.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="743" height="416" style="width:361px" loading="lazy" alt="Figure 17-10: Two SPI devices connected to one Arduino"></a><figcaption><b>Figure 17-10:</b> Two SPI devices connected to one Arduino</figcaption></figure>
+<p>When communicating with the second slave device, you would use the D9 (instead of the D10) SS pin before and after communication.</p>
+<p>Project 56 demonstrates using the SPI bus with a digital rheostat.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../17-data-buses/03-project-55-using-a-port-expander-ic/index.html"><span class="dir">← Previous</span><span class="t">Project #55: Using a Port Expander IC</span><span class="ch">Chapter 17 · Data Buses</span></a><a class="nx" data-nav="next" href="../../17-data-buses/05-project-56-using-a-digital-rheostat/index.html"><span class="dir">Next →</span><span class="t">Project #56: Using a Digital Rheostat</span><span class="ch">Chapter 17 · Data Buses</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

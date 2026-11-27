@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Capacitor — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · The Capacitor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · The Capacitor</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/01-using-schematic-diagrams/index.html" title="Using Schematic Diagrams">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html">Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html" aria-current=page>The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html">Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html">Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html">Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html">Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html">The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html">Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/03-digital-inputs/index.html" title="Digital Inputs">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:15.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>The Capacitor</h1>
+  <p class="sec-meta">Book pages 60–62</p>
+</div>
+<article class="prose">
+<p>A <em>capacitor</em> is a device that holds an electric charge. It consists of two metal plates with an insulating layer that allows an electric charge to build up between the plates. Once the current is stopped, the charge remains and can flow out of the capacitor (called <em>discharging</em> the capacitor) as soon as the charge voltage stored in the capacitor is presented with a new path for the current to take.</p>
+<h2>Measuring the Capacity of a Capacitor</h2>
+<p>The amount of charge that a capacitor can store is measured in <em>farads</em>, and one farad is actually a very large amount. Therefore, you will generally find capacitors with values measured in picofarads or microfarads. One <em>picofarad </em>(pF) is 0.000000000001 of a farad, and one <em>microfarad</em> (μF) is 0.000001 of a farad. Capacitors are also manufactured to accept certain voltage maximums. In this book, we’ll be working with low voltages only, so we won’t be using capacitors rated at greater than 10 V or so; it’s generally fine, however, to use higher-voltage specification capacitors in lower-voltage circuits. Common voltage ratings are 10, 16, 25, and 50 V.</p>
+<h2>Reading Capacitor Values</h2>
+<p>Reading the value of a ceramic capacitor takes some practice, because the value is printed in a sort of code. The first two digits represent the value in picofarads, and the third digit is the multiplier in tens. For example, the capacitor shown in Figure 4-12 is labeled <em>104</em>. This equates to 10, followed by four zeros, which equals 100,000 picofarads/pF (100 nanofarads [nF], or 0.1 microfarads [μF]).</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="391" height="305" style="width:190px" loading="lazy" alt="Figure 4-12: A 0.1 µF ceramic capacitor"></a><figcaption><b>Figure 4-12:</b> A 0.1 µF ceramic  capacitor</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>The conversions between units of measure can </em> <em>be a little confusing, but you can print an </em> <em>excellent conversion chart from </em>http://www .justradios.com/uFnFpF.html<em>.</em></p></aside>
+<h2>Types of Capacitors</h2>
+<p>Our projects will use two types of capacitors: ceramic and electrolytic.</p>
+<h3>Ceramic Capacitors</h3>
+<p><em>Ceramic capacitors</em>, such as the one shown in Figure 4-12, are very small and therefore hold a small amount of charge. They are not polarized and can be used for current flowing in either direction. The schematic symbol for a nonpolarized capacitor is shown in Figure 4-13.</p>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="390" height="144" style="width:190px" loading="lazy" alt="Figure 4-13: A nonpolarized capacitor schematic symbol, with the capacitor’s value shown at the upper right"></a><figcaption><b>Figure 4-13:</b> A nonpolarized  capacitor schematic symbol,  with the capacitor’s value  shown at the upper right</figcaption></figure>
+<p>Ceramic capacitors work beautifully in high-frequency circuits because they can charge and discharge very quickly due to their small capacitance.</p>
+<h3>Electrolytic Capacitors</h3>
+<p><em>Electrolytic capacitors</em>, like the one shown in Figure 4-14, are physically larger than ceramic types, offer increased capacitance, and are polarized. A marking on the cover shows either the positive (+) side or negative side (–). In Figure 4-14, you can see the stripe and the small negative (–) symbol that identifies the negative side. Like resistors, capacitors also have a level of tolerance with their values. The capacitor in Figure 4-14 has a tolerance of 20 percent and a capacitance of 100 μF.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="729" height="300" style="width:354px" loading="lazy" alt="Figure 4-14: Electrolytic capacitor"></a><figcaption><b>Figure 4-14:</b> Electrolytic capacitor</figcaption></figure>
+<p>The schematic symbol for electrolytic capacitors, shown in Figure 4-15, includes the + symbol to indicate the capacitor’s polarity.</p>
+<figure class="fig side-fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="147" height="105" style="width:71px" loading="lazy" alt="Figure 4-15: Polarized capacitor schematic symbol"></a><figcaption><b>Figure 4-15:</b> Polarized capacitor   schematic symbol</figcaption></figure>
+<p>Electrolytic capacitors are often used to store larger electric charges and to smooth power supply voltages. Like a small temporary battery, they can provide power-supply smoothing and stability near circuits or parts that draw high currents quickly from the supply. This prevents unwanted dropouts and noise in your circuits. Luckily, the values of the electrolytic capacitor are printed clearly on the outside and don’t require decoding or interpretation.</p>
+<p>Now that you have experience generating basic forms of output using LEDs with your Arduino, it’s time to learn how to send input from the outside world into your Arduino using digital inputs and to make decisions based on that input.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/01-using-schematic-diagrams/index.html"><span class="dir">← Previous</span><span class="t">Using Schematic Diagrams</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/03-digital-inputs/index.html"><span class="dir">Next →</span><span class="t">Digital Inputs</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Higher-Voltage Circuits — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 3: First Steps · Higher-Voltage Circuits">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 3 · Higher-Voltage Circuits</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../03-first-steps/09-more-electric-components/index.html" title="More Electric Components">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 3 · First Steps</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-planning-your-projects/index.html">Planning Your Projects</a><a href="../02-about-electricity/index.html">About Electricity</a><a href="../03-electronic-components/index.html">Electronic Components</a><a href="../04-project-1-creating-a-blinking-led-wave/index.html">Project #1: Creating a Blinking LED Wave</a><a href="../05-using-variables/index.html">Using Variables</a><a href="../06-project-2-repeating-with-for-loops/index.html">Project #2: Repeating with for Loops</a><a href="../07-varying-led-brightness-with-pulse-width-modulation/index.html">Varying LED Brightness with Pulse-Width Modulation</a><a href="../08-project-3-demonstrating-pwm/index.html">Project #3: Demonstrating PWM</a><a href="../09-more-electric-components/index.html">More Electric Components</a><a href="../10-higher-voltage-circuits/index.html" aria-current=page>Higher-Voltage Circuits</a><a href="../11-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../03-first-steps/11-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:13.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 3 · First Steps</a></p>
+  <h1>Higher-Voltage Circuits</h1>
+  <p class="sec-meta">Book pages 52–53</p>
+</div>
+<article class="prose">
+<p>Now that you understand a bit about the transistor, rectifier diode, and relay, let’s use them together to control higher currents and voltages. Connecting the components is very simple, as shown in Figure 3-19.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="977" height="618" style="width:475px" loading="lazy" alt="Figure 3-19: Relay control circuit"></a><figcaption><b>Figure 3-19:</b> Relay control circuit</figcaption></figure>
+<p>This simple example circuit controls a relay that has a 12 V coil. One use for this circuit would be to control a lamp or cooling fan connected to the relay switching contacts. The Arduino’s digital pin 10 is connected to the transistor’s base via a 1 kΩ resistor. The transistor controls the current through the relay’s coil by switching it on and off. Remember that the pins are <em>C</em>, <em>B</em>, and then <em>E</em> when looking at the flat surface of the transistor. The object on the left of the breadboard at <span class="co">❶</span> represents a 12 V power supply for the relay coil. The negative or ground at <span class="co">❷</span> from the 12 V supply, the transistor’s emitter pin, and Arduino GND are all connected together. Finally, a 1N4004 rectifier diode is connected across the relay’s coil at <span class="co">❸</span>, with the cathode on the positive supply side. You can check the relay’s data sheet to determine the pins for the contacts and to connect the controlled item appropriately.</p>
+<p>The diode is in place to protect the circuit. When the relay coil changes from on to off, stray current remains briefly in the coil and becomes a high-voltage spike that has to go somewhere. The diode allows the stray current to loop around through the coil until it is dissipated as a tiny amount of heat. It prevents the turn-off spike from damaging the transistor or Arduino pin.</p>
+<aside class="note"><span class="lbl">WARNING</span><p><em>If you want to control mains-rated electricity (110–250 V) at a high current with a </em> <em>relay, contact a licensed electrician to complete this work for you. Even the slightest </em> <em>mistake can be fatal.</em></p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../03-first-steps/09-more-electric-components/index.html"><span class="dir">← Previous</span><span class="t">More Electric Components</span><span class="ch">Chapter 3 · First Steps</span></a><a class="nx" data-nav="next" href="../../03-first-steps/11-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 3 · First Steps</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

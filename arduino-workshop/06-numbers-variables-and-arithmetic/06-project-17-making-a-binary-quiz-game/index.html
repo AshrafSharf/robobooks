@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #17: Making a Binary Quiz Game — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Project #17: Making a Binary Quiz Game">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Project #17: Making a Binary Quiz Game</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/05-project-16-creating-an-led-binary-number-display/index.html" title="Project #16: Creating an LED Binary Number Display">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html" aria-current=page>Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/07-arrays/index.html" title="Arrays">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:34.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Project #17: Making a Binary Quiz Game</h1>
+  <p class="sec-meta">Book pages 122–124</p>
+</div>
+<article class="prose">
+<p>In this project we’ll use random numbers, the Serial Monitor, and the circuit created in Project 16 to create a binary quiz game. The Arduino will display a random binary number using the LEDs, and then you will enter the decimal version of the binary number using the Serial Monitor. The Serial Monitor will then tell you whether your answer is correct and the game will continue with a new number.</p>
+<h2>The Algorithm</h2>
+<p>The algorithm can be divided into three functions. The <code>displayNumber()</code> function will display a binary number using the LEDs. The <code>getAnswer()</code> function will receive a number from the Serial Monitor and display it to the user. Finally, the <code>checkAnswer()</code> function will compare the user’s number to the random number generated and display the correct/incorrect status and the correct answer if the guess was incorrect.</p>
+<h2>The Sketch</h2>
+<p>The sketch generates a random number between 0 and 255, displays it in binary using the LEDs, asks the user for his or her answer, and then displays the results in the Serial Monitor. You’ve already seen all the functions used in the sketch, so although there’s a lot of code here, it should look familiar. We’ll dissect it with comments within the sketch and some commentary following.</p>
+<pre class="code"><code> // Project 17 - Making a Binary Quiz Game
+ #define DATA   6                 // connect to pin 14 on the 74HC595
+ #define LATCH  8                 // connect to pin 12 on the 74HC595
+ #define CLOCK 10                 // connect to pin 11 on the 74HC595
+ int number = 0;
+ int answer = 0;
+<span class="cm">❶</span> void setup()
+ {
+   pinMode(LATCH, OUTPUT);       // set up the 74HC595 pins
+   pinMode(CLOCK, OUTPUT);
+   pinMode(DATA, OUTPUT);
+   Serial.begin(9600);
+   randomSeed(analogRead(0));    // initialize the random number generator
+   displayNumber(0);             // clear the LEDs
+ }
+<span class="cm">❷</span> void displayNumber(byte a)
+ {
+   // sends byte to be displayed on the LEDs
+   digitalWrite(LATCH, LOW);
+   shiftOut(DATA, CLOCK, MSBFIRST, a);
+   digitalWrite(LATCH, HIGH);
+ }
+<span class="cm">❸</span> void getAnswer()
+ {
+   // receive the answer from the player
+   int z = 0;
+   Serial.flush();
+   while (Serial.available() == 0)
+   {
+      // do nothing until something comes into the serial buffer
+   }
+   // one character of serial data is available, begin calculating
+   while (Serial.available() &gt; 0)
+   {
+     // move any previous digit to the next column on the left; in
+     // other words, 1 becomes 10 while there is data in the buffer
+     answer = answer * 10;
+     // read the next number in the buffer and subtract the character &#x27;0&#x27;
+     // from it to convert it to the actual integer number
+     z = Serial.read() - &#x27;0&#x27;;
+     // add this digit into the accumulating value
+     answer = answer + z;
+     // allow a short delay for any more numbers to come into Serial.available
+     delay(5);
+   }
+   Serial.print(&quot;You entered: &quot;);
+   Serial.println(answer);
+ }
+<span class="cm">❹</span> void checkAnswer()
+ {
+   //check the answer from the player and show the results
+   if (answer == number)    // Correct!
+   {
+     Serial.print(&quot;Correct! &quot;);
+     Serial.print(answer, BIN);
+     Serial.print(&quot; equals &quot;);
+     Serial.println(number);
+     Serial.println();
+   }
+   else                     // Incorrect
+   {
+     Serial.print(&quot;Incorrect, &quot;);
+     Serial.print(number, BIN);
+     Serial.print(&quot; equals &quot;);
+     Serial.println(number);
+     Serial.println();
+   }
+   answer = 0;
+   delay(10000); // give the player time to review his or her answers
+ }
+ void loop()
+ {
+   number = random(256);
+   displayNumber(number);
+   Serial.println(&quot;What is the binary number in base-10? &quot;);
+   getAnswer();
+   checkAnswer();
+ }</code></pre>
+<p>Let’s review how the sketch works. At <span class="co">❶</span>, <code>void setup()</code> configures the digital output pins to use the shift register, starts the Serial Monitor, and seeds the random number generator. At <span class="co">❷</span>, the custom function <code>displayNumber()</code> accepts a byte of data and sends it to the shift register, which uses LEDs to display the byte in binary form via the attached LEDs (as in Project 16). At <span class="co">❸</span>, the custom function <code>getAnswer()</code> accepts a number from the user via the Serial Monitor (as in Project 14) and displays it, as shown in Figure 6-7.</p>
+<p>The function <code>checkAnswer()</code> at <span class="co">❹</span> compares the number entered by the player in <code>getAnswer()</code> against the random number generated by the sketch in <code>void loop()</code>. The player is then advised of a correct or incorrect answer with corresponding binary and decimal values. Finally, in the main <code>void loop()</code> from which the program runs, the Arduino generates the random binary number for the quiz, then calls the matching functions to display it with hardware, and then receives and checks the player’s answer.</p>
+<p>Figure 6-7 shows the game in play in the Serial Monitor.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="656" height="347" style="width:319px" loading="lazy" alt="Figure 6-7: Project 17 in play"></a><figcaption><b>Figure 6-7:</b> Project 17 in play</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/05-project-16-creating-an-led-binary-number-display/index.html"><span class="dir">← Previous</span><span class="t">Project #16: Creating an LED Binary Number Display</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/07-arrays/index.html"><span class="dir">Next →</span><span class="t">Arrays</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

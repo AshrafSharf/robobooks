@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #47: Creating a Wireless Remote Control — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 14: Wireless Data · Project #47: Creating a Wireless Remote Control">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 14 · Project #47: Creating a Wireless Remote Control</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../14-wireless-data/01-using-low-cost-wireless-modules/index.html" title="Using Low-cost Wireless Modules">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 14 · Wireless Data</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-low-cost-wireless-modules/index.html">Using Low-cost Wireless Modules</a><a href="../02-project-47-creating-a-wireless-remote-control/index.html" aria-current=page>Project #47: Creating a Wireless Remote Control</a><a href="../03-using-xbee-wireless-data-modules-for-greater-range-and-faste/index.html">Using XBee Wireless Data Modules for Greater Range and Faster Speed</a><a href="../04-project-48-transmitting-data-with-an-xbee/index.html">Project #48: Transmitting Data with an XBee</a><a href="../05-project-49-building-a-remote-control-thermometer/index.html">Project #49: Building a Remote Control Thermometer</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../14-wireless-data/03-using-xbee-wireless-data-modules-for-greater-range-and-faste/index.html" title="Using XBee Wireless Data Modules for Greater Range and Faster Speed">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:75.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 14 · Wireless Data</a></p>
+  <h1>Project #47: Creating a Wireless Remote Control</h1>
+  <p class="sec-meta">Book pages 272–277</p>
+</div>
+<article class="prose">
+<p>We’ll remotely control two digital outputs: You’ll press buttons connected to one Arduino board to control matching digital output pins on another Arduino located some distance away. This project will show you how to use the RF Link modules and how to determine what sort of distance you can achieve remote control with the modules before you commit to using the modules for more complex tasks. (In open air, the distance you can achieve is generally about 100 meters, but the distance will be less when you are indoors or when the modules are between obstacles.)</p>
+<h2>The Hardware for the Transmitter Circuit</h2>
+<p>The following hardware is required for the transmitter circuit:</p>
+<ul><li>Arduino and USB cable</li><li>One 9 V battery and DC socket cable (as used in Chapter 12)</li><li>One 433 MHz RF Link transmitter module (such as SparkFun part number WRL-10534)</li><li>Two 10 kΩ resistors (R1 and R2)</li><li>Two 100 nF capacitors (C1 and C2)</li><li>Two push buttons</li><li>One breadboard</li></ul>
+<h2>The Transmitter Schematic</h2>
+<p>The transmitter circuit consists of two push buttons with debounce circuitry connected to digital pins 2 and 3, and the transmitter module wired as described earlier, as shown in Figure 14-3.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="1130" height="917" style="width:549px" loading="lazy" alt="Figure 14-3: Transmitter circuit for Project 47"></a><figcaption><b>Figure 14-3:</b> Transmitter circuit for Project 47</figcaption></figure>
+<h2>The Hardware for the Receiver Circuit</h2>
+<p>The following hardware is required for the receiver circuit:</p>
+<ul><li>Arduino and USB cable</li><li>One 9 V battery and DC socket cable (as used in Chapter 12)</li><li>One 433 MHz RF Link receiver module (such as SparkFun part number WRL-10532)</li><li>One breadboard</li><li>Two LEDs of your choice</li><li>Two 560 Ω resistors (R1 and R2)</li></ul>
+<h2>The Receiver Schematic</h2>
+<p>The receiver circuit consists of two LEDs on digital pins 6 and 7, and the data pin from the RF Link receiver module connected to digital pin 8, as shown in Figure 14-4.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="1053" height="921" style="width:512px" loading="lazy" alt="Figure 14-4: Receiver circuit for Project 47"></a><figcaption><b>Figure 14-4:</b> Receiver circuit for Project 47</figcaption></figure>
+<p>You can substitute the breadboard, LEDs, resistors, and receiver module with a Freetronics 433 MHz receiver shield, shown in Figure 14-5.</p>
+<figure class="fig side-fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="353" height="292" style="width:172px" loading="lazy" alt="Figure 14-5: Freetronics 433 MHz receiver shield"></a><figcaption><b>Figure 14-5:</b> Freetronics  433 MHz receiver shield</figcaption></figure>
+<h2>The Transmitter Sketch</h2>
+<p>Now let’s examine the sketch for the transmitter. Enter and upload the following sketch to the Arduino with the transmitter circuit:</p>
+<pre class="code"><code> // Project 47 - Creating a Wireless Remote Control, Transmitter Sketch
+<span class="cm">❶</span> #include &lt;VirtualWire.h&gt;
+ uint8_t buf[VW_MAX_MESSAGE_LEN];
+ uint8_t buflen = VW_MAX_MESSAGE_LEN;
+<span class="cm">❷</span> const char *on2 = &quot;a&quot;;
+ const char *off2 = &quot;b&quot;;
+ const char *on3 = &quot;c&quot;;
+ const char *off3 = &quot;d&quot;;
+ void setup()
+ {
+<span class="cm">❸</span>     vw_set_ptt_inverted(true);      // Required for RF Link modules
+     vw_setup(300);                  // set data speed
+<span class="cm">❹</span>     vw_set_tx_pin(8);
+     pinMode(2, INPUT);
+     pinMode(3, INPUT);
+ }
+ void loop()
+ {
+<span class="cm">❺</span>   if (digitalRead(2)==HIGH)
+   {
+        vw_send((uint8_t *)on2, strlen(on2));  // send the data out to the world
+        vw_wait_tx();                          // wait a moment
+        delay(200);
+   }
+   if (digitalRead(2)==LOW)
+   {
+<span class="cm">❻</span>        vw_send((uint8_t *)off2, strlen(off2));
+        vw_wait_tx();
+        delay(200);
+   }
+   if (digitalRead(3)==HIGH)
+   {
+        vw_send((uint8_t *)on3, strlen(on3));
+        vw_wait_tx();
+        delay(200);
+   }
+   if (digitalRead(3)==LOW)
+   {
+        vw_send((uint8_t *)off3, strlen(off3));
+        vw_wait_tx();
+        delay(200);
+   }
+  }</code></pre>
+<p>To use the RF Link modules, we use the virtual wire functions at <span class="co">❶</span> and <span class="co">❸</span> in the sketch. At <span class="co">❹</span>, we set digital pin 8, which is used to connect the Arduino to the data pin of the transmitter module and to control the speed of the data transmission. (You can use any other digital pins if necessary, except 0 and 1, which would interfere with the serial line.)</p>
+<p>The transmitter sketch reads the status of the two buttons connected to digital pins 2 and 3 and sends a single text character to the RF Link module that matches the state of the buttons. For example, when the button on digital pin 2 is <code>HIGH</code>, the Arduino sends the character <em>a</em>, and when the button is <code>LOW</code>, it sends the character <em>b</em>. The four states are declared starting at <span class="co">❷</span>.</p>
+<p>The transmission of the text character is handled using one of the four sections’ <code>if</code> statements, starting at <span class="co">❺</span>—for example, the contents of the <code>if-then</code> statement at <span class="co">❻</span>. The variable transmitted is used twice—for example, <code>on2</code>, as shown here:</p>
+<pre class="code"><code>vw_send((uint8_t *)on2, strlen(on2));</code></pre>
+<p>The function <code>vw_send</code> sends the contents of the variable <code>on2</code>, but it needs to know the length of the variable in characters, so we use <code>strlen()</code> to accomplish this.</p>
+<h2>The Receiver Sketch</h2>
+<p>Now let’s add the receiver sketch. Enter and upload the following sketch to the receiver circuit’s Arduino:</p>
+<pre class="code"><code> // Project 47 - Creating a Wireless Remote Control, Receiver Sketch
+ #include &lt;VirtualWire.h&gt;
+ uint8_t buf[VW_MAX_MESSAGE_LEN];
+ uint8_t buflen = VW_MAX_MESSAGE_LEN;
+ void setup()
+ {
+<span class="cm">❶</span>   vw_set_ptt_inverted(true);    // Required for RF link modules
+   vw_setup(300);
+<span class="cm">❷</span>   vw_set_rx_pin(8);
+   vw_rx_start();
+   pinMode(6, OUTPUT);
+   pinMode(7, OUTPUT);
+ }
+ void loop()
+ {
+<span class="cm">❸</span>   if (vw_get_message(buf, &amp;buflen))
+   {
+<span class="cm">❹</span>     switch(buf[0])
+     {
+       case &#x27;a&#x27;:
+       digitalWrite(6, HIGH);
+       break;
+       case &#x27;b&#x27;:
+       digitalWrite(6, LOW);
+       break;
+       case &#x27;c&#x27;:
+       digitalWrite(7, HIGH);
+       break;
+       case &#x27;d&#x27;:
+       digitalWrite(7, LOW);
+       break;
+     }
+   }
+ }</code></pre>
+<p>As with the transmitter circuit, we use the virtual wire functions at <span class="co">❶</span> to set up the RF Link receiver module, set the data speed, and set the Arduino digital pin to which the link’s data output pin is connected at <span class="co">❷</span>.</p>
+<p>When the sketch is running, the characters sent from the transmitter circuit are received by the RF Link module and sent to the Arduino. The function <code>vw_get_message()</code> at <span class="co">❸</span> takes the characters received by the Arduino, which are interpreted by the <code>switch-case</code> function at <span class="co">❹</span>. For example, pressing button S1 on the transmitter circuit will send the character <em>a</em>. This character is received by the transmitter, which sets digital pin 6 to <code>HIGH</code>, turning on the LED.</p>
+<p>You can use this simple pair of demonstration circuits to create more complex controls for Arduino systems by sending codes as basic characters to be interpreted by a receiver circuit.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../14-wireless-data/01-using-low-cost-wireless-modules/index.html"><span class="dir">← Previous</span><span class="t">Using Low-cost Wireless Modules</span><span class="ch">Chapter 14 · Wireless Data</span></a><a class="nx" data-nav="next" href="../../14-wireless-data/03-using-xbee-wireless-data-modules-for-greater-range-and-faste/index.html"><span class="dir">Next →</span><span class="t">Using XBee Wireless Data Modules for Greater Range and Faster Speed</span><span class="ch">Chapter 14 · Wireless Data</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

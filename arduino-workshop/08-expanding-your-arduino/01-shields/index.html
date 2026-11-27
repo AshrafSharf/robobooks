@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shields — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · Shields">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · Shields</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/00-introduction/index.html" title="Chapter 8: Expanding Your Arduino">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html" aria-current=page>Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html">Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html">MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html">Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html">Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html">Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html">Interrupts</a><a href="../11-project-32-using-interrupts/index.html">Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/02-protoshields/index.html" title="ProtoShields">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:46.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>Shields</h1>
+  <p class="sec-meta">Book pages 162–164</p>
+</div>
+<article class="prose">
+<p>You can add functionality to your Arduino board by attaching <em>shields</em>. A shield is a circuit board that connects via pins to the sockets on the sides of an Arduino. Hundreds of shields are available on the market. One popular project, for example, combines a GPS shield with a microSD memory card shield to create a device that logs and stores position over time, such as a car’s path of travel or the location of a new hiking trail. Other projects include Ethernet network adapters that let the Arduino access the Internet (Figure 8-1).</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="496" height="440" style="width:241px" loading="lazy" alt="Figure 8-1: Ethernet shield on Arduino Uno"></a><figcaption><b>Figure 8-1:</b> Ethernet shield on Arduino Uno</figcaption></figure>
+<p>GPS satellite receivers let you track the location of the Arduino (Figure 8-2). MicroSD memory card interfaces let the Arduino store data on a memory card (Figure 8-3).</p>
+<p>Arduino shields are designed to be stacked, and they usually work in combination with other shields. For example, Figure 8-4 shows a stack that includes an Arduino Uno, a microSD memory card shield to which data can be recorded, an Ethernet shield for connecting to the Internet, and an LCD shield to display information.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="690" height="412" style="width:335px" loading="lazy" alt="Figure 8-2: GPS receiver shield (with separate GPS module) on Arduino Uno"></a><figcaption><b>Figure 8-2:</b> GPS receiver shield (with separate GPS module) on Arduino Uno</figcaption></figure>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="560" height="441" style="width:272px" loading="lazy" alt="Figure 8-3: MicroSD card shield kit"></a><figcaption><b>Figure 8-3:</b> MicroSD card shield kit</figcaption></figure>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="544" height="518" style="width:264px" loading="lazy" alt="Figure 8-4: Three stacked shields with an Arduino Uno"></a><figcaption><b>Figure 8-4:</b> Three stacked shields with an Arduino Uno</figcaption></figure>
+<aside class="note"><span class="lbl">WARNING</span><p><em>When stacking shields, make sure that no shield uses the same digital or analog pins </em> <em>used by another shield at the same time. If you share pins between shields that use the </em> <em>same pin(s) for different functions, you may damage your entire creation, so take care. </em> <em>The supplier of each shield should provide information showing which pins are used </em> <em>by their shields. You can find a great, community-supported list of shields and shield </em> <em>pins used at </em>http://www.shieldlist.org/<em>.</em></p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 8: Expanding Your Arduino</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/02-protoshields/index.html"><span class="dir">Next →</span><span class="t">ProtoShields</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

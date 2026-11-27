@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Varying LED Brightness with Pulse-Width Modulation — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 3: First Steps · Varying LED Brightness with Pulse-Width Modulation">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 3 · Varying LED Brightness with Pulse-Width Modulation</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../03-first-steps/06-project-2-repeating-with-for-loops/index.html" title="Project #2: Repeating with for Loops">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 3 · First Steps</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-planning-your-projects/index.html">Planning Your Projects</a><a href="../02-about-electricity/index.html">About Electricity</a><a href="../03-electronic-components/index.html">Electronic Components</a><a href="../04-project-1-creating-a-blinking-led-wave/index.html">Project #1: Creating a Blinking LED Wave</a><a href="../05-using-variables/index.html">Using Variables</a><a href="../06-project-2-repeating-with-for-loops/index.html">Project #2: Repeating with for Loops</a><a href="../07-varying-led-brightness-with-pulse-width-modulation/index.html" aria-current=page>Varying LED Brightness with Pulse-Width Modulation</a><a href="../08-project-3-demonstrating-pwm/index.html">Project #3: Demonstrating PWM</a><a href="../09-more-electric-components/index.html">More Electric Components</a><a href="../10-higher-voltage-circuits/index.html">Higher-Voltage Circuits</a><a href="../11-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../03-first-steps/08-project-3-demonstrating-pwm/index.html" title="Project #3: Demonstrating PWM">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:11.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 3 · First Steps</a></p>
+  <h1>Varying LED Brightness with Pulse-Width Modulation</h1>
+  <p class="sec-meta">Book pages 47–48</p>
+</div>
+<article class="prose">
+<p>Rather than just turning LEDs on and off rapidly using <code>digitalWrite()</code>, we can define the level of brightness of an LED by adjusting the amount of time between each LED’s on and off states using <em>pulse-width modulation </em> <em>(PWM)</em>. PWM can be used to create the illusion of an LED being on at different levels of brightness by turning the LED on and off rapidly, at around 500 cycles per second. The brightness we perceive is determined by the amount of time the digital output pin is on versus the amount of time it is off—that is, every time the LED is lit or unlit. Because our eyes can’t see flickers faster than 50 cycles per second, the LED appears to have a constant brightness.</p>
+<p>The greater the <em>duty cycle</em> (the longer the pin is on compared to off in each cycle), the greater the perceived brightness of the LED connected to the digital output pin.</p>
+<p>Figure 3-14 shows various PWM duty cycles. The filled-in gray areas represent the amount of time that the light is on. As you can see, the amount of time per cycle that the light is on increases with the duty cycle.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="936" height="579" style="width:455px" loading="lazy" alt="Figure 3-14: Various PWM duty cycles"></a><figcaption><b>Figure 3-14:</b> Various PWM duty cycles</figcaption></figure>
+<p>Only digital pins 3, 5, 6, 9, 10, and 11 on a regular Arduino board can be used for PWM. They are marked on the Arduino board with a tilde (~), as shown in Figure 3-15.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="920" height="336" style="width:447px" loading="lazy" alt="Figure 3-15: The PWM pins are marked with a tilde (~)."></a><figcaption><b>Figure 3-15:</b> The PWM pins are marked with a tilde (~).</figcaption></figure>
+<p>To create a PWM signal, we use the function <code>analogWrite(x, y)</code>, where <code>x</code> is the digital pin and <code>y</code> is a value for the duty cycle, between 0 and 255, where 0 indicates a 0 percent duty cycle and 255 indicates 100 percent duty cycle.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../03-first-steps/06-project-2-repeating-with-for-loops/index.html"><span class="dir">← Previous</span><span class="t">Project #2: Repeating with for Loops</span><span class="ch">Chapter 3 · First Steps</span></a><a class="nx" data-nav="next" href="../../03-first-steps/08-project-3-demonstrating-pwm/index.html"><span class="dir">Next →</span><span class="t">Project #3: Demonstrating PWM</span><span class="ch">Chapter 3 · First Steps</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

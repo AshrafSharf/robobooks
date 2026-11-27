@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Using Variables — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 3: First Steps · Using Variables">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 3 · Using Variables</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../03-first-steps/04-project-1-creating-a-blinking-led-wave/index.html" title="Project #1: Creating a Blinking LED Wave">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 3 · First Steps</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-planning-your-projects/index.html">Planning Your Projects</a><a href="../02-about-electricity/index.html">About Electricity</a><a href="../03-electronic-components/index.html">Electronic Components</a><a href="../04-project-1-creating-a-blinking-led-wave/index.html">Project #1: Creating a Blinking LED Wave</a><a href="../05-using-variables/index.html" aria-current=page>Using Variables</a><a href="../06-project-2-repeating-with-for-loops/index.html">Project #2: Repeating with for Loops</a><a href="../07-varying-led-brightness-with-pulse-width-modulation/index.html">Varying LED Brightness with Pulse-Width Modulation</a><a href="../08-project-3-demonstrating-pwm/index.html">Project #3: Demonstrating PWM</a><a href="../09-more-electric-components/index.html">More Electric Components</a><a href="../10-higher-voltage-circuits/index.html">Higher-Voltage Circuits</a><a href="../11-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../03-first-steps/06-project-2-repeating-with-for-loops/index.html" title="Project #2: Repeating with for Loops">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:10.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 3 · First Steps</a></p>
+  <h1>Using Variables</h1>
+  <p class="sec-meta">Book pages 45–46</p>
+</div>
+<article class="prose">
+<p>In computer programs, we use <em>variables</em> to store data. For example, in the sketch for Project 1, we used the function <code>delay(500)</code> to keep the LEDs turned on.</p>
+<p>The problem with the sketch as written is that it’s not very flexible. If we want to make a change to the delay time, then we have to change each entry manually. To address this problem, we’ll create a variable to represent the value for the <code>delay()</code> function.</p>
+<p>Enter the following line in the Project 1 sketch above the <code>void setup()</code> function and just after the initial comment:</p>
+<pre class="code"><code>int d = 250;</code></pre>
+<p>This assigns the number <code>250</code> to a variable called <code>d</code>. Next, change every <code>500</code> in the sketch to a <code>d</code>. Now when the sketch runs, the Arduino will use the value in <code>d</code> for the <code>delay()</code> functions. When you upload the sketch after making these changes, the LEDs will turn on and off at a much faster rate, as the delay value is much smaller at the <code>250</code> value.</p>
+<p><code>int</code> indicates that the variable contains an integer—a whole number between −32,768 and 32,767. Simply put, any integer value has no fraction or decimal places. Now, to alter the delay, simply change the variable declaration at the start of the sketch. For example, entering <code>100</code> for the delay would speed things up even more:</p>
+<pre class="code"><code>int d = 100;</code></pre>
+<p>Experiment with the sketch, perhaps altering the delays and the sequence of <code>HIGH</code> and <code>LOW</code>. Have some fun with it. Don’t disassemble the circuit yet, though; we’ll continue to use it with more projects in this chapter.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../03-first-steps/04-project-1-creating-a-blinking-led-wave/index.html"><span class="dir">← Previous</span><span class="t">Project #1: Creating a Blinking LED Wave</span><span class="ch">Chapter 3 · First Steps</span></a><a class="nx" data-nav="next" href="../../03-first-steps/06-project-2-repeating-with-for-loops/index.html"><span class="dir">Next →</span><span class="t">Project #2: Repeating with for Loops</span><span class="ch">Chapter 3 · First Steps</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

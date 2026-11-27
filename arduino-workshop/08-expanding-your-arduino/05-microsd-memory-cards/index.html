@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MicroSD Memory Cards — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · MicroSD Memory Cards">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · MicroSD Memory Cards</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/04-expanding-sketches-with-libraries/index.html" title="Expanding Sketches with Libraries">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html">Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html">Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html" aria-current=page>MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html">Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html">Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html">Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html">Interrupts</a><a href="../11-project-32-using-interrupts/index.html">Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/06-project-29-writing-data-to-the-memory-card/index.html" title="Project #29: Writing Data to the Memory Card">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:49.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>MicroSD Memory Cards</h1>
+  <p class="sec-meta">Book pages 173–175</p>
+</div>
+<article class="prose">
+<p>By using microSD cards with your Arduino, you can capture data from many sources, such as the TMP36 temperature sensor we used in Chapter 4. You can also use the microSD card to store web server data or any files for your project to use. To record and store the data you collect, you can use a microSD memory card shield like the one shown in Figure 8-23. This shield uses microSD (not microSDHC) cards with a capacity of up to 2GB.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="440" height="340" style="width:214px" loading="lazy" alt="Figure 8-23: A microSD card with a 2GB capacity"></a><figcaption><b>Figure 8-23:</b> A microSD card with a 2GB capacity</figcaption></figure>
+<p>Several memory card shields are available from popular retailers such as SparkFun, Adafruit Industries, and Snootlab. The shield used in this book (shown in Figure 8-3) is from SparkFun (part numbers DEV-09802 and PRT-10007).</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Before you can use a memory card with a shield, you need to format it. To do so, </em> <em>plug it into a computer and follow your operating system’s instructions for format-</em> <em>ting memory cards. Make sure you use the FAT16 format type. Also, depending on </em> <em>which shield you buy, the sockets may need to be soldered in, following the procedure </em> <em>discussed in “Soldering the Components” on page 167.</em></p></aside>
+<h2>Testing Your MicroSD Card</h2>
+<p>After you have finished formatting and assembling the microSD card shield, make sure that it’s working correctly. To do so, follow these steps:</p>
+<ol><li>Connect the shield to your Arduino, and then insert the memory card and plug in the USB cable.</li><li>Run the IDE by selecting <strong>File</strong>4<strong>Examples</strong>4<strong>SdFat</strong>4<strong>SdInfo</strong>. Then upload the <em>SdInfo</em> sketch that appeared in the IDE.</li><li>Open the Serial Monitor window, set it to 9,600 baud, press any key on the keyboard, and then press enter. After a moment, you should see some data about the microSD card, as shown in Figure 8-24.</li></ol>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="599" height="615" style="width:291px" loading="lazy" alt="Figure 8-24: Successful microSD card test results"></a><figcaption><b>Figure 8-24:</b> Successful microSD card test results</figcaption></figure>
+<p>If the test results don’t appear in the Serial Monitor, then try the following until the problem is fixed:</p>
+<ul><li>Remove the USB cable from your Arduino, and remove and reinsert the microSD card.</li><li>Make sure that the header sockets are soldered neatly and that the pins are not shorted out.</li><li>Check that the Serial Monitor baud rate is 9,600 and that a regular Arduino Uno–compatible board is being used. The Mega and some other board models have the SPI pins in different locations.</li><li>Reformat your microSD card.</li></ul>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/04-expanding-sketches-with-libraries/index.html"><span class="dir">← Previous</span><span class="t">Expanding Sketches with Libraries</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/06-project-29-writing-data-to-the-memory-card/index.html"><span class="dir">Next →</span><span class="t">Project #29: Writing Data to the Memory Card</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

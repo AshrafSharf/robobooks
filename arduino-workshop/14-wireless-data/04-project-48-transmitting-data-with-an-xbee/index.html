@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #48: Transmitting Data with an XBee — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 14: Wireless Data · Project #48: Transmitting Data with an XBee">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 14 · Project #48: Transmitting Data with an XBee</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../14-wireless-data/03-using-xbee-wireless-data-modules-for-greater-range-and-faste/index.html" title="Using XBee Wireless Data Modules for Greater Range and Faster Speed">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 14 · Wireless Data</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-low-cost-wireless-modules/index.html">Using Low-cost Wireless Modules</a><a href="../02-project-47-creating-a-wireless-remote-control/index.html">Project #47: Creating a Wireless Remote Control</a><a href="../03-using-xbee-wireless-data-modules-for-greater-range-and-faste/index.html">Using XBee Wireless Data Modules for Greater Range and Faster Speed</a><a href="../04-project-48-transmitting-data-with-an-xbee/index.html" aria-current=page>Project #48: Transmitting Data with an XBee</a><a href="../05-project-49-building-a-remote-control-thermometer/index.html">Project #49: Building a Remote Control Thermometer</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../14-wireless-data/05-project-49-building-a-remote-control-thermometer/index.html" title="Project #49: Building a Remote Control Thermometer">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:76.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 14 · Wireless Data</a></p>
+  <h1>Project #48: Transmitting Data with an XBee</h1>
+  <p class="sec-meta">Book pages 279–280</p>
+</div>
+<article class="prose">
+<p>This project will demonstrate simple data transmission by sending data from an Arduino to a computer that has an XBee and Explorer board. The project involves two basics steps: First, we’ll connect an XBee to an XBee shield. Then we’ll connect the shield to the Arduino.</p>
+<p>Notice the tiny switch on the Arduino shield, as shown in Figure 14-9.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="218" height="170" style="width:106px" loading="lazy" alt="Figure 14-9: XBee shield data switch"></a><figcaption><b>Figure 14-9:</b> XBee  shield data switch</figcaption></figure>
+<p>This switch is identical to the switch on the GPS shield used in Chapter 13. This data switch controls whether data from the Arduino USB or the XBee is sent to the microcontroller. When you’re uploading a sketch, set the switch to DLINE; you’ll change it to UART when you’re running a sketch.</p>
+<h2>The Sketch</h2>
+<p>Create and upload the following sketch:</p>
+<pre class="code"><code>// Project 48 - Transmitting Data with an XBee
+void setup()
+{
+  Serial.begin(9600);
+}
+void loop()
+{
+  Serial.println(&quot;Hello, world&quot;);
+  delay(1000);
+}</code></pre>
+<p>Although this code simply sends the text <em>Hello, world</em> to the serial line, it nicely demonstrates the simplicity of using XBee modules to send data: You simply write to the serial line, and the XBee takes care of the rest. Remove the USB cable from the Arduino board, and power the board using an external supply such as the 9 V battery and cable from Chapter 12. (Don’t forget to set the switch back to UART.)</p>
+<h2>Setting Up the Computer to Receive Data</h2>
+<p>Now let’s set up the computer to receive data. Using an Explorer board (Figure 14-8), connect another XBee to your computer. Then download and install the Terminal program, available for Windows from <em>https://sites </em> <em>.google.com/site/terminalbpp/</em>. When you open Terminal, you should see a screen like the one shown in Figure 14-10.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="936" height="723" style="width:455px" loading="lazy" alt="Figure 14-10: Terminal emulator software"></a><figcaption><b>Figure 14-10:</b> Terminal emulator software</figcaption></figure>
+<p>At the top of the screen, set the Baud Rate to <strong>9600</strong>, Data Bits to <strong>8</strong>, Parity to <strong>none</strong>, Stop Bits to <strong>1</strong>, and Handshaking to <strong>none</strong>. Then click the <strong>ReScan</strong> button in the upper-left corner to force the software to select the correct USB port. Finally, click <strong>Connect</strong>, and after a moment you should see data being sent from the Arduino in the Terminal window, as shown in Figure 14-11.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="588" height="209" style="width:286px" loading="lazy" alt="Figure 14-11: Reception of data from the remote XBee"></a><figcaption><b>Figure 14-11:</b> Reception of data from the remote XBee</figcaption></figure>
+<p>You can attach multiple XBee transmitters to one computer, with each sending its own data for monitoring purposes. For example, from the comfort of your desk, you could monitor various sensors, such as temperature sensors, placed throughout an area. You could even control multiple XBee-connected Arduinos using a similar method, as you’ll see in the next project.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../14-wireless-data/03-using-xbee-wireless-data-modules-for-greater-range-and-faste/index.html"><span class="dir">← Previous</span><span class="t">Using XBee Wireless Data Modules for Greater Range and Faster Speed</span><span class="ch">Chapter 14 · Wireless Data</span></a><a class="nx" data-nav="next" href="../../14-wireless-data/05-project-49-building-a-remote-control-thermometer/index.html"><span class="dir">Next →</span><span class="t">Project #49: Building a Remote Control Thermometer</span><span class="ch">Chapter 14 · Wireless Data</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

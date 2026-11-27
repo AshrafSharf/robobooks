@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #44: Creating a Simple GPS Receiver — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 13: Using GPS with Your Arduino · Project #44: Creating a Simple GPS Receiver">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 13 · Project #44: Creating a Simple GPS Receiver</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../13-using-gps-with-your-arduino/02-testing-the-gps-shield/index.html" title="Testing the GPS Shield">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 13 · Using GPS with Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-is-gps/index.html">What Is GPS?</a><a href="../02-testing-the-gps-shield/index.html">Testing the GPS Shield</a><a href="../03-project-44-creating-a-simple-gps-receiver/index.html" aria-current=page>Project #44: Creating a Simple GPS Receiver</a><a href="../04-project-45-creating-an-accurate-gps-based-clock/index.html">Project #45: Creating an Accurate GPS-based Clock</a><a href="../05-project-46-recording-the-position-of-a-moving-object-over-ti/index.html">Project #46: Recording the Position of a Moving Object over Time</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../13-using-gps-with-your-arduino/04-project-45-creating-an-accurate-gps-based-clock/index.html" title="Project #45: Creating an Accurate GPS-based Clock">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:71.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 13 · Using GPS with Your Arduino</a></p>
+  <h1>Project #44: Creating a Simple GPS Receiver</h1>
+  <p class="sec-meta">Book pages 261–263</p>
+</div>
+<article class="prose">
+<p>Now let’s create a simple GPS receiver. But first, because you’ll usually use your GPS outdoors—and to make things a little easier—we’ll add an LCD module to display the data, similar to the one shown in Figure 13-6.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="321" height="223" style="width:156px" loading="lazy" alt="Figure 13-6: The Freetronics LCD &amp; Keypad shield"></a><figcaption><b>Figure 13-6:</b> The Freetronics  LCD &amp; Keypad shield</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Our examples are based on using the Freetronics LCD </em> <em>&amp; Keypad shield. For more information on this shield, </em> <em>see </em>http://www.freetronics.com/collections/display/products/lcd‑keypad‑shield/<em>. If you </em> <em>choose to use a different display module, be sure to </em> <em>substitute the correct values into the </em><code>LiquidCrystal</code> <em>function in your sketches. </em></p></aside>
+<p>To display the current position coordinates received by the GPS on the LCD, we’ll create a very basic portable GPS that could be powered by a 9 V battery and connector.</p>
+<h2>The Hardware</h2>
+<p>The required hardware is minimal:</p>
+<ul><li>Arduino and USB cable</li><li>LCD module or Freetronics LCD shield (mentioned earlier)</li><li>One 9 V battery to DC socket cable</li><li>One SparkFun GPS shield kit</li></ul>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code> // Project 44 - Creating a Simple GPS Receiver
+<span class="cm">❶</span> #include &lt;TinyGPS.h&gt;
+ #include &lt;LiquidCrystal.h&gt;
+ LiquidCrystal lcd( 8, 9, 4, 5, 6, 7 );
+ // Create an instance of the TinyGPS object
+ TinyGPS gps;
+<span class="cm">❷</span> void getgps(TinyGPS &amp;gps);
+ void setup()
+ {
+   Serial.begin(4800);
+   lcd.begin(16, 2);
+ }
+ void getgps(TinyGPS &amp;gps)
+ // The getgps function will display the required data on the LCD
+ {
+   float latitude, longitude;
+   //decode and display position data
+<span class="cm">❸</span>   gps.f_get_position(&amp;latitude, &amp;longitude);
+   lcd.setCursor(0,0);
+   lcd.print(&quot;Lat:&quot;);
+   lcd.print(latitude,5);
+   lcd.print(&quot;  &quot;);
+   lcd.setCursor(0,1);
+   lcd.print(&quot;Long:&quot;);
+   lcd.print(longitude,5);
+   lcd.print(&quot;  &quot;);
+   delay(3000); // wait for 3 seconds
+   lcd.clear();
+ }
+ void loop()
+ {
+   byte a;
+   if ( Serial.available() &gt; 0 )  // if there is data coming into the serial line
+   {
+     a = Serial.read();          // get the byte of data
+     if(gps.encode(a))           // if there is valid GPS data...
+     {
+<span class="cm">❹</span>       getgps(gps);              // grab the data and display it on the LCD
+     }
+   }
+ }</code></pre>
+<p>From <span class="co">❶</span> to <span class="co">❷</span>, the sketch introduces the required libraries for the LCD and GPS. In <code>void loop</code> at <span class="co">❹</span>, we send the characters received from the GPS receiver to the function <code>getgps()</code> at <span class="co">❸</span>, which uses <code>gps.f_get_position()</code> to insert the position values in the byte variables <code>&amp;latitude</code> and <code>&amp;longitude</code> (which we display on the LCD).</p>
+<h2>Displaying the Position on the LCD</h2>
+<p>After the sketch has been uploaded and the GPS starts receiving data, your current position in decimal latitude and longitude should be displayed on your LCD, as shown in Figure 13-7.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="695" height="229" style="width:338px" loading="lazy" alt="Figure 13-7: Latitude and longitude display from Project 44"></a><figcaption><b>Figure 13-7:</b> Latitude and longitude display from Project 44</figcaption></figure>
+<p>But where on Earth is this? We can determine exactly where it is by using Google Maps (<em>http://maps.google.com/</em>). On the website, enter the latitude and longitude, separated by a comma and a space, into the search field, and Google Maps will return the location. For example, using the coordinates returned in Figure 13-7 produces a map like the one shown in Figure 13-8.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="830" height="627" style="width:403px" loading="lazy" alt="Figure 13-8: Location of position displayed in Figure 13-7"></a><figcaption><b>Figure 13-8:</b> Location of position displayed in Figure 13-7</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../13-using-gps-with-your-arduino/02-testing-the-gps-shield/index.html"><span class="dir">← Previous</span><span class="t">Testing the GPS Shield</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a><a class="nx" data-nav="next" href="../../13-using-gps-with-your-arduino/04-project-45-creating-an-accurate-gps-based-clock/index.html"><span class="dir">Next →</span><span class="t">Project #45: Creating an Accurate GPS-based Clock</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

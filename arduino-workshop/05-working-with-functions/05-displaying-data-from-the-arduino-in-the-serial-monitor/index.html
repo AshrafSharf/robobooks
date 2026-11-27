@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Displaying Data from the Arduino in the Serial Monitor — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 5: Working with Functions · Displaying Data from the Arduino in the Serial Monitor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 5 · Displaying Data from the Arduino in the Serial Monitor</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../05-working-with-functions/04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html" title="Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 5 · Working with Functions</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-9-creating-a-function-to-repeat-an-action/index.html">Project #9: Creating a Function to Repeat an Action</a><a href="../02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html">Project #10: Creating a Function to Set the Number of Blinks</a><a href="../03-creating-a-function-to-return-a-value/index.html">Creating a Function to Return a Value</a><a href="../04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</a><a href="../05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html" aria-current=page>Displaying Data from the Arduino in the Serial Monitor</a><a href="../06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html">Project #12: Displaying the Temperature in the Serial Monitor</a><a href="../07-making-decisions-with-while-statements/index.html">Making Decisions with while Statements</a><a href="../08-sending-data-from-the-serial-monitor-to-the-arduino/index.html">Sending Data from the Serial Monitor to the Arduino</a><a href="../09-project-13-multiplying-a-number-by-two/index.html">Project #13: Multiplying a Number by Two</a><a href="../10-long-variables/index.html">long Variables</a><a href="../11-project-14-using-long-variables/index.html">Project #14: Using long Variables</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../05-working-with-functions/06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html" title="Project #12: Displaying the Temperature in the Serial Monitor">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:26.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5 · Working with Functions</a></p>
+  <h1>Displaying Data from the Arduino in the Serial Monitor</h1>
+  <p class="sec-meta">Book pages 101–103</p>
+</div>
+<article class="prose">
+<p>So far, we have sent sketches to the Arduino and used the LEDs to show us output (such as temperature and traffic signals). Blinking LEDs make it easy to get feedback from the Arduino, but blinking lights can tell us only so much. In this section you’ll learn how to use the Arduino’s cable connection and the IDE’s Serial Monitor window to display data from the Arduino and send data to the Arduino from the computer keyboard.</p>
+<h2>The Serial Monitor</h2>
+<p>To open the Serial Monitor, start the IDE and click the Serial Monitor icon button on the tool bar, shown in Figure 5-2. The Serial Monitor should open and look similar to Figure 5-3.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="659" height="342" style="width:320px" loading="lazy" alt="Figure 5-3: Serial Monitor"></a><figcaption><b>Figure 5-3:</b> Serial Monitor</figcaption></figure>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="74" height="62" style="width:36px" loading="lazy" alt="Figure 5-2: Serial Monitor icon button on the IDE tool bar"></a><figcaption><b>Figure 5-2:</b> Serial  Monitor icon button  on the IDE tool bar</figcaption></figure>
+<p>As you can see in Figure 5-3, the Serial Monitor displays an input field at the top, consisting of a single row and a Send button, and an output window below it, where data from the Arduino is displayed. When the Autoscroll box is checked, the most recent output is displayed, and once the screen is full, older data rolls off the screen as newer output is received. If you uncheck Autoscroll, you can manually examine the data using a vertical scroll bar.</p>
+<h3>Starting the Serial Monitor</h3>
+<p>Before we can use the Serial Monitor, we need to activate it by adding this function to our sketch in <code>void setup()</code>:</p>
+<pre class="code"><code>  Serial.begin(9600);</code></pre>
+<p>The value <code>9600</code> is the speed at which the data will travel between the computer and the Arduino, also known as <em>baud</em>. This value must match the speed setting at the bottom right of the Serial Monitor, as shown in Figure 5-3.</p>
+<h3>Sending Text to the Serial Monitor</h3>
+<p>To send text to the Serial Monitor to be displayed in the output window, you can use <code>Serial.print</code>:</p>
+<pre class="code"><code>  Serial.print(&quot;Arduino for Everyone!&quot;);</code></pre>
+<p>This sends the text between the quotation marks to the Serial Monitor’s output window.</p>
+<p>You can also use <code>Serial.println</code> to display text and then force any following text to start on the next line:</p>
+<pre class="code"><code>  Serial.println(&quot;Arduino for Everyone!&quot;);</code></pre>
+<h3>Displaying the Contents of Variables</h3>
+<p>You can also display the contents of variables on the Serial Monitor. For example, this would display the contents of the variable <code>results</code>:</p>
+<pre class="code"><code>  Serial.println(results);</code></pre>
+<p>If the variable is a <code>float</code>, the display will default to two decimal places. You can specify the number of decimal places used as a number between 0 and 6 by entering a second parameter after the variable name. For example, to display the <code>float</code> variable <code>results</code> to four decimal places, you would enter the following:</p>
+<pre class="code"><code>  Serial.print(results,4);</code></pre>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../05-working-with-functions/04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html"><span class="dir">← Previous</span><span class="t">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</span><span class="ch">Chapter 5 · Working with Functions</span></a><a class="nx" data-nav="next" href="../../05-working-with-functions/06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html"><span class="dir">Next →</span><span class="t">Project #12: Displaying the Temperature in the Serial Monitor</span><span class="ch">Chapter 5 · Working with Functions</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

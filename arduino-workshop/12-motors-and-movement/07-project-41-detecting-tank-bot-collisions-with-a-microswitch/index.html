@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #41: Detecting Tank Bot Collisions with a Microswitch — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 12: Motors and Movement · Project #41: Detecting Tank Bot Collisions with a Microswitch">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 12 · Project #41: Detecting Tank Bot Collisions with a Microswitch</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../12-motors-and-movement/06-sensing-collisions/index.html" title="Sensing Collisions">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 12 · Motors and Movement</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-making-small-motions-with-servos/index.html">Making Small Motions with Servos</a><a href="../02-project-38-building-an-analog-thermometer/index.html">Project #38: Building an Analog Thermometer</a><a href="../03-using-electric-motors/index.html">Using Electric Motors</a><a href="../04-project-39-controlling-the-motor/index.html">Project #39: Controlling the Motor</a><a href="../05-project-40-building-and-controlling-a-tank-robot/index.html">Project #40: Building and Controlling a Tank Robot</a><a href="../06-sensing-collisions/index.html">Sensing Collisions</a><a href="../07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html" aria-current=page>Project #41: Detecting Tank Bot Collisions with a Microswitch</a><a href="../08-infrared-distance-sensors/index.html">Infrared Distance Sensors</a><a href="../09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html">Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</a><a href="../10-ultrasonic-distance-sensors/index.html">Ultrasonic Distance Sensors</a><a href="../11-project-43-detecting-tank-bot-collisions-with-an-ultrasonic/index.html">Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../12-motors-and-movement/08-infrared-distance-sensors/index.html" title="Infrared Distance Sensors">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:66.5%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12 · Motors and Movement</a></p>
+  <h1>Project #41: Detecting Tank Bot Collisions with a Microswitch</h1>
+  <p class="sec-meta">Book pages 243–246</p>
+</div>
+<article class="prose">
+<p>A <em>microswitch</em> can act like the simple push button we used in Chapter 4, but the microswitch component is physically larger and includes a large metal bar that serves as the actuator (see Figure 12-21).</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="940" height="442" style="width:457px" loading="lazy" alt="Figure 12-21: Microswitch"></a><figcaption><b>Figure 12-21:</b> Microswitch</figcaption></figure>
+<p>When using the microswitch, you connect one wire to the bottom contact and the other to the contact labeled “NO” (normally open) to ensure that current flows only when the bar is pressed. We’ll mount the microswitch on the front of our tank, and when the tank hits an object, the bar will be pressed, causing current to flow and making the tank reverse direction or take another action.</p>
+<h2>The Schematic</h2>
+<p>The microswitch hardware is wired like a single push button, as shown in Figure 12-22.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="600" height="885" style="width:292px" loading="lazy" alt="Figure 12-22: The microswitch collision detector schematic"></a><figcaption><b>Figure 12-22:</b> The microswitch collision detector schematic</figcaption></figure>
+<h2>The Sketch</h2>
+<p>We connect the microswitch to an interrupts port (digital pin 2). Although you might think we should have a function called by the interrupt to make the tank reverse for a few moments, that’s not possible, because the <code>delay()</code> function doesn’t operate inside functions called by interrupts. We have to think a little differently in this case.</p>
+<p>Instead, the function <code>goForward()</code> will turn on the motors if two conditions are met for the variables <code>crash</code> and the Boolean <code>move</code>. If <code>crash</code> is <code>true</code>, the motors will reverse at a slower speed for 2 seconds to “back out” from a collision situation.</p>
+<p>We can’t use <code>delay()</code> functions because of the interrupt, so we measure the amount of time that the motors run reading <code>millis()</code> at the start and compare that against the current value of <code>millis()</code>. When the difference is greater than or equal to the required duration, <code>move</code> is set to <code>false</code> and the motors stop.</p>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code> // Project 41 – Detecting Tank Bot Collisions with a Microswitch
+ int m1speed=6; // digital pins for speed control
+ int m2speed=5;
+ int m1direction=7; // digital pins for direction control
+ int m2direction=4;
+ boolean crash=false;
+ void setup()
+ {
+   pinMode(m1direction, OUTPUT);
+   pinMode(m2direction, OUTPUT);
+   attachInterrupt(0, backOut, RISING);
+   delay(5000);
+ }
+<span class="cm">❶</span> void backOut()
+ {
+   crash=true;
+ }
+<span class="cm">❷</span> void backUp()
+ {
+    digitalWrite(m1direction,LOW); // reverse
+    digitalWrite(m2direction,LOW); // reverse
+    analogWrite(m1speed, 200); // speed
+    analogWrite(m2speed, 200);
+    delay(2000);
+    analogWrite(m1speed, 0); // speed
+    analogWrite(m2speed, 0);
+ }
+ void goForward(int duration, int pwm)
+ {
+   long a,b;
+   boolean move=true;
+<span class="cm">❸</span>   a=millis();
+   do
+   {
+     if (crash==false)
+     {
+       digitalWrite(m1direction,HIGH); // forward
+       digitalWrite(m2direction,HIGH); // forward
+       analogWrite(m1speed, pwm); // speed
+       analogWrite(m2speed, pwm);
+     }
+     if (crash==true)
+     {
+       backUp();
+       crash=false;
+     }
+<span class="cm">❹</span>     b=millis()-a;
+     if (b&gt;=duration)
+     {
+       move=false;
+     }
+   } while (move!=false);
+   // stop motors
+   analogWrite(m1speed, 0);
+   analogWrite(m2speed, 0);
+ }
+ void loop()
+ {
+   goForward(5000, 255);
+   delay(2000);
+ }</code></pre>
+<p>This sketch uses an advanced method of moving forward, in that two variables are used to monitor movement while the tank bot is in motion. The first is the Boolean variable <code>crash</code>. If the tank bot bumps into something and activates the microswitch, then an interrupt is called, which runs the function <code>backOut()</code> at <span class="co">❶</span>. It is here that the variable <code>crash</code> is changed from <code>false</code> to <code>true</code>. The second variable that is monitored is the Boolean variable <code>move</code>. In the function <code>goForward()</code>, we use <code>millis()</code> at <span class="co">❸</span> to calculate constantly whether the tank bot has finished moving for the required period of time (set by the parameter <code>duration</code>).</p>
+<p>At <span class="co">❹</span>, the function calculates whether the elapsed time is less than the required time, and if so, the variable <code>move</code> is set to <code>true</code>. Therefore, the tank bot is allowed to move forward only if it has not crashed and not run out of time. If a crash has been detected, the function <code>backUp()</code> at <span class="co">❷</span> is called, at which point the tank will reverse slowly for 2 seconds and then resume as normal.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>You can add the other movement functions from Project 40 to expand or modify </em> <em>this example.</em></p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../12-motors-and-movement/06-sensing-collisions/index.html"><span class="dir">← Previous</span><span class="t">Sensing Collisions</span><span class="ch">Chapter 12 · Motors and Movement</span></a><a class="nx" data-nav="next" href="../../12-motors-and-movement/08-infrared-distance-sensors/index.html"><span class="dir">Next →</span><span class="t">Infrared Distance Sensors</span><span class="ch">Chapter 12 · Motors and Movement</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

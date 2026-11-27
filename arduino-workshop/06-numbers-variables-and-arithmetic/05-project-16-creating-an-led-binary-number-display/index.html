@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #16: Creating an LED Binary Number Display — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Project #16: Creating an LED Binary Number Display">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Project #16: Creating an LED Binary Number Display</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/04-increasing-digital-outputs-with-shift-registers/index.html" title="Increasing Digital Outputs with Shift Registers">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html" aria-current=page>Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/06-project-17-making-a-binary-quiz-game/index.html" title="Project #17: Making a Binary Quiz Game">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:34.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Project #16: Creating an LED Binary Number Display</h1>
+  <p class="sec-meta">Book pages 119–121</p>
+</div>
+<article class="prose">
+<p>In this project, we’ll use eight LEDs to display binary numbers from 0 to 255. Our sketch will use a <code>for</code> loop to count from 0 to 255 and will send each value to the shift register, which will use LEDs to display the binary equivalent of each number.</p>
+<h2>The Hardware</h2>
+<p>The following hardware is required:</p>
+<ul><li>One 74HC595 shift register IC</li><li>Eight LEDs (LED1 to LED8)</li><li>Eight 560 Ω resistors (R1 to R8)</li><li>One breadboard</li><li>Various connecting wires</li><li>Arduino and USB cable</li></ul>
+<h2>Connecting the 74HC595</h2>
+<p>Figure 6-5 shows the schematic symbol for the 74HC595.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="346" height="539" style="width:168px" loading="lazy" alt="Figure 6-5: 74HC595 schematic symbol"></a><figcaption><b>Figure 6-5:</b> 74HC595 schematic symbol</figcaption></figure>
+<p>There are 16 pins on our shift register:</p>
+<ul><li>Pins 15 and 1 to 7 are the eight output pins that we control (labeled <em>Q0</em> to <em>Q7</em>, respectively).</li><li>Q7 outputs the first bit sent to the shift register, down to Q0, which outputs the last.</li><li>Pin 8 connects to GND.</li><li>Pin 9 is “data out” and is used to send data to another shift register if one is present.</li><li>Pin 10 is always connected to 5 V (for example, the 5 V connector on the Arduino).</li><li>Pins 11 and 12 are called <em>clock</em> and <em>latch</em>.</li><li>Pin 13 is called <em>output enable</em> and is usually connected to GND.</li><li>Pin 14 is for incoming bit data sent from the Arduino.</li><li>Pin 16 is used for power: 5 V from the Arduino.</li></ul>
+<p>To give you a sense of the way pins are oriented, the semicircular notch on the left end of the body of the shift register IC shown in Figure 6-4 lies between pins 1 and 16.</p>
+<p>The pins are numbered sequentially around the body in a counterclockwise direction, as shown in Figure 6-6, the schematic for our LED binary number display.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="1142" height="661" style="width:555px" loading="lazy" alt="Figure 6-6: Schematic for Project 16"></a><figcaption><b>Figure 6-6:</b> Schematic for Project 16</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Once you have finished with this example circuit, keep it assembled. We’ll use it again </em> <em>with the forthcoming project.</em></p></aside>
+<h2>The Sketch</h2>
+<p>And now for the sketch:</p>
+<pre class="code"><code>// Project 16 – Creating an LED Binary Number Display
+#define DATA  6          // digital 6 to pin 14 on the 74HC595
+#define LATCH 8          // digital 8 to pin 12 on the 74HC595
+#define CLOCK 10         // digital 10 to pin 11 on the 74HC595
+void setup()
+{
+   pinMode(LATCH, OUTPUT);
+   pinMode(CLOCK, OUTPUT);
+   pinMode(DATA, OUTPUT);
+}
+void loop()
+{
+   int i;
+   for ( i = 0; i &lt; 256; i++ )
+   {
+     digitalWrite(LATCH, LOW);
+     shiftOut(DATA, CLOCK, MSBFIRST, a);
+     digitalWrite(LATCH, HIGH);
+     delay(200);
+   }
+}</code></pre>
+<p>In this sketch, we set the three pins connected to the shift register as outputs in <code>void setup()</code> and then add a loop in <code>void loop()</code> that counts from 0 to 255 and repeats. The magic lies inside the loop. When we send a byte of data (for example, 240, or B11110000) to the shift register in the <code>for</code> loop, three things happen:</p>
+<ul><li>The latch pin 12 is set to <code>LOW</code> (that is, a low signal is applied to it from the Arduino digital output pin 8). This is preparation for setting output pin 12 to <code>HIGH</code>, which latches the data to the output pins after <code>shiftOut</code> has completed its task.</li><li>We send the byte of data (for example, B11110000) from Arduino digital pin 6 to the shift register and tell the <code>shiftOut</code> function from which direction to interpret the byte of data. For example, if you selected <code>LSBFIRST</code>, then LEDs 1 to 4 would turn on and the others would turn off. If you used <code>MSBFIRST</code>, then LEDs 5 to 8 would turn on and the others would turn off.</li><li>Finally, the latch pin 12 is set to <code>HIGH</code> (5 V is applied to it). This tells the shift register that all the bits are shifted in and ready. At this point it alters its output to match the data received.</li></ul>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/04-increasing-digital-outputs-with-shift-registers/index.html"><span class="dir">← Previous</span><span class="t">Increasing Digital Outputs with Shift Registers</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/06-project-17-making-a-binary-quiz-game/index.html"><span class="dir">Next →</span><span class="t">Project #17: Making a Binary Quiz Game</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

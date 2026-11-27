@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Using Low-cost Wireless Modules — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 14: Wireless Data · Using Low-cost Wireless Modules">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 14 · Using Low-cost Wireless Modules</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../14-wireless-data/00-introduction/index.html" title="Chapter 14: Wireless Data">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 14 · Wireless Data</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-low-cost-wireless-modules/index.html" aria-current=page>Using Low-cost Wireless Modules</a><a href="../02-project-47-creating-a-wireless-remote-control/index.html">Project #47: Creating a Wireless Remote Control</a><a href="../03-using-xbee-wireless-data-modules-for-greater-range-and-faste/index.html">Using XBee Wireless Data Modules for Greater Range and Faster Speed</a><a href="../04-project-48-transmitting-data-with-an-xbee/index.html">Project #48: Transmitting Data with an XBee</a><a href="../05-project-49-building-a-remote-control-thermometer/index.html">Project #49: Building a Remote Control Thermometer</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../14-wireless-data/02-project-47-creating-a-wireless-remote-control/index.html" title="Project #47: Creating a Wireless Remote Control">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:74.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 14 · Wireless Data</a></p>
+  <h1>Using Low-cost Wireless Modules</h1>
+  <p class="sec-meta">Book pages 271–272</p>
+</div>
+<article class="prose">
+<p>It’s easy to send text information in one direction using a wireless link between two Arduino-controlled systems that have inexpensive radio frequency (RF) data modules, such as the transmitter module shown in Figure 14-1. These modules are usually sold in pairs and are known as <em>RF Link</em> modules or kits. Good examples are part WLS107B4B from Seeed Studio and part WRL-10534 from SparkFun. We’ll use the most common module types that run on the 433 MHz radio frequency in our projects.</p>
+<p>The connections shown at the bottom of the module in Figure 14-1 are, from left to right, 5 V, GND, data in, and an external antenna. The antenna can be a single length of wire, or it can be omitted entirely for short transmission distances. (Each brand of module can vary slightly, so check the connections on your particular device before moving forward.)</p>
+<p>Figure 14-2 shows the receiver module, which is slightly larger than the transmitter module.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="507" height="312" style="width:246px" loading="lazy" alt="Figure 14-2: Receiver RF Link module"></a><figcaption><b>Figure 14-2:</b> Receiver RF Link module</figcaption></figure>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="223" height="256" style="width:108px" loading="lazy" alt="Figure 14-1: Transmitter RF Link module"></a><figcaption><b>Figure 14-1:</b> Transmitter  RF Link module</figcaption></figure>
+<p>The connections on the receiver are straightforward: the V+ and V− pins connect to 5 V and GND, respectively, and DATA connects to the Arduino pin allocated to receive the data.</p>
+<p>Before you can use these modules, you also need to download and install the latest version of the <em>VirtualWire</em> library from <em>http://www.open.com </em> <em>.au/mikem/arduino/</em>. After you’ve installed the library, you’ll be ready to move on to the next section.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>The RF Link modules are inexpensive and easy to use, but they have no error-checking </em> <em>capability to ensure that data being sent is received correctly. Therefore, I recommend </em> <em>that you use them only for simple tasks such as this basic remote control project. If </em> <em>your project calls for more accurate and reliable data transmission, use something </em> <em>like the XBee modules instead, which are discussed later in this chapter.</em></p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../14-wireless-data/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 14: Wireless Data</span><span class="ch">Chapter 14 · Wireless Data</span></a><a class="nx" data-nav="next" href="../../14-wireless-data/02-project-47-creating-a-wireless-remote-control/index.html"><span class="dir">Next →</span><span class="t">Project #47: Creating a Wireless Remote Control</span><span class="ch">Chapter 14 · Wireless Data</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

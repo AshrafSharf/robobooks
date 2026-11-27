@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #2: Repeating with for Loops — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 3: First Steps · Project #2: Repeating with for Loops">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 3 · Project #2: Repeating with for Loops</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../03-first-steps/05-using-variables/index.html" title="Using Variables">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 3 · First Steps</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-planning-your-projects/index.html">Planning Your Projects</a><a href="../02-about-electricity/index.html">About Electricity</a><a href="../03-electronic-components/index.html">Electronic Components</a><a href="../04-project-1-creating-a-blinking-led-wave/index.html">Project #1: Creating a Blinking LED Wave</a><a href="../05-using-variables/index.html">Using Variables</a><a href="../06-project-2-repeating-with-for-loops/index.html" aria-current=page>Project #2: Repeating with for Loops</a><a href="../07-varying-led-brightness-with-pulse-width-modulation/index.html">Varying LED Brightness with Pulse-Width Modulation</a><a href="../08-project-3-demonstrating-pwm/index.html">Project #3: Demonstrating PWM</a><a href="../09-more-electric-components/index.html">More Electric Components</a><a href="../10-higher-voltage-circuits/index.html">Higher-Voltage Circuits</a><a href="../11-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../03-first-steps/07-varying-led-brightness-with-pulse-width-modulation/index.html" title="Varying LED Brightness with Pulse-Width Modulation">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:11.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 3 · First Steps</a></p>
+  <h1>Project #2: Repeating with for Loops</h1>
+  <p class="sec-meta">Book pages 46–47</p>
+</div>
+<article class="prose">
+<p>When designing a sketch, you’ll often repeat the same function. You could simply copy and paste the function to duplicate it in a sketch, but that’s inefficient and a waste of your Arduino’s program memory. Instead, you can use <code>for</code> loops. The benefit of using a <code>for</code> loop is that you can determine how many times the code inside the loop will repeat.</p>
+<p>To see how a <code>for</code> loop works, enter the following code as a new sketch:</p>
+<pre class="code"><code>// Project 2 - Repeating with for Loops
+int d = 100;
+void setup()
+{
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+}
+void loop()
+{
+ for ( int a = 2; a &lt; 7 ; a++ )
+  {
+    digitalWrite(a, HIGH);
+    delay(d);
+    digitalWrite(a, LOW);
+    delay(d);
+  }
+}</code></pre>
+<p>The <code>for</code> loop will repeat the code within the curly brackets beneath it as long as some condition is true. Here, we have used a new integer variable, <code>a</code>, which starts with the value <code>2</code>. Every time the code is executed, the <code>a++</code> will add 1 to the value of <code>a</code>. The loop will continue in this fashion while the value of <code>a</code> is less than 7 (the condition). Once it is equal to or greater than 7, the Arduino moves on and continues with whatever code comes after the <code>for</code> loop.</p>
+<p>The number of loops that a <code>for</code> loop executes can also be set by counting down from a higher number to a lower number. To demonstrate this, add the following loop to the Project 2 sketch after the first <code>for</code> loop:</p>
+<pre class="code"><code><span class="cm">❶</span> for ( int a = 5 ; a &gt; 1 ; a-- )
+   {
+     digitalWrite(a, HIGH);
+     delay(d);
+     digitalWrite(a, LOW);
+     delay(d);
+ }</code></pre>
+<p>Here, the <code>for</code> loop at <span class="co">❶</span> sets the value of <code>a</code> equal to <code>5</code> and then subtracts 1 after every loop due to the <code>a--</code>. The loop continues in this manner while the value for <code>a</code> is greater than 1 (<code>a &gt; 1</code>) and finishes once the value of <code>a</code> falls to 1 or less than 1.</p>
+<p>We have now re-created Project 1 using less code. Upload the sketch and see for yourself!</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../03-first-steps/05-using-variables/index.html"><span class="dir">← Previous</span><span class="t">Using Variables</span><span class="ch">Chapter 3 · First Steps</span></a><a class="nx" data-nav="next" href="../../03-first-steps/07-varying-led-brightness-with-pulse-width-modulation/index.html"><span class="dir">Next →</span><span class="t">Varying LED Brightness with Pulse-Width Modulation</span><span class="ch">Chapter 3 · First Steps</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

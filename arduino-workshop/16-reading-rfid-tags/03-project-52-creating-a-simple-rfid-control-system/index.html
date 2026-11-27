@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #52: Creating a Simple RFID Control System — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 16: Reading RFID Tags · Project #52: Creating a Simple RFID Control System">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 16 · Project #52: Creating a Simple RFID Control System</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../16-reading-rfid-tags/02-testing-the-hardware/index.html" title="Testing the Hardware">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 16 · Reading RFID Tags</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-inside-rfid-devices/index.html">Inside RFID Devices</a><a href="../02-testing-the-hardware/index.html">Testing the Hardware</a><a href="../03-project-52-creating-a-simple-rfid-control-system/index.html" aria-current=page>Project #52: Creating a Simple RFID Control System</a><a href="../04-storing-data-in-the-arduino-s-built-in-eeprom/index.html">Storing Data in the Arduino’s Built-in EEPROM</a><a href="../05-project-53-creating-an-rfid-control-with-last-action-memory/index.html">Project #53: Creating an RFID Control with 
+“Last Action” Memory</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../16-reading-rfid-tags/04-storing-data-in-the-arduino-s-built-in-eeprom/index.html" title="Storing Data in the Arduino’s Built-in EEPROM">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:83.2%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 16 · Reading RFID Tags</a></p>
+  <h1>Project #52: Creating a Simple RFID Control System</h1>
+  <p class="sec-meta">Book pages 299–301</p>
+</div>
+<article class="prose">
+<p>Now let’s put the RFID system to use. In this project you’ll learn how to trigger an Arduino event when the correct RFID tag is read. This sketch stores two RFID tag numbers; when one of the cards is read by the reader, it will display <em>Accepted</em> in the Serial Monitor. If the wrong card is presented, then the Serial Monitor will display <em>Rejected</em>. We’ll use this as a base to add RFID controls to existing projects.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch. However, at <span class="co">❶</span> and <span class="co">❷</span>, replace the <code>x</code>s in each array with the numbers for each of the RFID tags you generated earlier in the chapter. (We discussed arrays in Chapter 6.)</p>
+<pre class="code"><code> // Project 52 – Creating a Simple RFID Control System
+ int data1 = 0;
+ int ok = -1;
+ // use Listing 16-1 to find your tag numbers
+<span class="cm">❶</span> int tag1[14] = { x , x , x , x , x , x , x , x , x , x , x , x , x , x };
+<span class="cm">❷</span> int tag2[14] = { x , x , x , x , x , x , x , x , x , x , x , x , x , x };
+ int newtag[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0}; // used for read comparisons
+ void setup()
+ {
+   Serial.flush(); // need to flush serial buffer,
+                   // otherwise first read may not be correct
+   Serial.begin(9600);
+ }
+<span class="cm">❸</span> boolean comparetag(int aa[14], int bb[14])
+ {
+   boolean ff = false;
+   int fg = 0;
+   for (int cc = 0 ; cc &lt; 14 ; cc++)
+   {
+     if (aa[cc] == bb[cc])
+     {
+       fg++;
+     }
+   }
+   if (fg == 14)
+   {
+     ff = true;
+   }
+   return ff;
+ }
+<span class="cm">❹</span> void checkmytags()  // compares each tag against the tag just read
+ {
+   ok = 0; // this variable helps decision-making,
+           // if it is 1 we have a match, zero is a read but no match,
+           // -1 is no read attempt made
+   if (comparetag(newtag, tag1) == true)
+   {
+<span class="cm">❺</span>     ok++;
+   }
+   if (comparetag(newtag, tag2) == true)
+   {
+<span class="cm">❻</span>     ok++;
+   }
+ }
+ void loop()
+ {
+   ok = -1;
+   if (Serial.available() &gt; 0) // if a read has been attempted
+   {
+     // read the incoming number on serial RX
+     delay(100);  // needed to allow time for the data
+                  // to come in from the serial buffer.
+     for (int z = 0 ; z &lt; 14 ; z++) // read the rest of the tag
+<span class="cm">❼</span>     {
+       data1 = Serial.read();
+       newtag[z] = data1;
+     }
+     Serial.flush(); // stops multiple reads
+     // now to match tags up
+<span class="cm">❽</span>     checkmytags();
+   }
+<span class="cm">❾</span>   //now do something based on tag type
+   if (ok &gt; 0) // if we had a match
+   {
+     Serial.println(&quot;Accepted&quot;);
+     ok = -1;
+   }
+   else if (ok == 0) // if we didn&#x27;t have a match
+   {
+     Serial.println(&quot;Rejected&quot;);
+     ok = -1;
+   }
+ }</code></pre>
+<h2>How It Works</h2>
+<p>When a tag is presented to the RFID reader, it sends the tag numbers through the serial port. We capture all 14 of these numbers and place them in the array <code>newtag[]</code> at <span class="co">❼</span>. Next, the tag is compared against the two stored tag numbers at <span class="co">❶</span> and <span class="co">❷</span> using the function <code>checkmytags()</code> at <span class="co">❹</span> and <span class="co">❽</span>, with the actual comparisons of the tag arrays passed to the function <code>comparetag()</code> at <span class="co">❸</span>.</p>
+<p>The <code>comparetag()</code> function accepts the two number arrays as parameters and returns (in Boolean) whether the arrays are identical (<code>true</code>) or different (<code>false</code>). If a match is made, the variable <code>OK</code> is set to 1 at <span class="co">❺</span> and <span class="co">❻</span>. Finally, at <span class="co">❾</span>, we have the actions to take once the tag read succeeds.</p>
+<p>After uploading the sketch and reconnecting the wire from Arduino D0 to the RFID reader RX (see Figure 16-3), open the Serial Monitor window and present some tags to the reader. The results should be similar to Figure 16-5.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="539" height="338" style="width:262px" loading="lazy" alt="Figure 16-5: Results of Project 52"></a><figcaption><b>Figure 16-5:</b> Results of Project 52</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../16-reading-rfid-tags/02-testing-the-hardware/index.html"><span class="dir">← Previous</span><span class="t">Testing the Hardware</span><span class="ch">Chapter 16 · Reading RFID Tags</span></a><a class="nx" data-nav="next" href="../../16-reading-rfid-tags/04-storing-data-in-the-arduino-s-built-in-eeprom/index.html"><span class="dir">Next →</span><span class="t">Storing Data in the Arduino’s Built-in EEPROM</span><span class="ch">Chapter 16 · Reading RFID Tags</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

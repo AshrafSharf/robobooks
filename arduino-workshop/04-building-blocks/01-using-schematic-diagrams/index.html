@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Using Schematic Diagrams — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · Using Schematic Diagrams">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · Using Schematic Diagrams</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/00-introduction/index.html" title="Chapter 4: Building Blocks">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html" aria-current=page>Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html">The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html">Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html">Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html">Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html">Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html">The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html">Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/02-the-capacitor/index.html" title="The Capacitor">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:15.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>Using Schematic Diagrams</h1>
+  <p class="sec-meta">Book pages 56–60</p>
+</div>
+<article class="prose">
+<p>Chapter 3 described how to build a circuit using physical layout diagrams to represent the breadboard and components mounted on it. Although such physical layout diagrams may seem like the easiest way to diagram a circuit, you’ll find that as more components are added, direct representations can make physical diagrams a real mess. Because our circuits are about to get more complicated, we’ll start using <em>schematic diagrams</em> (also known as <em>circuit </em> <em>diagrams</em>) to illustrate them, such as the one shown in Figure 4-1.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="527" height="310" style="width:256px" loading="lazy" alt="Figure 4-1: Example of a schematic diagram"></a><figcaption><b>Figure 4-1:</b> Example of a schematic diagram</figcaption></figure>
+<p>Schematics are simply circuit “road maps” that show the path of electrical current flowing through various components. Instead of showing components and wires, a schematic uses symbols and lines.</p>
+<h2>Identifying Components</h2>
+<p>Once you know what the symbols mean, reading a schematic is easy. To begin, let’s examine the symbols for the components we’ve already used.</p>
+<h3>The Arduino</h3>
+<p>Figure 4-2 shows a symbol for the Arduino itself. As you can see, all of the Arduino’s connections are displayed and neatly labeled.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="805" height="466" style="width:391px" loading="lazy" alt="Figure 4-2: Arduino Uno symbol"></a><figcaption><b>Figure 4-2:</b> Arduino Uno symbol</figcaption></figure>
+<h3>The Resistor</h3>
+<p>The resistor symbol is shown in Figure 4-3.R1</p>
+<figure class="fig side-fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="213" height="118" style="width:104px" loading="lazy" alt="Figure 4-3: Resistor symbol"></a><figcaption><b>Figure 4-3:</b> Resistor  symbol</figcaption></figure>
+<p>It’s good practice to display the resistor value and part designator along with the resistor symbol (220 Ω and R1 in this case). This makes life a lot easier for everyone trying to make sense of the schematic (including you). Often you may see ohms written as <em>R</em> instead—for example, 220 R.</p>
+<figure class="fig side-fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="261" height="275" style="width:127px" loading="lazy" alt="Figure 4-4: Rectifier diode symbol"></a><figcaption><b>Figure 4-4:</b> Rectifier  diode symbol</figcaption></figure>
+<h3>The Rectifier Diode</h3>
+<p>The rectifier diode is shown in Figure 4-4.</p>
+<p>Recall from Chapter 3 that rectifier diodes are polarized, and current flows from the anode to the cathode. On the symbol shown in Figure 4-4, the anode is on the left and the cathode is on the right. An easy way to remember this is to think of current flowing toward the point of the triangle only. Current cannot flow the other way, because the vertical bar “stops” it.</p>
+<h3>The LEDLED1</h3>
+<figure class="fig side-fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="261" height="299" style="width:127px" loading="lazy" alt="Figure 4-5: LED symbol"></a><figcaption><b>Figure 4-5:</b> LED symbol</figcaption></figure>
+<p>The LED symbol is shown in Figure 4-5.</p>
+<p>All members of the diode family share a common symbol: the triangle and vertical line. However, LED symbols show two parallel arrows pointing away from the triangle to indicate that light is being emitted.</p>
+<h3>The Transistor</h3>
+<figure class="fig side-fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="304" height="239" style="width:148px" loading="lazy" alt="Figure 4-6: Transistor symbol"></a><figcaption><b>Figure 4-6:</b> Transistor  symbol</figcaption></figure>
+<p>The transistor symbol is shown in Figure 4-6. We’ll use this to represent our BC548.</p>
+<p>The vertical line at the top of the symbol (labeled <em>C</em>) represents the collector, the horizontal line at the left represents the base (labeled <em>B</em>), and the bottom line represents the emitter (labeled <em>E</em>). The arrow inside the symbol, pointing down and to the right, tells us that this is an <em>NPN</em>-type transistor, because NPN transistors allow current to flow from the collector to the emitter. (<em>PNP</em>-type transistors allow current to flow from the emitter to collector.)</p>
+<p>When numbering transistors, we use the letter <em>Q</em>, just as we use <em>R</em> to number resistors.</p>
+<h3>The Relay</h3>
+<p>The relay symbol is shown in Figure 4-7.NO NC</p>
+<figure class="fig side-fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="372" height="314" style="width:181px" loading="lazy" alt="Figure 4-7: Relay symbol"></a><figcaption><b>Figure 4-7:</b> Relay symbol</figcaption></figure>
+<p>Relay symbols can vary in many ways and may have more than one set of contacts, but all relay symbols share certain elements in common. The first is the <em>coil</em>, which is the curvy vertical line at the left. The second element is the relay <em>contacts</em>. The <em>COM</em> (for common) contact is often used as an input, and the contacts marked <em>NO</em> (normally open) and <em>NC</em> (normally closed) are often used as outputs.</p>
+<p>The relay symbol is always shown with the relay in the off state and the coil not <em>energized</em>—that is, with the COM and NC pins connected. When the relay coil is energized, the COM and NO pins will be connected in the symbol.</p>
+<h2>Wires in Schematics</h2>
+<p>When wires cross or connect in schematics, they are drawn in particular ways, as shown in the following examples.</p>
+<h3>Crossing but Not Connected Wires</h3>
+<p>When two wires cross but are not connected, the crossing can be represented in one of two ways, as shown in Figure 4-8. There is no one right way; it’s a matter of preference.</p>
+<figure class="fig side-fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="454" height="223" style="width:221px" loading="lazy" alt="Figure 4-8: Nonconnecting crossed wires"></a><figcaption><b>Figure 4-8:</b> Nonconnecting crossed wires</figcaption></figure>
+<h3>Connected Wires</h3>
+<figure class="fig side-fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="173" height="124" style="width:84px" loading="lazy" alt="Figure 4-9: Two wires that are connected"></a><figcaption><b>Figure 4-9:</b>  Two wires that  are connected</figcaption></figure>
+<p>When wires are meant to be physically connected, a <em>junction dot</em> is drawn at the point of connection, as shown in Figure 4-9.</p>
+<h3>Wire Connected to Ground</h3>
+<p>When a wire is connected back to ground (GND), the standard method is to use the symbol shown in Figure 4-10.</p>
+<figure class="fig side-fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="73" height="90" style="width:35px" loading="lazy" alt="Figure 4-10: The GND symbol"></a><figcaption><b>Figure 4-10:</b>  The GND  symbol</figcaption></figure>
+<p>The GND symbol at the end of a line in a schematic tells you that the wire is physically connected to the Arduino GND pin.</p>
+<h2>Dissecting a Schematic</h2>
+<p>Now that you know the symbols for various components and their connections, let’s dissect the schematic we would draw for Project 1. Recall that you made five LEDs blink backward and forward.</p>
+<p>Compare the schematic shown in Figure 4-11 with Figure 3-13 on page 45, and you’ll probably agree that using a schematic is a much easier way to describe a circuit.</p>
+<p>From now on, we’ll use schematics to describe circuits, and we’ll show the symbols for new components as they’re introduced.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>If you’d like to create your own computer-drawn schematics, try the Fritzing applica-</em> <em>tion, available for free from </em>http://www.fritzing.org/<em>. </em></p></aside>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="1146" height="916" style="width:557px" loading="lazy" alt="Figure 4-11: Schematic for Project 1"></a><figcaption><b>Figure 4-11:</b> Schematic for Project 1</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 4: Building Blocks</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/02-the-capacitor/index.html"><span class="dir">Next →</span><span class="t">The Capacitor</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

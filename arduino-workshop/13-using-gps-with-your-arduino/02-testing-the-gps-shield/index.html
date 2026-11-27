@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Testing the GPS Shield — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 13: Using GPS with Your Arduino · Testing the GPS Shield">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 13 · Testing the GPS Shield</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../13-using-gps-with-your-arduino/01-what-is-gps/index.html" title="What Is GPS?">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 13 · Using GPS with Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-is-gps/index.html">What Is GPS?</a><a href="../02-testing-the-gps-shield/index.html" aria-current=page>Testing the GPS Shield</a><a href="../03-project-44-creating-a-simple-gps-receiver/index.html">Project #44: Creating a Simple GPS Receiver</a><a href="../04-project-45-creating-an-accurate-gps-based-clock/index.html">Project #45: Creating an Accurate GPS-based Clock</a><a href="../05-project-46-recording-the-position-of-a-moving-object-over-ti/index.html">Project #46: Recording the Position of a Moving Object over Time</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../13-using-gps-with-your-arduino/03-project-44-creating-a-simple-gps-receiver/index.html" title="Project #44: Creating a Simple GPS Receiver">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:71.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 13 · Using GPS with Your Arduino</a></p>
+  <h1>Testing the GPS Shield</h1>
+  <p class="sec-meta">Book pages 259–261</p>
+</div>
+<article class="prose">
+<p>After you buy the GPS kit, it’s a good idea to make sure that it’s working and that you can receive GPS signals. GPS receivers require a line of sight to the sky, but their signals can pass through windows. It’s usually best to perform this test outdoors, but it might work just fine through an unobstructed window or skylight. To test reception, you’ll set up the shield and run a basic sketch that displays the raw received data.</p>
+<p>To perform the test, first connect your GPS receiver via the cable to the shield, and then attach this assembly to your Arduino. Notice the small switch on the GPS shield, which is shown in Figure 13-4.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="287" height="175" style="width:139px" loading="lazy" alt="Figure 13-4: GPS shield data switch"></a><figcaption><b>Figure 13-4:</b> GPS shield data switch</figcaption></figure>
+<p>When it’s time to upload and run sketches on your GPS shield, move the switch to the DLINE position, and then change it to UART and be sure to turn on the power switch for the receiver.</p>
+<p>Enter and upload the sketch in Listing 13-1.</p>
+<figure class="listing"><pre class="code"><code> // Listing 13-1
+ void setup()
+ {
+<span class="cm">❶</span>   Serial.begin(4800);
+ }
+ void loop()
+ {
+   byte a
+<span class="cm">❷</span>   if ( Serial.available() &gt; 0 )
+   {
+     a = Serial.read();          // get the byte of data from the GPS
+<span class="cm">❸</span>     Serial.write(a);
+   }
+ }</code></pre><figcaption><b>Listing 13-1:</b> Basic test sketch</figcaption></figure>
+<p>This sketch listens to the serial port at <span class="co">❷</span>, and when a byte of data is received from the GPS module, it is sent to the Serial Monitor at <span class="co">❸</span>. (Notice that we start the Serial at 4,800 bps at <span class="co">❶</span> to match the data speed of the GPS receiver.)</p>
+<p>Once you’ve uploaded the sketch, move the data switch back to UART. Now check the LED on the GPS receiver that tells us its status. If the LED is lit, the GPS is trying to lock onto the satellite signals. After about 30 seconds the LED should start blinking, which indicates that it is receiving data from the satellite. After the LED starts blinking, open the Serial Monitor window in the IDE and set the data speed to 4,800 baud. You should see a constant stream of data similar to the output shown in Figure 13-5.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="816" height="415" style="width:397px" loading="lazy" alt="Figure 13-5: Raw data from GPS satellites"></a><figcaption><b>Figure 13-5:</b> Raw data from GPS satellites</figcaption></figure>
+<p>The data is sent from the GPS receiver to the Arduino one character at a time, and then it is sent to the Serial Monitor. But this isn’t very useful as is, so we need to use a new library that extracts information from this raw data and converts it to a usable form. To do this, download and install the <em>TinyGPS</em> library from <em>http://www.arduiniana.org/libraries/tinygps/ </em>using the method described in “Expanding Sketches with Libraries” on page 169.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../13-using-gps-with-your-arduino/01-what-is-gps/index.html"><span class="dir">← Previous</span><span class="t">What Is GPS?</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a><a class="nx" data-nav="next" href="../../13-using-gps-with-your-arduino/03-project-44-creating-a-simple-gps-receiver/index.html"><span class="dir">Next →</span><span class="t">Project #44: Creating a Simple GPS Receiver</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

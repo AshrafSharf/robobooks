@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generating Random Numbers — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Generating Random Numbers">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Generating Random Numbers</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/00-introduction/index.html" title="Chapter 6: Numbers, Variables, and Arithmetic">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html" aria-current=page>Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/02-project-15-creating-an-electronic-die/index.html" title="Project #15: Creating an Electronic Die">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:31.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Generating Random Numbers</h1>
+  <p class="sec-meta">Book pages 112–113</p>
+</div>
+<article class="prose">
+<p>The ability for a program to generate random numbers can be very useful in games and effects. For example, you can use random numbers to play a dice or lottery game with the Arduino, to create lighting effects with LEDs, or to create visual or auditory effects for a quiz game with the Arduino. Unfortunately, the Arduino can’t choose a purely random number by itself. You have to help it by providing a <em>seed, </em>an arbitrary starting number used in the calculations to generate a random number.</p>
+<h2>Using Ambient Current to Generate a Random Number</h2>
+<p>The easiest way to generate a random number with the Arduino is to write a program that reads the voltage from a free (disconnected) analog pin (for example, analog pin zero) with this line in <code>void setup()</code>:</p>
+<pre class="code"><code>  randomSeed(analogRead(0));</code></pre>
+<p>Even when nothing is wired to an analog input on the Arduino, static electricity in the environment creates a tiny, measurable voltage. The amount of this voltage is quite random. We can use this measure of ambient voltage as our seed to generate a random number and then allocate it to an integer variable using the <code>random(lower, upper)</code> function. We can use the parameters <code>lower</code> and <code>upper</code> to set the lower and upper limits of the range for the random number. For example, to generate a random number between 100 and 1,000, you would use the following:</p>
+<pre class="code"><code>int a = 0;
+a = random(100, 1001);</code></pre>
+<p>We’ve used the number 1,001 rather than 1,000 because the 1,001 upper limit is <em>exclusive</em>, meaning it’s not included in the range.</p>
+<p>That said, to generate a random number between 0 and some number, you can just enter the upper limit. Here’s how you would generate a random number between 0 and 6:</p>
+<pre class="code"><code>  a = random(7);</code></pre>
+<p>The example sketch in Listing 6-1 would generate random numbers between 0 and 1,000, as well as numbers between 10 and 50:</p>
+<figure class="listing"><pre class="code"><code>// Listing 6-1
+int r = 0;
+void setup()
+{
+  randomSeed(analogRead(0));
+  Serial.begin(9600);
+}
+void loop()
+{
+  Serial.print(&quot;Random number between zero and 1000 is: &quot;);
+  r = random(0, 1001);
+  Serial.println(r);
+  Serial.print(&quot;Random number between ten and fifty is: &quot;);
+  r = random(10, 51);
+  Serial.println(r);
+  delay(1000);
+}</code></pre><figcaption><b>Listing 6-1:</b> Random number generator</figcaption></figure>
+<p>Figure 6-1 shows the result displayed on the Serial Monitor.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="584" height="406" style="width:284px" loading="lazy" alt="Figure 6-1: Output from Listing 6-1"></a><figcaption><b>Figure 6-1:</b> Output from Listing 6-1</figcaption></figure>
+<p>Now that you know how to generate random numbers, let’s put that knowledge to good use by creating an electronic die.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 6: Numbers, Variables, and Arithmetic</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/02-project-15-creating-an-electronic-die/index.html"><span class="dir">Next →</span><span class="t">Project #15: Creating an Electronic Die</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

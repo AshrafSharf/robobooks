@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #32: Using Interrupts — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · Project #32: Using Interrupts">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · Project #32: Using Interrupts</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/10-interrupts/index.html" title="Interrupts">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html">Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html">Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html">MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html">Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html">Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html">Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html">Interrupts</a><a href="../11-project-32-using-interrupts/index.html" aria-current=page>Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/12-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:52.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>Project #32: Using Interrupts</h1>
+  <p class="sec-meta">Book pages 185–186</p>
+</div>
+<article class="prose">
+<p>We’ll use the circuit from Project 31 to demonstrate the use of interrupts. Our example will blink the built-in LED every 500 milliseconds, during which time both interrupt pins will be monitored. When the button on interrupt 0 is pressed, the value for <code>micros()</code> will be displayed on the Serial Monitor, and when the button on interrupt 1 is pressed, the value for <code>millis()</code> will be displayed.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code> // Project 32 – Using Interrupts
+ #define LED 13
+ void setup()
+ {
+   Serial.begin(9600);
+   pinMode(13, OUTPUT);
+   attachInterrupt(0, displayMicros, RISING);
+   attachInterrupt(1, displayMillis, RISING);
+ }
+<span class="cm">❶</span> void displayMicros()
+ {
+   Serial.write(&quot;micros() = &quot;);
+   Serial.println(micros());
+ }
+<span class="cm">❷</span> void displayMillis()
+ {
+   Serial.write(&quot;millis() = &quot;);
+   Serial.println(millis());
+ }
+<span class="cm">❸</span> void loop()
+ {
+   digitalWrite(LED, HIGH);
+   delay(500);
+   digitalWrite(LED, LOW);
+   delay(500);
+ }</code></pre>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="948" height="514" style="width:461px" loading="lazy" alt="Figure 8-32: Output from Project 32"></a><figcaption><b>Figure 8-32:</b> Output from Project 32</figcaption></figure>
+<p>This sketch will blink the onboard LED as shown in rupt 0 is triggered, the function or when interrupt 1 is triggered, the function <code>displayMillis()</code> at <span class="co">❷</span> will be called. After either function has finished, the sketch resumes running the code in</p>
+<p>Open the Serial Monitor window and press the two buttons to view the values for <code>millis()</code> and</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/10-interrupts/index.html"><span class="dir">← Previous</span><span class="t">Interrupts</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/12-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

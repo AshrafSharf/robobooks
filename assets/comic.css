@@ -1,0 +1,63 @@
+/* ============ comic-book additions on top of book.css ============ */
+.wrap.comic{max-width:64rem}
+.comic .sec-head{max-width:50rem;margin-left:auto;margin-right:auto}
+
+/* one book page = a two-column grid of panels, wide panels span both */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin:2.2rem 0 1rem;position:relative}
+.pg .pgno{grid-column:1/-1;font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:.7rem}
+.pg .pgno::after{content:"";flex:1;height:1px;background:var(--rule)}
+figure.panel{margin:0;display:flex;flex-direction:column;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+figure.panel.wide,figure.panel.page{grid-column:1/-1}
+figure.panel a{display:block;line-height:0}
+figure.panel img{display:block;width:100%;height:auto;background:#fff}
+figure.panel.page{margin:1.4rem 0}
+.pg figure.panel.page{margin:0}
+figure.panel.opener{margin-top:1.5rem}
+figcaption.narr{padding:.75rem 1rem .85rem;font-family:var(--sans);font-size:.95rem;line-height:1.55;
+  border-top:1px solid var(--rule)}
+figcaption.narr p{margin:0}
+figcaption.narr p+p{margin-top:.5rem}
+figcaption.narr strong{color:var(--accent)}
+@media (max-width:720px){
+  .pg{grid-template-columns:1fr}
+}
+
+/* parts list on circuit openers */
+aside.parts{margin:1.2rem 0 2rem;padding:1rem 1.3rem;border-radius:var(--radius);
+  background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
+aside.parts h2{margin:0 0 .5rem;font-size:1rem;color:var(--accent)}
+aside.parts h2::after{display:none}
+aside.parts ul{margin:0;padding-left:1.2rem;columns:2 16rem;font-family:var(--sans);font-size:.95rem}
+aside.parts li{break-inside:avoid}
+
+/* reference tables */
+.prose table.tbl.gloss,.prose table.tbl.comp{width:100%;display:table}
+.prose table.tbl.gloss th{text-align:left;white-space:nowrap;vertical-align:top}
+.prose table.tbl.gloss td{text-align:left}
+.tbl-wrap{overflow-x:auto;margin:1rem 0}
+.prose table.tbl.comp{font-family:var(--sans);font-size:.82rem;margin:0}
+.prose table.tbl.comp td{padding:.25em .5em}
+.prose table.tbl.comp td:first-child{text-align:left}
+.prose table.tbl.comp td.sku{white-space:nowrap;color:var(--ink-soft)}
+.prose table.tbl.comp td.tot{font-weight:700}
+.prose table.tbl.comp tr.sub th{font-weight:500;color:var(--ink-soft);font-size:.72rem;border-top:0}
+.prose table.tbl.resist td{text-align:left;font-family:var(--sans)}
+.prose table.tbl.resist td.n{text-align:center;font-weight:700}
+.sw{display:inline-block;width:1.1em;height:1.1em;border-radius:3px;margin-right:.55em;vertical-align:-.18em;
+  border:1px solid rgba(0,0,0,.25)}
+.prose .note{font-size:.92rem;color:var(--ink-soft)}
+details.orig{margin:2rem 0}
+details.orig summary{cursor:pointer;font-family:var(--sans);font-weight:600;color:var(--accent)}
+
+/* book + library */
+.book-hero{display:flex;gap:2rem;align-items:center;justify-content:center;text-align:left;flex-wrap:wrap}
+.book-hero .cover{width:min(360px,90vw);border-radius:8px;box-shadow:var(--shadow-lg);border:1px solid var(--rule)}
+.book-hero>div{max-width:28rem}
+.book-hero h1{margin:.2rem 0 .4rem}
+.book-hero p{margin:.35rem 0}
+a.start{display:inline-block;margin-top:.5rem;padding:.55rem 1.1rem;border-radius:999px;background:var(--accent);
+  color:#fff;text-decoration:none;font-family:var(--sans);font-weight:600}
+.seclist .t .d{display:block;font-family:var(--sans);font-size:.82rem;color:var(--ink-soft);font-weight:400}
+.card.bookcard img{width:120px;border-radius:6px;border:1px solid var(--rule)}

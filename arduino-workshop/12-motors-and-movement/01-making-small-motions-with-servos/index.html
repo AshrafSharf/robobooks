@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Making Small Motions with Servos — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 12: Motors and Movement · Making Small Motions with Servos">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 12 · Making Small Motions with Servos</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../12-motors-and-movement/00-introduction/index.html" title="Chapter 12: Motors and Movement">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 12 · Motors and Movement</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-making-small-motions-with-servos/index.html" aria-current=page>Making Small Motions with Servos</a><a href="../02-project-38-building-an-analog-thermometer/index.html">Project #38: Building an Analog Thermometer</a><a href="../03-using-electric-motors/index.html">Using Electric Motors</a><a href="../04-project-39-controlling-the-motor/index.html">Project #39: Controlling the Motor</a><a href="../05-project-40-building-and-controlling-a-tank-robot/index.html">Project #40: Building and Controlling a Tank Robot</a><a href="../06-sensing-collisions/index.html">Sensing Collisions</a><a href="../07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html">Project #41: Detecting Tank Bot Collisions with a Microswitch</a><a href="../08-infrared-distance-sensors/index.html">Infrared Distance Sensors</a><a href="../09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html">Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</a><a href="../10-ultrasonic-distance-sensors/index.html">Ultrasonic Distance Sensors</a><a href="../11-project-43-detecting-tank-bot-collisions-with-an-ultrasonic/index.html">Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../12-motors-and-movement/02-project-38-building-an-analog-thermometer/index.html" title="Project #38: Building an Analog Thermometer">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:63.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12 · Motors and Movement</a></p>
+  <h1>Making Small Motions with Servos</h1>
+  <p class="sec-meta">Book pages 225–228</p>
+</div>
+<article class="prose">
+<p>A <em>servo</em> (short for <em>servomechanism</em>) contains an electric motor that can be commanded to rotate to a specific angular position. For example, you might use a servo to control the steering of a remote control car by connecting the servo to a <em>horn</em>, a small arm or bar that the servo rotates. An example of a horn is one of the hands on an analog clock. Figure 12-1 shows a servo and three types of horns.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="948" height="802" style="width:461px" loading="lazy" alt="Figure 12-1: Servo and various horns"></a><figcaption><b>Figure 12-1:</b> Servo and various horns</figcaption></figure>
+<h2>Selecting a Servo</h2>
+<p>When you’re selecting a servo, consider several parameters:</p>
+<ul><li><strong>Speed</strong>  The time it takes for the servo to rotate, usually measured in seconds per angular degree.</li><li><strong>Rotational range</strong>  The angular range through which the servo can rotate—for example, 180 degrees (half of a full rotation) or 360 degrees (one complete rotation).</li><li><strong>Current</strong>  How much current the servo draws. When using a servo with an Arduino, you may need to use an external power supply for the servo.</li><li><strong>Torque</strong>  The amount of force the servo can exert when rotating. The greater the torque, the heavier the item the servo can control. The torque produced is generally proportional to the amount of current used.</li></ul>
+<p>The servo shown in Figure 12-1 is a hexTronik HXT900. It is inexpensive and can rotate up to 180 degrees, as shown in Figure 12-2.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="521" height="307" style="width:253px" loading="lazy" alt="Figure 12-2: Example servo rotation range"></a><figcaption><b>Figure 12-2:</b> Example servo rotation range</figcaption></figure>
+<h2>Connecting a Servo</h2>
+<p>It’s easy to connect a servo to an Arduino because only three wires are involved. If you’re using the HXT900, the darkest wire connects to GND, the center wire connects to 5 V, and the lightest wire (the <em>pulse </em>wire) connects to a digital pin. If you’re using a different servo, check its data sheet for the correct wiring.</p>
+<h2>Putting a Servo to Work</h2>
+<p>Now let’s put our servo to work. In this sketch, the servo will turn through its rotational range. Connect the servo to your Arduino as described, with the pulse wire connected to digital pin 4, and then enter and upload the sketch in Listing 12-1.</p>
+<figure class="listing"><pre class="code"><code>// Listing 12-1
+#include &lt;Servo.h&gt;
+Servo myservo;
+void setup()
+{
+  myservo.attach(4);
+}
+void loop()
+{
+    myservo.write(180);
+    delay(1000);
+    myservo.write(90);
+    delay(1000);
+    myservo.write(0);
+    delay(1000);
+}</code></pre><figcaption><b>Listing 12-1:</b> Servo demonstration sketch</figcaption></figure>
+<p>In this sketch, we use the <em>servo</em> library included with the Arduino IDE and create an instance of the servo with the following:</p>
+<pre class="code"><code>#include &lt;Servo.h&gt;
+Servo myservo;</code></pre>
+<p>Then, in <code>void setup()</code>, we tell the Arduino which digital pin the servo control is using:</p>
+<pre class="code"><code>myservo.attach(4); // control pin on digital four</code></pre>
+<p>Now we simply move the servo with the following:</p>
+<pre class="code"><code>myservo.write(x);</code></pre>
+<p>Here, <code>x</code> is an integer between 0 and 180 degrees—the angular position to which the servo will be moved. When running the sketch in Listing 12-1, the servo will rotate across its maximum range, stopping at the extremes (0 degrees and 180 degrees) and at the midpoint (90 degrees). When looking at your servo, note that the 180-degree position is on the left and 0 degrees is on the right.</p>
+<p>In addition to pushing or pulling objects, servos can also be used to communicate data similar to an analog gauge. For example, you could use a servo as an analog thermometer, as you’ll see in Project 38.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../12-motors-and-movement/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 12: Motors and Movement</span><span class="ch">Chapter 12 · Motors and Movement</span></a><a class="nx" data-nav="next" href="../../12-motors-and-movement/02-project-38-building-an-analog-thermometer/index.html"><span class="dir">Next →</span><span class="t">Project #38: Building an Analog Thermometer</span><span class="ch">Chapter 12 · Motors and Movement</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Using a Numeric Keypad — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 9: Numeric Keypads · Using a Numeric Keypad">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 9 · Using a Numeric Keypad</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../09-numeric-keypads/00-introduction/index.html" title="Chapter 9: Numeric Keypads">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 9 · Numeric Keypads</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-a-numeric-keypad/index.html" aria-current=page>Using a Numeric Keypad</a><a href="../02-making-decisions-with-switch-case/index.html">Making Decisions with switch-case </a><a href="../03-project-33-creating-a-keypad-controlled-lock/index.html">Project #33: Creating a Keypad-Controlled Lock</a><a href="../04-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../09-numeric-keypads/02-making-decisions-with-switch-case/index.html" title="Making Decisions with switch-case ">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:54.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 9 · Numeric Keypads</a></p>
+  <h1>Using a Numeric Keypad</h1>
+  <p class="sec-meta">Book pages 187–190</p>
+</div>
+<article class="prose">
+<p>As your projects become more involved, you might want to accept numeric input from users when your Arduino isn’t connected to a PC—for example, if you’d like to have the ability to turn something on or off by entering a secret number. One option would be to wire up 10 or more push buttons to various digital input pins (for the numbers 0 through 9); but it’s much easier to use a numeric keypad like the one shown in Figure 9-1.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="342" height="417" style="width:166px" loading="lazy" alt="Figure 9-1: Numeric keypad"></a><figcaption><b>Figure 9-1:</b> Numeric keypad</figcaption></figure>
+<p>One of the benefits of using a keypad is that it uses only 7 pins for 12 active buttons, and with the use of a clever Arduino library, you won’t need to add pull-down resistors for debouncing as we did in Chapter 4. You can download and then install the <em>Keypad</em> library from <em>http://arduino.cc/</em> <em>playground/uploads/Code/Keypad.zip</em>.</p>
+<h2>Wiring a Keypad</h2>
+<p>Physically wiring the keypad to the Arduino is easy. On the back of the key-pad are seven pins, as shown in Figure 9-2.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="552" height="149" style="width:268px" loading="lazy" alt="Figure 9-2: Keypad pins"></a><figcaption><b>Figure 9-2:</b> Keypad pins</figcaption></figure>
+<p>The pins are numbered 1 to 7, from left to right. For all of the keypad projects in this book, you’ll make the connections shown in Table 9-1.</p>
+<table class="tbl data"><caption><b>Table 9-1:</b> Keypad-to-Arduino Connections</caption><thead><tr><th>Keypad Pin Number</th><th>Arduino Pin</th></tr></thead><tbody><tr><td>1</td><td>Digital 5</td></tr><tr><td>2</td><td>Digital 4</td></tr><tr><td>3</td><td>Digital 3</td></tr><tr><td>4</td><td>Digital 2</td></tr><tr><td>5</td><td>Digital 8</td></tr><tr><td>6</td><td>Digital 7</td></tr><tr><td>7</td><td>Digital 6</td></tr></tbody></table>
+<h2>Programming for the Keypad</h2>
+<p>When you write a sketch for the keypad, you must include certain lines of code to enable the keypad, as identified in the following example sketch. The required code starts at <span class="co">❶</span> and ends at <span class="co">❺</span>.</p>
+<p>Before moving forward, test the keypad by entering and uploading Listing 9-1:</p>
+<figure class="listing"><pre class="code"><code> // Listing 9-1
+<span class="cm">❶</span> // Beginning of necessary code
+ #include &quot;Keypad.h&quot;
+ const byte ROWS = 4;            // set display to four rows
+ const byte COLS = 3;            // set display to three columns
+ char keys[ROWS][COLS] =
+  {{&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;},
+   {&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;},
+   {&#x27;7&#x27;,&#x27;8&#x27;,&#x27;9&#x27;},
+<span class="cm">❷</span>   {&#x27;*&#x27;,&#x27;0&#x27;,&#x27;#&#x27;}};
+<span class="cm">❸</span> byte rowPins[ROWS] = {5, 4, 3, 2};
+<span class="cm">❹</span> byte colPins[COLS] = {8, 7, 6};
+ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+<span class="cm">❺</span> // End of necessary code
+ void setup()
+ {
+   Serial.begin(9600);
+ }
+ void loop()
+ {
+   char key = keypad.getKey();
+   if (key != NO_KEY)
+   {
+     Serial.print(key);
+   }
+ }</code></pre><figcaption><b>Listing 9-1:</b> Numeric keypad demonstration sketch</figcaption></figure>
+<p>At <span class="co">❷</span>, we introduce the <code>char</code> variable type that contains one character, such as a letter, number, or symbol, that can be generated with a computer keyboard. In this case, it contains the keypad’s numbers and symbols. The lines of code at <span class="co">❸</span> and <span class="co">❹</span> define which pins are used on the Arduino. Using these lines and Table 9-1, you can change the digital pins used for input if you want.</p>
+<h2>Testing the Sketch</h2>
+<p>After uploading the sketch, open the Serial Monitor and press some keys on the keypad. The characters for the keys you pressed will be displayed in the Serial Monitor, as shown in Figure 9-3.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="550" height="225" style="width:267px" loading="lazy" alt="Figure 9-3: Results of pressing keys on the keypad"></a><figcaption><b>Figure 9-3:</b> Results of pressing keys on the keypad</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../09-numeric-keypads/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 9: Numeric Keypads</span><span class="ch">Chapter 9 · Numeric Keypads</span></a><a class="nx" data-nav="next" href="../../09-numeric-keypads/02-making-decisions-with-switch-case/index.html"><span class="dir">Next →</span><span class="t">Making Decisions with switch-case </span><span class="ch">Chapter 9 · Numeric Keypads</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

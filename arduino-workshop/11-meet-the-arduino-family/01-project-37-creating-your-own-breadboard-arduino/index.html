@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #37: Creating Your Own Breadboard Arduino — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 11: Meet the Arduino Family · Project #37: Creating Your Own Breadboard Arduino">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 11 · Project #37: Creating Your Own Breadboard Arduino</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../11-meet-the-arduino-family/00-introduction/index.html" title="Chapter 11: Meet the Arduino Family">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 11 · Meet the Arduino Family</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-37-creating-your-own-breadboard-arduino/index.html" aria-current=page>Project #37: Creating Your Own Breadboard Arduino</a><a href="../02-the-many-arduino-boards/index.html">The Many Arduino Boards</a><a href="../03-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../11-meet-the-arduino-family/02-the-many-arduino-boards/index.html" title="The Many Arduino Boards">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:60.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 11 · Meet the Arduino Family</a></p>
+  <h1>Project #37: Creating Your Own Breadboard Arduino</h1>
+  <p class="sec-meta">Book pages 208–217</p>
+</div>
+<article class="prose">
+<p>As your projects and experiments increase in complexity or number, the cost of purchasing Arduino boards for each task can easily get out of hand, especially if you like to work on more than one project at a time. At this point, it’s cheaper and easier to integrate the circuitry of an Arduino board into your project by building an Arduino circuit on a solderless breadboard that you can then expand for your specific project. It should cost less than $10 in parts to reproduce the basic Arduino circuitry on a breadboard (which itself is usually reusable if you’re not too hard on it). It’s easier to make your own if your project has a lot of external circuitry, because it saves you running lots of wires from an Arduino back to the breadboard.</p>
+<h2>The Hardware</h2>
+<p>To build a minimalist Arduino, you’ll need the following hardware:</p>
+<ul><li>One breadboard</li><li>Various connecting wires</li><li>One 7805 linear voltage regulator</li><li>One 16 MHz crystal oscillator (such as Newark part number 16C8140)</li><li>One ATmega328P-PU microcontroller with Arduino bootloader</li><li>One 1 µF, 25 V electrolytic capacitor (C1)</li><li>One 100 µF, 25 V electrolytic capacitor (C2)</li><li>Two 22 pF, 50 V ceramic capacitors (C3 and C4)</li><li>Two 100 nF, 50 V ceramic capacitors (C5)</li><li>Two 560 Ω resistors (R1 and R2)</li><li>One 10 kΩ resistor (R3)</li><li>Two LEDs of your choice (LED1 and LED2)</li><li>One push button (S1)</li><li>One six-way header pin</li><li>One PP3-type battery snap</li><li>One 9 V PP3-type battery</li></ul>
+<p>Some of these parts might be new to you. In the following sections, we’ll explain each part and show you an example and a schematic of each.</p>
+<h3>7805 Linear Voltage Regulator</h3>
+<p>A <em>linear voltage regulator</em> contains a simple circuit that converts one voltage to another. The regulator included in the parts list is the 7805-type, which can convert a voltage between 7 and 30 volts to a fixed 5 volts, with a current up to 1 amp, which is perfect for running our breadboard Arduino. Figure 11-1 shows an example of a 7805 called a TO-220 style, which refers to its physical shape.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="570" height="359" style="width:277px" loading="lazy" alt="Figure 11-1: 7805 linear voltage regulator"></a><figcaption><b>Figure 11-1:</b> 7805 linear voltage regulator</figcaption></figure>
+<p>Figure 11-2 shows the schematic symbol for the 7805. When you’re looking at the labeled side of the 7805, the pin on the left is for input voltage, the center pin connects to GND, and the right-hand pin is the 5 V output connection. The metal tab at the top is drilled to allow it to connect to a larger piece of metal known as a <em>heat </em> <em>sink. </em>We use a heat sink when the circuit draws up to the maximum of 1 amp of current, because the 7805 will become quite warm at that level of use. The metal tab is also connected to GND. We will need one 7805 regulator for our example.</p>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="287" height="238" style="width:139px" loading="lazy" alt="Figure 11-2: 7805 schematic symbol"></a><figcaption><b>Figure 11-2:</b> 7805  schematic symbol</figcaption></figure>
+<h3>16 MHz Crystal Oscillator</h3>
+<p>More commonly known as simply a <em>crystal</em>, the crystal oscillator creates an electrical signal with a very accurate frequency. In this case, the frequency is 16 MHz. The crystal we’ll use is shown in Figure 11-3.</p>
+<figure class="fig side-fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="498" height="378" style="width:242px" loading="lazy" alt="Figure 11-3: Crystal oscillator"></a><figcaption><b>Figure 11-3:</b> Crystal oscillator</figcaption></figure>
+<p>Compare this image to the crystal on your Arduino board. They should be identical in shape and size.</p>
+<p>Crystals are not polarized. The schematic symbol is shown in Figure 11-4.</p>
+<figure class="fig side-fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="329" height="156" style="width:160px" loading="lazy" alt="Figure 11-4: Crystal oscillator schematic symbol"></a><figcaption><b>Figure 11-4:</b> Crystal oscillator  schematic symbol</figcaption></figure>
+<p>The crystal determines the microcontroller’s speed of operation. For example, the microcontroller circuit we’ll be assembling runs at 16 MHz, which means it can execute 16 million processor instructions per second. That doesn’t mean it can execute a line of a sketch or a function that rapidly, however, since it takes many processor instructions to interpret a single line of code.</p>
+<h3>Atmel ATmega328-PU Microcontroller IC</h3>
+<p>A <em>microcontroller</em> is a tiny computer that contains a processor that executes instructions, various types of memory to hold data and instructions from our sketch, and various ways to send and receive data. As explained in Chapter 2, the microcontroller is the brains of our breadboard Arduino. An example of the ATmega328P is shown in Figure 11-5. When looking at the IC in the photo, notice that pin number 1 is at the bottom-left of the IC and is marked by a small dot.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="691" height="211" style="width:336px" loading="lazy" alt="Figure 11-5: ATmega328P"></a><figcaption><b>Figure 11-5:</b> ATmega328P</figcaption></figure>
+<p>The schematic symbol for the microcontroller is shown in Figure 11-6.</p>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="741" height="331" style="width:360px" loading="lazy" alt="Figure 11-6: Microcontroller schematic symbol"></a><figcaption><b>Figure 11-6:</b> Microcontroller schematic symbol</figcaption></figure>
+<aside class="sidebar"><p>123456789</p></aside>
+<p>Microcontrollers don’t all contain the Arduino <em>bootloader</em>, the software that allows it to interpret sketches written for an Arduino. When choosing a microcontroller to include in a homemade Arduino, be sure to select one that already includes the bootloader. These are generally available from the same retailers that sell Arduino boards, such as adafruit, Freetronics, and SparkFun.</p>
+<h2>The Schematic</h2>
+<p>Figure 11-7 shows the circuit schematic.</p>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="1148" height="660" style="width:558px" loading="lazy" alt="Figure 11-7: Breadboard Arduino schematic"></a><figcaption><b>Figure 11-7:</b> Breadboard Arduino schematic</figcaption></figure>
+<p>The schematic contains two sections. The first, on the left, is the power supply, which reduces the voltage to a smooth 5 V. You’ll see an LED that is lit when the power is on. The second section, on the right, consists of the microcontroller, the reset button, the programming pins, and another LED. This LED is wired to the ATmega328 pin that is used as Arduino pin 13. Use the schematic to wire up your Arduino. Don’t forget to run the wires to the six-way header pin (shown in Figure 11-8), represented by the six circles at the bottom of the schematic. We’ll use this connection later in the chapter to upload a sketch to our homemade Arduino.</p>
+<p>The circuit will be powered using a simple 9 V battery and matching snap connector, as shown in Figure 11-9. Connect the red lead of the battery snap connector to the positive (+) point and the black lead to the negative (–) point on the left side of the circuit.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="731" height="569" style="width:355px" loading="lazy" alt="Figure 11-8: Six-way header pin"></a><figcaption><b>Figure 11-8:</b> Six-way header pin</figcaption></figure>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="659" height="517" style="width:320px" loading="lazy" alt="Figure 11-9: 9 V battery and snap connector"></a><figcaption><b>Figure 11-9:</b> 9 V battery and snap connector</figcaption></figure>
+<h3>Identifying the Arduino Pins</h3>
+<p>Where are all the Arduino pins on our homemade Arduino? All the ana-log, digital, and other pins available on the normal Arduino board are also available in our breadboard version; you simply need to connect directly to the microcontroller.</p>
+<p>In our breadboard Arduino, the R2 and LED2 are on digital pin 13. Table 11-1 lists the Arduino pins on the left and the matching ATmega328 pins on the right.</p>
+<table class="tbl data"><caption><b>Table 11-1:</b> Pins for ATmega328P</caption><thead><tr><th>Arduino Pin Name</th><th>ATmega328 Pin</th></tr></thead><tbody><tr><td>RST</td><td>1</td></tr><tr><td>RX/D0</td><td>2</td></tr><tr><td>TX/D1</td><td>3</td></tr><tr><td>D2</td><td>4</td></tr><tr><td>D3</td><td>5</td></tr><tr><td>D4</td><td>6</td></tr><tr><td>(5 V only)</td><td>7</td></tr><tr><td>GND</td><td>8</td></tr><tr><td>D5</td><td>11</td></tr><tr><td>D6</td><td>12</td></tr><tr><td>D7</td><td>13</td></tr><tr><td>D8</td><td>14</td></tr><tr><td>D9</td><td>15</td></tr><tr><td>D10</td><td>16</td></tr><tr><td>D11</td><td>17</td></tr><tr><td>D12</td><td>18</td></tr><tr><td>D13</td><td>19</td></tr><tr><td>(5 V only)</td><td>20</td></tr><tr><td>AREF</td><td>21</td></tr><tr><td>GND</td><td>22</td></tr><tr><td>A0</td><td>23</td></tr><tr><td>A1</td><td>24</td></tr><tr><td>A2</td><td>25</td></tr><tr><td>A3</td><td>26</td></tr><tr><td>A4</td><td>27</td></tr><tr><td>A5</td><td>28</td></tr></tbody></table>
+<p>To avoid confusion, retailers such as adafruit and Freetronics sell adhesive labels to place over the microcontroller, like the one shown on the microcontroller in Figure 11-10 (order at <em>http://www.freetronics.com/</em> <em>mculabel/</em>).</p>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="706" height="446" style="width:343px" loading="lazy" alt="Figure 11-10: Pin labels"></a><figcaption><b>Figure 11-10:</b> Pin labels</figcaption></figure>
+<h2>Running a Test Sketch</h2>
+<p>Now it’s time to upload a sketch. We’ll start by uploading a simple sketch to blink the LED:</p>
+<pre class="code"><code>// Project 37 - Creating Your Own Breadboard Arduino
+void setup()
+{
+  pinMode(13, OUTPUT);
+}
+void loop()
+{
+  digitalWrite(13, HIGH);
+  delay(1000);
+  digitalWrite(13, LOW);
+  delay(1000);
+}</code></pre>
+<p>You can upload the sketch in one of three ways.</p>
+<h3>Use the Microcontroller Swap Method</h3>
+<p>The most inexpensive way to upload a sketch is to remove the microcontroller from an existing Arduino, insert the microcontroller from your homemade Arduino, upload the sketch, and then swap the microcontrollers again.</p>
+<p>To remove a microcontroller from the Arduino safely, use an IC extractor, as shown in Figure 11-11.</p>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="698" height="550" style="width:339px" loading="lazy" alt="Figure 11-11: Use an IC extractor to remove a microcontroller."></a><figcaption><b>Figure 11-11:</b> Use an IC extractor to remove a microcontroller.</figcaption></figure>
+<p>When removing the microcontroller, be sure to pull both ends out evenly and slowly <em>at the same time</em>, and take your time! Removing the component might be difficult, but eventually the microcontroller will come out.</p>
+<figure class="fig side-fig"><a href="img/fig-12.webp" target="_blank" rel="noopener"><img src="img/fig-12.webp" width="356" height="272" style="width:173px" loading="lazy" alt="Figure 11-12: Bending the micro- controller pins"></a><figcaption><b>Figure 11-12:</b> Bending the micro- controller pins</figcaption></figure>
+<p>When inserting a microcontroller into the breadboard or your Arduino, you may have to bend the pins a little to make them perpendicular with the body of the microcontroller so that they can slide in easily. To do this, place one side of the component against a flat surface and gently push down; then repeat on the other side, as shown in Figure 11-12.</p>
+<figure class="fig side-fig"><a href="img/fig-13.webp" target="_blank" rel="noopener"><img src="img/fig-13.webp" width="382" height="175" style="width:186px" loading="lazy" alt="Figure 11-13: Correct orientation of the microcontroller in an Arduino"></a><figcaption><b>Figure 11-13:</b> Correct orientation of  the microcontroller in an Arduino</figcaption></figure>
+<p>Finally, when you return the original microcontroller to your Arduino board, remember that the end with the notch should be on the right side, as shown in Figure 11-13.</p>
+<h3>Connect to an Existing Arduino Board</h3>
+<p>We can use the USB interface of an Arduino Uno to upload sketches to the microcontroller in our breadboard Arduino. Using this method reduces wear on the Arduino board’s socket and saves you money, because you won’t need to buy a separate USB programming cable.</p>
+<p>Here’s how to upload a sketch to the microcontroller using the USB interface:</p>
+<ol><li>Remove the microcontroller from your Arduino Uno, and unplug the USB cable.</li><li>Remove the power (if connected) from the breadboard Arduino circuit.</li><li>Connect a wire from Arduino digital pin 0 to pin 2 of the breadboard’s ATmega328P, and connect another from Arduino digital pin 1 to pin 3 of the ATmega328P.</li><li>Connect the 5 V and GND from the Uno to the matching areas on the breadboard.</li><li>Connect a wire from Arduino RST to pin 1 of the ATmega328P.</li><li>Plug the USB cable into the Arduino Uno board.</li></ol>
+<p>At this point, the system should behave as if it were an ordinary Arduino Uno, so you should be able to upload sketches into the breadboard circuit’s microcontroller normally and use the serial monitor if necessary.</p>
+<h3>Use an FTDI Programming Cable</h3>
+<p>The final method is the easiest, but it requires the purchase of a USB programming cable, known as an <em>FTDI cable </em>(simply because the USB interface circuitry inside is made by a company called FTDI). When purchasing an FTDI cable, make sure it’s the 5 V model, because the 3.3 V model will not work properly. This cable (shown in Figure 11-14) has a USB plug on one end and a socket with six wires on the other. The USB end of this cable contains circuitry equivalent to the USB interface on an Arduino Uno board. The six-wire socket connects to the header pins shown in Figures 11-7 and 11-8.</p>
+<figure class="fig"><a href="img/fig-14.webp" target="_blank" rel="noopener"><img src="img/fig-14.webp" width="660" height="477" style="width:321px" loading="lazy" alt="Figure 11-14: FTDI cable"></a><figcaption><b>Figure 11-14:</b> FTDI cable</figcaption></figure>
+<p>When you’re connecting the cable, be sure that the side of the socket with the black wire connects to the GND pin on the breadboard’s header pins. Once the cable is connected, it also supplies power to the circuit, just like a normal Arduino board would do.</p>
+<p>Before uploading your sketch or using the serial monitor, change the board type to Arduino Duemilanove or Nano w/ ATmega328 by choosing <strong>Tools</strong>4<strong>Board</strong> and then selecting the correct microcontroller (Figure 11-15).</p>
+<figure class="fig"><a href="img/fig-15.webp" target="_blank" rel="noopener"><img src="img/fig-15.webp" width="931" height="612" style="width:452px" loading="lazy" alt="Figure 11-15: Changing the board type in the IDE"></a><figcaption><b>Figure 11-15:</b> Changing the board type in the IDE</figcaption></figure>
+<p>Once you have selected a method of uploading, test it by uploading the Project 37 sketch. Now you should be able to design more complex circuits using only a breadboard, which will let you create more projects for less money. You can even build more permanent projects from scratch if you learn to make your own printed circuit boards.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../11-meet-the-arduino-family/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 11: Meet the Arduino Family</span><span class="ch">Chapter 11 · Meet the Arduino Family</span></a><a class="nx" data-nav="next" href="../../11-meet-the-arduino-family/02-the-many-arduino-boards/index.html"><span class="dir">Next →</span><span class="t">The Many Arduino Boards</span><span class="ch">Chapter 11 · Meet the Arduino Family</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

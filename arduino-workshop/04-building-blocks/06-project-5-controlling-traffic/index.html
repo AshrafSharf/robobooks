@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #5: Controlling Traffic — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · Project #5: Controlling Traffic">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · Project #5: Controlling Traffic</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/05-boolean-variables/index.html" title="Boolean Variables">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html">Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html">The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html">Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html" aria-current=page>Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html">Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html">Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html">The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html">Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/07-analog-vs-digital-signals/index.html" title="Analog vs. Digital Signals">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:17.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>Project #5: Controlling Traffic</h1>
+  <p class="sec-meta">Book pages 74–79</p>
+</div>
+<article class="prose">
+<p>Now let’s put your newfound knowledge to use by solving a hypothetical problem. As the town planner for a rural shire, you have a problem with a single-lane bridge that crosses the river. Every week, one or two accidents occur at night, when tired drivers rush across the bridge without first stopping to see if the road is clear. You have suggested that traffic lights be installed, but the mayor wants to see them demonstrated before signing off on the purchase. You could rent temporary lights, but they’re expensive. Instead, you’ve decided to build a model of the bridge with working traffic lights using LEDs and an Arduino.</p>
+<h2>The Goal</h2>
+<p>Our goal is to install three-color traffic lights at each end of the single-lane bridge. The lights allow traffic to flow only in one direction at a time. When sensors located at either end of the bridge detect a car waiting at a red light, the lights will change and allow the traffic to flow in the opposite direction.</p>
+<h2>The Algorithm</h2>
+<p>We’ll use two buttons to simulate the vehicle sensors at each end of the bridge. Each set of lights will have red, yellow, and green LEDs. Initially, the system will allow traffic to flow from west to east, so the west-facing lights will be set to green and the east-facing lights will be set to red.</p>
+<p>When a vehicle approaches the bridge (modeled by pressing the button) and the light is red, the system will turn the light on the opposite side from green to yellow to red, and then wait a set period of time to allow any vehicles already on the bridge to finish crossing. Next, the yellow light on the waiting vehicle’s side will blink as a “get ready” notice for the driver, and finally the light will change to green. The light will remain green until a vehicle approaches the other side, at which point the process repeats.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>Two red LEDs (LED1 and LED2)</li><li>Two yellow LEDs (LED3 and LED4)</li><li>Two green LEDs (LED5 and LED6)</li><li>Six 560 Ω resistors (R1 to R6)</li><li>Two 10 kΩ resistor (R7 and R8)</li><li>Two 100 nF capacitors (C1 and C2)</li><li>Two push buttons (S1 and S2)</li><li>One medium-sized breadboard</li><li>One Arduino and USB cable</li><li>Various connecting wires</li></ul>
+<h2>The Schematic</h2>
+<p>Because we’re controlling only six LEDs and receiving input from two buttons, the design will not be too difficult. Figure 4-26 shows the schematic for our project.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="1111" height="796" style="width:540px" loading="lazy" alt="Figure 4-26: Schematic for Project 5"></a><figcaption><b>Figure 4-26:</b> Schematic for Project 5</figcaption></figure>
+<p>This circuit is basically a more elaborate version of the button and LED circuit in Project 4, with resistors, more LEDs, and another button.</p>
+<p>Be sure that the LEDs are inserted in the correct direction: the resistors connect to LED anodes, and the LED cathodes connect to the Arduino GND pin, as shown in Figure 4-27.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="930" height="745" style="width:452px" loading="lazy" alt="Figure 4-27: Completed circuit"></a><figcaption><b>Figure 4-27:</b> Completed circuit</figcaption></figure>
+<h2>The Sketch</h2>
+<p>And now for the sketch. Can you see how it matches our algorithm?</p>
+<pre class="code"><code> // Project 5 - Controlling Traffic
+ // define the pins that the buttons and lights are connected to:
+<span class="cm">❶</span> #define westButton 7
+ #define eastButton 13
+ #define westRed    2
+ #define westYellow 1
+ #define westGreen  0
+ #define eastRed    12
+ #define eastYellow 11
+ #define eastGreen  10
+ #define yellowBlinkTime 500 // 0.5 seconds for yellow light blink
+ boolean trafficWest = true;   // west = true, east = false
+<span class="cm">❸</span> int     flowTime    = 10000;  // amount of time to let traffic flow
+ int     changeDelay = 2000;   // amount of time between color changes
+ void setup()
+ {
+   // setup digital I/O pins
+   pinMode(westButton, INPUT);
+   pinMode(eastButton, INPUT);
+   pinMode(westRed,    OUTPUT);
+   pinMode(westYellow, OUTPUT);
+   pinMode(westGreen,  OUTPUT);
+   pinMode(eastRed,    OUTPUT);
+   pinMode(eastYellow, OUTPUT);
+   pinMode(eastGreen,  OUTPUT);
+   // set initial state for lights - west side is green first
+   digitalWrite(westRed,    LOW);
+   digitalWrite(westYellow, LOW);
+   digitalWrite(westGreen,  HIGH);
+   digitalWrite(eastRed,    HIGH);
+   digitalWrite(eastYellow, LOW);
+   digitalWrite(eastGreen,  LOW);
+ }
+ void loop()
+ {
+   if ( digitalRead(westButton) == HIGH ) // request west&gt;east traffic flow
+   {
+     if ( trafficWest != true )
+ // only continue if traffic flowing in the opposite (east) direction
+     {
+       trafficWest = true; // change traffic flow flag to west&gt;east
+       delay(flowTime);    // give time for traffic to flow
+       digitalWrite(eastGreen, LOW); // change east-facing lights from green
+                                     // to yellow to red
+       digitalWrite(eastYellow, HIGH);
+       delay(changeDelay);
+       digitalWrite(eastYellow, LOW);
+       digitalWrite(eastRed, HIGH);
+       delay(changeDelay);
+       for ( int a = 0; a &lt; 5; a++ ) // blink yellow light
+       {
+         digitalWrite(westYellow, LOW);
+         delay(yellowBlinkTime);
+         digitalWrite(westYellow, HIGH);
+         delay(yellowBlinkTime);
+       }
+       digitalWrite(westYellow, LOW);
+       digitalWrite(westRed, LOW); // change west-facing lights from red to green
+       digitalWrite(westGreen, HIGH);
+     }
+   }
+   if ( digitalRead(eastButton) == HIGH ) // request east&gt;west traffic flow
+   {
+     if ( trafficWest == true )
+ // only continue if traffic flow is in the opposite (west) direction
+     {
+       trafficWest = false; // change traffic flow flag to east&gt;west
+       delay(flowTime);     // give time for traffic to flow
+       digitalWrite(westGreen, LOW);
+ // change west lights from green to yellow to red
+       digitalWrite(westYellow, HIGH);
+       delay(changeDelay);
+       digitalWrite(westYellow, LOW);
+       digitalWrite(westRed, HIGH);
+       delay(changeDelay);
+       for ( int a = 0 ; a &lt; 5 ; a++ ) // blink yellow light
+       {
+         digitalWrite(eastYellow, LOW);
+         delay(yellowBlinkTime);
+         digitalWrite(eastYellow, HIGH);
+         delay(yellowBlinkTime);
+       }
+       digitalWrite(eastYellow, LOW);
+       digitalWrite(eastRed, LOW); // change east-facing lights from red to green
+       digitalWrite(eastGreen, HIGH);
+     }
+   }
+ }</code></pre>
+<p>Our sketch starts by using <code>#define</code> at <span class="co">❶</span> to associate digital pin numbers with labels for all the LEDs used, as well as the two buttons. We have red, yellow, and green LEDs and a button each for the west and east sides of the bridge. The Boolean variable <code>trafficWest</code> at <span class="co">❷</span> is used to keep track of which way the traffic is flowing—<code>true</code> is west to east, and <code>false</code> is east to west.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Notice that </em><code>trafficWest</code><em> is a single Boolean variable with the traffic direction set as </em> <em>either </em><code>true</code><em> or </em><code>false</code><em>. Having a single variable like this instead of two (one for east </em> <em>and one for west) ensures that both directions cannot accidentally be true at the same </em> <em>time, which helps avoid a crash!</em></p></aside>
+<p>The integer variable <code>flowTime</code> at <span class="co">❸</span> is the minimum period of time that vehicles have to cross the bridge. When a vehicle pulls up at a red light, the system delays this period to give the opposing traffic time to cross the bridge. The integer variable <code>changeDelay</code> at <span class="co">❹</span> is the period of time between the traffic lights switching from green to yellow to red.</p>
+<p>Before the sketch enters the <code>void loop()</code> section, it is set for traffic to flow from west to east in <code>void setup()</code>.</p>
+<h2>Running the Sketch</h2>
+<pre class="code"><code>if ( trafficWest == true )</code></pre>
+<p>Once it’s running, the sketch does nothing until one of the buttons is pressed. When the east button is pressed, the line ensures that the lights change only if the traffic is heading in the opposite direction. The rest of the code section is composed of a simple sequence of waiting and then of turning on and off various LEDs to simulate the traffic-light operation.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/05-boolean-variables/index.html"><span class="dir">← Previous</span><span class="t">Boolean Variables</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/07-analog-vs-digital-signals/index.html"><span class="dir">Next →</span><span class="t">Analog vs. Digital Signals</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Graphic LCD Modules — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 7: Liquid Crystal Displays · Graphic LCD Modules">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 7 · Graphic LCD Modules</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../07-liquid-crystal-displays/02-project-25-defining-custom-characters/index.html" title="Project #25: Defining Custom Characters">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 7 · Liquid Crystal Displays</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-character-lcd-modules/index.html">Character LCD Modules</a><a href="../02-project-25-defining-custom-characters/index.html">Project #25: Defining Custom Characters</a><a href="../03-graphic-lcd-modules/index.html" aria-current=page>Graphic LCD Modules</a><a href="../04-project-26-seeing-the-text-functions-in-action/index.html">Project #26: Seeing the Text Functions in Action</a><a href="../05-project-27-creating-a-temperature-history-monitor/index.html">Project #27: Creating a Temperature History Monitor</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../07-liquid-crystal-displays/04-project-26-seeing-the-text-functions-in-action/index.html" title="Project #26: Seeing the Text Functions in Action">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:43.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 7 · Liquid Crystal Displays</a></p>
+  <h1>Graphic LCD Modules</h1>
+  <p class="sec-meta">Book pages 153–155</p>
+</div>
+<article class="prose">
+<p>Graphic LCD modules are larger and more expensive than character modules, but they’re also more versatile. You can use them not only to display text but also to draw lines, dots, circles, and more to create visual effects. The graphic LCD used in this book is a 128-by-64-pixel module with a KS0108B-compatible interface, as shown in Figure 7-8.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="340" height="246" style="width:165px" loading="lazy" alt="Figure 7-8: A graphic LCD module"></a><figcaption><b>Figure 7-8:</b> A graphic LCD  module</figcaption></figure>
+<p>As with the character LCD, the graphic LCD’s trimpot has a value of 10 kΩ and is used to adjust the display contrast. The header pins are soldered to the row of holes along the bottom of the LCD to make insertion into a breadboard more convenient, with the holes numbered 1 through 20. The pin closest to the corner of the module is pin 1.</p>
+<h2>Connecting the Graphic LCD</h2>
+<p>Before you can use the graphic LCD, you’ll need to connect 20 wires between the LCD and the Arduino. Make the connections as shown in Table 7-1.</p>
+<table class="tbl data"><caption><b>Table 7-1:</b> Graphic LCD-to-Arduino Connections</caption><thead><tr><th>LCD Pin Number</th><th>To Arduino Pin</th><th>LCD Pin Function</th></tr></thead><tbody><tr><td>1</td><td>5 V</td><td>VDD</td></tr><tr><td>2</td><td>GND</td><td>VSS (GND)</td></tr><tr><td>3</td><td>Center of 10 kΩ trimpot</td><td>VO (Contrast)</td></tr><tr><td>4</td><td>D8</td><td>DB0</td></tr><tr><td>5</td><td>D9</td><td>DB1</td></tr><tr><td>6</td><td>D10</td><td>DB2</td></tr><tr><td>7</td><td>D11</td><td>DB3</td></tr><tr><td>8</td><td>D4</td><td>DB4</td></tr><tr><td>9</td><td>D5</td><td>DB5</td></tr><tr><td>10</td><td>D6</td><td>DB6</td></tr><tr><td>11</td><td>D7</td><td>DB7</td></tr><tr><td>12</td><td>A0</td><td>CS2</td></tr><tr><td>13</td><td>A1</td><td>CS1</td></tr><tr><td>14</td><td>RST</td><td>/RESET</td></tr><tr><td>15</td><td>A2</td><td>R/W</td></tr><tr><td>16</td><td>A3</td><td>D/I</td></tr><tr><td>17</td><td>A4</td><td>E</td></tr><tr><td>18</td><td>Outer leg of trimpot, other trimpot leg to 5 V</td><td>VEE (trimpot voltage)</td></tr><tr><td>19</td><td>5 V through a 22 Ω resistor</td><td>LED backlight anode (+)</td></tr><tr><td>20</td><td>GND</td><td>LED backlight cathode (−)</td></tr></tbody></table>
+<h2>Using the LCD</h2>
+<p>After the LCD is wired up, you can download and install the Arduino library for the graphic LCD module. Download the latest version of the library from <em>http://code.google.com/p/glcd-arduino/downloads/list/</em> and install it in the same manner described in “Expanding Sketches with Libraries” on page 169.</p>
+<p>Now, to use the LCD, insert the following before the <code>void setup()</code>:</p>
+<pre class="code"><code>#include &lt;glcd.h&gt;                // include the graphics LCD library
+#include &quot;fonts/SystemFont5x7.h&quot; // include the standard character fonts for it</code></pre>
+<p>Then, after <code>void setup()</code>, add the following lines to prepare the display:</p>
+<pre class="code"><code>  GLCD.Init(NON_INVERTED);    // use INVERTED to invert pixels being on or off
+  GLCD.SelectFont(System5x7); // choose a font for use on the display
+  GLCD.ClearScreen();         // clear the LCD screen</code></pre>
+<h2>Controlling the Display</h2>
+<p>The graphic LCD’s display will show up to eight rows of 20 characters of text. To position the text cursor, enter the following, replacing the <code>x</code> and <code>y</code> with actual coordinates:</p>
+<pre class="code"><code>  GLCD.CursorTo( x , y );</code></pre>
+<p>To display particular text, replace <code>text</code> in the following example with the text you want to display:</p>
+<pre class="code"><code>  GLCD.Puts(&quot; text &quot;);</code></pre>
+<p>To display an integer, use the following code, replacing <code>number</code> with the number you want to display:</p>
+<pre class="code"><code>  GLCD.PrintNumber( number );</code></pre>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../07-liquid-crystal-displays/02-project-25-defining-custom-characters/index.html"><span class="dir">← Previous</span><span class="t">Project #25: Defining Custom Characters</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a><a class="nx" data-nav="next" href="../../07-liquid-crystal-displays/04-project-26-seeing-the-text-functions-in-action/index.html"><span class="dir">Next →</span><span class="t">Project #26: Seeing the Text Functions in Action</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

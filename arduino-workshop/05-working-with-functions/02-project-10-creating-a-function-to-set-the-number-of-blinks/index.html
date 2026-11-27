@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #10: Creating a Function to Set the Number of Blinks — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 5: Working with Functions · Project #10: Creating a Function to Set the Number of Blinks">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 5 · Project #10: Creating a Function to Set the Number of Blinks</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../05-working-with-functions/01-project-9-creating-a-function-to-repeat-an-action/index.html" title="Project #9: Creating a Function to Repeat an Action">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 5 · Working with Functions</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-9-creating-a-function-to-repeat-an-action/index.html">Project #9: Creating a Function to Repeat an Action</a><a href="../02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html" aria-current=page>Project #10: Creating a Function to Set the Number of Blinks</a><a href="../03-creating-a-function-to-return-a-value/index.html">Creating a Function to Return a Value</a><a href="../04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</a><a href="../05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html">Displaying Data from the Arduino in the Serial Monitor</a><a href="../06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html">Project #12: Displaying the Temperature in the Serial Monitor</a><a href="../07-making-decisions-with-while-statements/index.html">Making Decisions with while Statements</a><a href="../08-sending-data-from-the-serial-monitor-to-the-arduino/index.html">Sending Data from the Serial Monitor to the Arduino</a><a href="../09-project-13-multiplying-a-number-by-two/index.html">Project #13: Multiplying a Number by Two</a><a href="../10-long-variables/index.html">long Variables</a><a href="../11-project-14-using-long-variables/index.html">Project #14: Using long Variables</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../05-working-with-functions/03-creating-a-function-to-return-a-value/index.html" title="Creating a Function to Return a Value">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:24.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5 · Working with Functions</a></p>
+  <h1>Project #10: Creating a Function to Set the Number of Blinks</h1>
+  <p class="sec-meta">Book pages 97–98</p>
+</div>
+<article class="prose">
+<p>The function we just created is pretty limited. What if we want to set the number of blinks and the delay? No problem; we can create a function that lets us change values, like this:</p>
+<pre class="code"><code>void blinkLED(int cycles, int del)
+{
+  for ( int z = 0 ; z &lt; cycles ; z++ )
+  {
+    digitalWrite(LED, HIGH);
+    delay(del);
+    digitalWrite(LED, LOW);
+    delay(del);
+  }
+}</code></pre>
+<p>Our new <code>void blinkLED()</code> function accepts two integer values: <code>cycles</code> (the number of times we want to blink the LED) and <code>del</code> (the delay time between turning the LED on and off). So if we wanted to blink the LED 12 times, with a 100-millisecond delay, then we would use <code>blinkLED(12, 100)</code>. Enter the following sketch into the IDE to experiment with this function:</p>
+<pre class="code"><code> // Project 10 - Creating a Function to Set the Number of Blinks
+ #define LED 13
+ void setup()
+ {
+   pinMode(LED, OUTPUT);
+ }
+ void blinkLED(int cycles, int del)
+ {
+   for ( int z = 0 ; z &lt; cycles ; z++ )
+   {
+     digitalWrite(LED, HIGH);
+     delay(del);
+     digitalWrite(LED, LOW);
+     delay(del);
+   }
+ }
+ void loop()
+ {
+<span class="cm">❶</span>   blinkLED(12, 100);
+   delay(1000);
+ }</code></pre>
+<ol start="100"><li><code>100</code>. Therefore, the LED will blink 12 times with a delay of 100 milliseconds</li></ol>
+<p>You can see at <span class="co">❶</span> that the values of <code>12</code> and <code>100</code> (for the number of blinks and the delay, respectively) are passed into our custom function <code>blinkLED()</code>, where <code>cycles</code> will have a value of <code>12</code> and <code>del</code> will have a value of between blinks.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../05-working-with-functions/01-project-9-creating-a-function-to-repeat-an-action/index.html"><span class="dir">← Previous</span><span class="t">Project #9: Creating a Function to Repeat an Action</span><span class="ch">Chapter 5 · Working with Functions</span></a><a class="nx" data-nav="next" href="../../05-working-with-functions/03-creating-a-function-to-return-a-value/index.html"><span class="dir">Next →</span><span class="t">Creating a Function to Return a Value</span><span class="ch">Chapter 5 · Working with Functions</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

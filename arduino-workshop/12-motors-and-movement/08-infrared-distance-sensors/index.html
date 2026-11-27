@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infrared Distance Sensors — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 12: Motors and Movement · Infrared Distance Sensors">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 12 · Infrared Distance Sensors</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../12-motors-and-movement/07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html" title="Project #41: Detecting Tank Bot Collisions with a Microswitch">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 12 · Motors and Movement</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-making-small-motions-with-servos/index.html">Making Small Motions with Servos</a><a href="../02-project-38-building-an-analog-thermometer/index.html">Project #38: Building an Analog Thermometer</a><a href="../03-using-electric-motors/index.html">Using Electric Motors</a><a href="../04-project-39-controlling-the-motor/index.html">Project #39: Controlling the Motor</a><a href="../05-project-40-building-and-controlling-a-tank-robot/index.html">Project #40: Building and Controlling a Tank Robot</a><a href="../06-sensing-collisions/index.html">Sensing Collisions</a><a href="../07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html">Project #41: Detecting Tank Bot Collisions with a Microswitch</a><a href="../08-infrared-distance-sensors/index.html" aria-current=page>Infrared Distance Sensors</a><a href="../09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html">Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</a><a href="../10-ultrasonic-distance-sensors/index.html">Ultrasonic Distance Sensors</a><a href="../11-project-43-detecting-tank-bot-collisions-with-an-ultrasonic/index.html">Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../12-motors-and-movement/09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html" title="Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:67.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12 · Motors and Movement</a></p>
+  <h1>Infrared Distance Sensors</h1>
+  <p class="sec-meta">Book pages 246–249</p>
+</div>
+<article class="prose">
+<p>Our next method of collision avoidance uses an infrared (IR) distance sensor. This sensor bounces an infrared light signal off a surface in front of it and returns a voltage that is relative to the distance between the sensor and the surface. Infrared sensors are useful for collision detection because they are inexpensive, but they’re not ideal for <em>exact</em> distance measuring. We’ll use the Sharp GP2Y0A21YK0F analog sensor for our project, as shown in Figure 12-23.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="646" height="292" style="width:314px" loading="lazy" alt="Figure 12-23: The Sharp IR sensor"></a><figcaption><b>Figure 12-23:</b> The Sharp IR sensor</figcaption></figure>
+<h2>Wiring It Up</h2>
+<p>To wire the sensor, connect the red and black wires on the sensor to 5 V and GND, respectively, with the white wire connecting to an analog input pin on your Arduino. We’ll use <code>analogRead()</code> to measure the voltage returned from the sensor. The graph in Figure 12-24 shows the relationship between the distance measured and the output voltage.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="815" height="639" style="width:396px" loading="lazy" alt="Figure 12-24: Graph of IR sensor distance versus output voltage"></a><figcaption><b>Figure 12-24:</b> Graph of IR sensor distance versus output voltage</figcaption></figure>
+<h2>Testing the IR Distance Sensor</h2>
+<p>Because the relationship between distance and output is not easily represented with an equation, we’ll categorize the readings into 5 cm stages. To demonstrate this, we’ll use a simple example. Connect your infrared sensor’s white lead to analog pin 0, the red lead to 5 V, and the black lead to GND, and then enter and upload the sketch shown in Listing 12-2.</p>
+<figure class="listing"><pre class="code"><code> // Listing 12-2
+ float sensor = 0;
+ int cm = 0;
+ void setup()
+ {
+   Serial.begin(9600);
+ }
+ void loop()
+ {
+<span class="cm">❶</span>   sensor = analogRead(0);
+<span class="cm">❷</span>   if (sensor&lt;=90)
+   {
+     Serial.println(&quot;Infinite distance!&quot;);
+   } else if (sensor&lt;100) // 80cm
+   {
+     cm = 80;
+   } else if (sensor&lt;110) // 70 cm
+   {
+     cm = 70;
+   } else if (sensor&lt;118) // 60cm
+   {
+     cm = 60;
+   } else if (sensor&lt;147) // 50cm
+   {
+     cm = 50;
+   } else if (sensor&lt;188) // 40 cm
+   {
+     cm = 40;
+   } else if (sensor&lt;230) // 30cm
+   {
+     cm = 30;
+   } else if (sensor&lt;302) // 25 cm
+   {
+     cm = 25;
+   } else if (sensor&lt;360) // 20cm
+   {
+     cm = 20;
+   } else if (sensor&lt;505) // 15cm
+   {
+     cm = 15;
+   } else if (sensor&lt;510) // 10 cm
+   {
+     cm = 10;
+   } else if (sensor&gt;=510) // too close!
+   {
+      Serial.println(&quot;Too close!&quot;);
+   }
+   Serial.print(&quot;Distance: &quot;);
+   Serial.print(cm);
+   Serial.println(&quot; cm&quot;);
+   delay(250);
+ }</code></pre><figcaption><b>Listing 12-2:</b> IR sensor demonstration sketch</figcaption></figure>
+<p>The sketch reads the voltage from the IR sensor at <span class="co">❶</span> and then uses a series of <code>if</code> statements at <span class="co">❷</span> to choose which approximate distance is being returned. We determine the distance from the voltage returned by the sensor using two parameters. The first is the voltage-to-distance relationship as displayed in Figure 12-24. Then, using the knowledge (from Project 6) that <code>analogRead()</code> returns a value between 0 and 1,023 relative to a voltage between 0 and around 5 V, we can calculate the approximate distance returned by the sensor.</p>
+<p>After uploading the sketch, open the Serial Monitor and experiment by moving your hand or a piece of paper at various distances from the sensor. The Serial Monitor should return the approximate distance, as shown in Figure 12-25.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="913" height="434" style="width:444px" loading="lazy" alt="Figure 12-25: Results of Listing 12-2"></a><figcaption><b>Figure 12-25:</b> Results of Listing 12-2</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../12-motors-and-movement/07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html"><span class="dir">← Previous</span><span class="t">Project #41: Detecting Tank Bot Collisions with a Microswitch</span><span class="ch">Chapter 12 · Motors and Movement</span></a><a class="nx" data-nav="next" href="../../12-motors-and-movement/09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html"><span class="dir">Next →</span><span class="t">Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</span><span class="ch">Chapter 12 · Motors and Movement</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

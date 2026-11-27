@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #40: Building and Controlling a Tank Robot — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 12: Motors and Movement · Project #40: Building and Controlling a Tank Robot">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 12 · Project #40: Building and Controlling a Tank Robot</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../12-motors-and-movement/04-project-39-controlling-the-motor/index.html" title="Project #39: Controlling the Motor">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 12 · Motors and Movement</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-making-small-motions-with-servos/index.html">Making Small Motions with Servos</a><a href="../02-project-38-building-an-analog-thermometer/index.html">Project #38: Building an Analog Thermometer</a><a href="../03-using-electric-motors/index.html">Using Electric Motors</a><a href="../04-project-39-controlling-the-motor/index.html">Project #39: Controlling the Motor</a><a href="../05-project-40-building-and-controlling-a-tank-robot/index.html" aria-current=page>Project #40: Building and Controlling a Tank Robot</a><a href="../06-sensing-collisions/index.html">Sensing Collisions</a><a href="../07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html">Project #41: Detecting Tank Bot Collisions with a Microswitch</a><a href="../08-infrared-distance-sensors/index.html">Infrared Distance Sensors</a><a href="../09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html">Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</a><a href="../10-ultrasonic-distance-sensors/index.html">Ultrasonic Distance Sensors</a><a href="../11-project-43-detecting-tank-bot-collisions-with-an-ultrasonic/index.html">Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../12-motors-and-movement/06-sensing-collisions/index.html" title="Sensing Collisions">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:65.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12 · Motors and Movement</a></p>
+  <h1>Project #40: Building and Controlling a Tank Robot</h1>
+  <p class="sec-meta">Book pages 235–242</p>
+</div>
+<article class="prose">
+<p>Although controlling the speed of one motor can be useful, let’s move into more interesting territory by controlling two motors at once to affect their speed <em>and</em> direction. Our goal is to describe the construction of a tank-style robot that we’ll continue to work on in the next few chapters. Here we’ll describe the construction and basic control of our tank.</p>
+<p>Our tank has two motors that each control one tread, allowing it to climb over small obstacles, rotate in one position, and not crash into obstacles as it travels. You will be able to control the speed and direction of travel, and you will also learn how to add parts for collision avoidance and remote control. Once you have completed the projects in this book, you will have a solid foundation for creating your own versions and bringing your ideas to life.</p>
+<h2>The Hardware</h2>
+<p>The following hardware is required:</p>
+<ul><li>One Pololu RP5 Tank Chassis package</li><li>One Pololu RP5 Chassis plate</li><li>Six alkaline AA cells</li><li>One 9 V battery to DC socket cable</li><li>A DFRobot 2A Arduino Motor Shield</li><li>Arduino and USB cable</li></ul>
+<h3>The Chassis</h3>
+<p>The foundation of any robot is a solid chassis containing the motors, drive-train, and the power supply. An Arduino-powered robot also needs to have room to mount the Arduino and various external parts.</p>
+<p>You can choose from many chassis models available on the market, but we’ll use a tank chassis—the Pololu RP5 series shown in Figure 12-10, which contains two motors.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="942" height="622" style="width:458px" loading="lazy" alt="Figure 12-10: Our tank chassis"></a><figcaption><b>Figure 12-10:</b> Our tank chassis</figcaption></figure>
+<h3>Two Power Supplies</h3>
+<p>The Pololu chassis includes a holder for six AA cells, which we’ll use as the power supply for the motors, as shown in Figure 12-11. The battery holder sits in the base of the chassis between the motors and gives the robot a low center of gravity.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="948" height="270" style="width:461px" loading="lazy" alt="Figure 12-11: Battery holder with six AA cells"></a><figcaption><b>Figure 12-11:</b> Battery holder with six AA cells</figcaption></figure>
+<p>Although the power supply in Figure 12-11 is large, we need to use a separate power supply for our Arduino board, because this power will allow the sketch to keep operating even if the motors fail. The power for the Arduino in this project comes from a 9 V battery, which can be connected to the power socket of the Arduino board using the cable shown in Figure 12-12.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="690" height="529" style="width:335px" loading="lazy" alt="Figure 12-12: Battery cable used to connect the battery to the Arduino"></a><figcaption><b>Figure 12-12:</b> Battery cable used to connect the battery to the Arduino</figcaption></figure>
+<h3>The Mounting Plate</h3>
+<p>The last part of our chassis is the <em>mounting plate</em>, which is shown in Figure 12-13.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="948" height="515" style="width:461px" loading="lazy" alt="Figure 12-13: Mounting plate"></a><figcaption><b>Figure 12-13:</b> Mounting plate</figcaption></figure>
+<p>The mounting plate covers the top of the chassis and allows you to bolt items on top using spacers and matching <em>M3 screws</em>. (Screws, spacers, and washers should be available from a robotics parts supplier or a large hardware store.) In Figure 12-14, you can see the mounting plate’s spacers already fitted to hold our Arduino board.</p>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="948" height="481" style="width:461px" loading="lazy" alt="Figure 12-14: Arduino mounted on the plate"></a><figcaption><b>Figure 12-14:</b> Arduino mounted on the plate</figcaption></figure>
+<h2>The Schematic</h2>
+<p>The final requirement is to create the circuitry to control the two motors in the chassis. Although we could use the circuitry shown in Figure 12-9 for each of the motors, this wouldn’t allow us to control the direction of the motor and could be somewhat inconvenient to wire up ourselves. Instead, we use a <em>motor shield</em>. A motor shield contains the circuitry we need to handle the higher current drawn by the motors and also accepts commands from the Arduino to control the speed and direction of both motors. For our tank, we’ll use a 2A Motor Shield for Arduino from DFRobot (<em>http://www.dfrobot.com/</em>), as shown in Figure 12-15.</p>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="640" height="590" style="width:311px" loading="lazy" alt="Figure 12-15: DFRobot motor shield"></a><figcaption><b>Figure 12-15:</b> DFRobot motor shield</figcaption></figure>
+<h3>Connecting the Motor Shield</h3>
+<p>Making the required connections to the motor shield is simple: Connect the wires from the battery pack to the terminal block at the bottom-left of the shield, as shown in Figure 12-16. The black wire (negative) must be on the right side and the red wire on the left.</p>
+<p>Next connect the two pairs of wires from the motors. Make sure the colors of the wires match the connections, as shown in Figure 12-17.</p>
+<figure class="fig side-fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="355" height="317" style="width:173px" loading="lazy" alt="Figure 12-16: DC power connection"></a><figcaption><b>Figure 12-16:</b> DC power  connection</figcaption></figure>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="525" height="315" style="width:255px" loading="lazy" alt="Figure 12-17: Connecting the motors"></a><figcaption><b>Figure 12-17:</b> Connecting the motors</figcaption></figure>
+<h3>Connecting the Jumpers</h3>
+<p>The final task to set up the shield is to connect the appropriate jumpers. Look between the DC power connection and the bottom row of sockets on the shield, and you should see six pins with two black jumpers. Place them horizontally so that they cover the four pins on the left, as shown in Figure 12-18. Lastly, ensure that the four jumpers are connected vertically across the PWM jumpers, as shown in Figure 12-19.</p>
+<figure class="fig side-fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="301" height="250" style="width:146px" loading="lazy" alt="Figure 12-18: Setting the correct power jumpers"></a><figcaption><b>Figure 12-18:</b> Setting the  correct power jumpers</figcaption></figure>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="489" height="226" style="width:238px" loading="lazy" alt="Figure 12-19: Setting the correct mode jumpers"></a><figcaption><b>Figure 12-19:</b> Setting the correct mode jumpers</figcaption></figure>
+<p>If your motor’s wires are not color-coded, you may have to swap them after the first run to determine which way is forward or backward.</p>
+<p>After you’ve connected the wiring and jumpers, inserted the battery pack, fitted the Arduino and shield to the mounting plate, and fastened it to the chassis, your tank should look something like the one in Figure 12-20.</p>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="927" height="760" style="width:451px" loading="lazy" alt="Figure 12-20: Our tank bot is ready for action!"></a><figcaption><b>Figure 12-20:</b> Our tank bot is ready for action!</figcaption></figure>
+<h2>The Sketch</h2>
+<p>Now to get the tank moving. To begin, let’s create some functions to simplify the movements. Because two motors are involved, we’ll need four movements:</p>
+<ul><li>Forward motion</li><li>Reverse motion</li><li>Rotate clockwise</li><li>Rotate counterclockwise</li></ul>
+<p>Our motor shield controls each motor with two digital pins: One pin is for speed control using PWM (as demonstrated in Project 39), and the other determines the direction the motor will turn.</p>
+<p>Four functions in our sketch match our four movements: <code>goForward()</code>, <code>goBackward()</code>, <code>rotateLeft()</code>, and <code>rotateRight()</code>. Each accepts a value in milli­ seconds, which is the length of time required to operate the movement, and a PWM speed value between 0 and 255. For example, to move forward for 2 seconds at full speed, we’d use <code>goForward(2000,255)</code>.</p>
+<p>Enter and save the following sketch (but don’t upload it just yet):</p>
+<pre class="code"><code> // Project 40 - Building and Controlling a Tank Robot
+ int m1speed=6; // digital pins for speed control
+ int m2speed=5;
+ int m1direction=7; // digital pins for direction control
+ int m2direction=4;
+ void setup()
+ {
+   pinMode(m1direction, OUTPUT);
+   pinMode(m2direction, OUTPUT);
+   delay(5000);
+ }
+ void goForward(int duration, int pwm)
+ {
+<span class="cm">❶</span>   digitalWrite(m1direction,HIGH); // forward
+   digitalWrite(m2direction,HIGH); // forward
+   analogWrite(m1speed, pwm); // speed
+   analogWrite(m2speed, pwm);
+   delay(duration);
+   analogWrite(m1speed, 0); // speed
+   analogWrite(m2speed, 0);
+ }
+ void goBackward(int duration, int pwm)
+ {
+   digitalWrite(m1direction,LOW); // backward
+<span class="cm">❷</span>   digitalWrite(m2direction,LOW); // backward
+   analogWrite(m1speed, pwm); // speed
+   analogWrite(m2speed, pwm);
+   delay(duration);
+   analogWrite(m1speed, 0); // speed
+   analogWrite(m2speed, 0);
+ }
+ void rotateRight(int duration, int pwm)
+ {
+<span class="cm">❸</span>   digitalWrite(m1direction,HIGH); // forward
+   digitalWrite(m2direction,LOW); // backward
+   analogWrite(m1speed, pwm); // speed
+   analogWrite(m2speed, pwm);
+   delay(duration);
+   analogWrite(m1speed, 0); // speed
+   analogWrite(m2speed, 0);
+ }
+ void rotateLeft(int duration, int pwm)
+ {
+<span class="cm">❹</span>   digitalWrite(m1direction,LOW); // backward
+   digitalWrite(m2direction,HIGH); // forward
+   analogWrite(m1speed, pwm); // speed
+   analogWrite(m2speed, pwm);
+   delay(duration);
+   analogWrite(m1speed, 0); // speed
+   analogWrite(m2speed, 0);
+ }
+ void loop()
+ {
+   goForward(1000, 255);
+   rotateLeft(1000, 255);
+   goForward(1000, 255);
+   rotateRight(1000, 255);
+   goForward(1000, 255);
+   goBackward(2000, 255);
+   delay(2000);
+ }</code></pre>
+<p>In the sketch, we set the direction of travel for each motor using</p>
+<pre class="code"><code>digitalWrite(m1direction, direction );</code></pre>
+<p>The value for <code>direction</code> is <code>HIGH</code> for forward or <code>LOW</code> for backward. There­ fore, to make the tank move forward, we set both motors the same way, which has been done at <span class="co">❶</span> and <span class="co">❷</span>. Next we set the speed of the motor using the following:</p>
+<pre class="code"><code> analogWrite(m1speed, pwm );</code></pre>
+<p>The value for <code>pwm</code> is the speed, between 0 and 255. To make the tank rotate left or right, the motors must be set in opposite directions, as shown at <span class="co">❸</span> and <span class="co">❹</span>.</p>
+<aside class="note"><span class="lbl">WARNING</span><p><em>When you’re ready to upload the sketch, position the tank either by holding it off your </em> <em>work surface or by propping it up so that its treads aren’t in contact with a surface; if </em> <em>you don’t do this, then when the sketch upload completes, the tank will burst into life </em> <em>and leap off your desk after 5 seconds!</em></p></aside>
+<p>Upload the sketch, remove the USB cable, and connect the battery cable to the Arduino power socket. Then place the tank on carpet or a clean surface, and let it drive about. Experiment with the movement functions in Project 40 to control your tank; this will help you become familiar with the time delays and how they relate to distance traveled.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../12-motors-and-movement/04-project-39-controlling-the-motor/index.html"><span class="dir">← Previous</span><span class="t">Project #39: Controlling the Motor</span><span class="ch">Chapter 12 · Motors and Movement</span></a><a class="nx" data-nav="next" href="../../12-motors-and-movement/06-sensing-collisions/index.html"><span class="dir">Next →</span><span class="t">Sensing Collisions</span><span class="ch">Chapter 12 · Motors and Movement</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

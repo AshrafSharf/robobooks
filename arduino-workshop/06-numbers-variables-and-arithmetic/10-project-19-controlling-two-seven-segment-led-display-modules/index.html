@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #19: Controlling Two Seven-Segment LED Display Modules — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Project #19: Controlling Two Seven-Segment LED Display Modules">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Project #19: Controlling Two Seven-Segment LED Display Modules</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/09-project-18-creating-a-single-digit-display/index.html" title="Project #18: Creating a Single-Digit Display">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html" aria-current=page>Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/11-project-20-creating-a-digital-thermometer/index.html" title="Project #20: Creating a Digital Thermometer">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:37.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Project #19: Controlling Two Seven-Segment LED Display Modules</h1>
+  <p class="sec-meta">Book pages 131–134</p>
+</div>
+<article class="prose">
+<h2>Display Modules</h2>
+<p>This project will show you how to control two, seven-segment LED display modules so that you can display two-digit numbers.</p>
+<h2>The Hardware</h2>
+<p>The following hardware is required:</p>
+<ul><li>Two 74HC595 shift register ICs</li><li>Two common-cathode seven-segment LED displays</li><li>Sixteen 560 Ω resistors (R1 to 16)</li><li>One large breadboard</li><li>Various connecting wires</li><li>Arduino and USB cable</li></ul>
+<h2>The Schematic</h2>
+<p>Figure 6-15 shows the schematic for two display modules.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="1139" height="904" style="width:554px" loading="lazy" alt="Figure 6-15: Schematic for Project 19"></a><figcaption><b>Figure 6-15:</b> Schematic for Project 19</figcaption></figure>
+<p>Note that the shift registers’ data and clock pins are connected to each other and then to the Arduino. The data line from Arduino digital pin 6 runs to shift register 1, and then a link from pin 9 of shift register 1 runs to pin 14 of shift register 2.</p>
+<p>To display a number between 0 and 99, we’ll need a more complicated sketch. If a number is less than 10, then we can just send the number followed by a 0, as the right digit displays the number and the left digit displays 0. However, if the number is greater than 10, then we need to determine each of the number’s two digits and send each to the shift registers separately. To make this process easier, we’ll use the math function modulo.</p>
+<h2>Modulo</h2>
+<p><em>Modulo</em> is a function that returns the remainder of a division operation. For example, 10 modulo (or <em>mod</em>) 7 equals 3—in other words, the remainder of 10 divided by 7 equals 3. We use the percent sign (<code>%</code>) to represent modulo. The following example uses modulo in a sketch:</p>
+<pre class="code"><code>int a = 8;
+int b = 3;
+c = a % b;</code></pre>
+<p>In this example, the value of <code>c</code> will be 2. So to determine a two-digit number’s right-hand digit, we use the modulo function<em>, </em>which returns the remainder when dividing the two numbers.</p>
+<p>To automate displaying a single- or double-digit number, we’ll create the function <code>displayNumber()</code> for our sketch. We use modulo as part of this function to separate the digits of a two-digit number. For example, to display the number <em>23</em>, we first isolate the left-hand digit by dividing 23 by 10, which equals 2 (and a fraction that we can ignore). To isolate the right-hand digit, we perform 23 modulo 10, which equals 3.</p>
+<pre class="code"><code> // Project 19 - Controlling Two Seven-Segment LED Display Modules
+ // set up the array with the segments for 0 to 9, A to F (from Table 6-2)
+ int digits[] = {252, 96, 218, 242, 102, 182, 190, 224, 254, 246, 238, 62, 156,
+ 122, 158, 142};
+ void displayNumber(int n)
+ {
+   int left, right=0;
+<span class="cm">❶</span>   if (n &lt; 10)
+   {
+     digitalWrite(LATCH, LOW);
+     shiftOut(DATA, CLOCK, LSBFIRST, digits[n]);
+     shiftOut(DATA, CLOCK, LSBFIRST, 0);
+     digitalWrite(LATCH, HIGH);
+   }
+   else if (n &gt;= 10)
+   {
+<span class="cm">❷</span>     right = n % 10; // remainder of dividing the number to display by 10
+     left = n / 10;  // quotient of dividing the number to display by 10
+     digitalWrite(LATCH, LOW);
+     shiftOut(DATA, CLOCK, LSBFIRST, digits[right]);
+     shiftOut(DATA, CLOCK, LSBFIRST, digits[left]);
+     digitalWrite(LATCH, HIGH);
+   }
+ }
+<span class="cm">❸</span> void loop()
+ {
+   int i;
+   for ( i = 0 ; i &lt; 100 ; i++ )
+   {
+     displayNumber(i);
+     delay(100);
+   }
+ }</code></pre>
+<p>At <span class="co">❶</span>, the function checks to see if the number to be displayed is less than 10. If so, it sends the data for the number and a blank digit to the shift registers. However, if the number is greater than 10, then the function uses modulo and division at <span class="co">❷</span> to separate the digits and then sends them to the shift registers separately. Finally, in <code>void loop()</code> at <span class="co">❸</span> we set up and call the function to display the numbers from 0 to 99.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/09-project-18-creating-a-single-digit-display/index.html"><span class="dir">← Previous</span><span class="t">Project #18: Creating a Single-Digit Display</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/11-project-20-creating-a-digital-thermometer/index.html"><span class="dir">Next →</span><span class="t">Project #20: Creating a Digital Thermometer</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

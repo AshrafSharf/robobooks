@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #18: Creating a Single-Digit Display — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Project #18: Creating a Single-Digit Display">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Project #18: Creating a Single-Digit Display</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/08-seven-segment-led-displays/index.html" title="Seven-Segment LED Displays">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html" aria-current=page>Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/10-project-19-controlling-two-seven-segment-led-display-modules/index.html" title="Project #19: Controlling Two Seven-Segment LED Display Modules">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:36.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Project #18: Creating a Single-Digit Display</h1>
+  <p class="sec-meta">Book pages 129–131</p>
+</div>
+<article class="prose">
+<p>In this project we’ll assemble a circuit to use a single-digit display.</p>
+<h2>The Hardware</h2>
+<p>The following hardware is required:</p>
+<ul><li>One 74HC595 shift register IC</li><li>One common-cathode seven-segment LED display</li><li>Eight 560 Ω resistors (R1 to R8)</li><li>One large breadboard</li><li>Various connecting wires</li><li>Arduino and USB cable</li></ul>
+<h2>The Schematic</h2>
+<p>The schematic is shown in Figure 6-13.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="1089" height="681" style="width:529px" loading="lazy" alt="Figure 6-13: Schematic for Project 18"></a><figcaption><b>Figure 6-13:</b> Schematic for Project 18</figcaption></figure>
+<p>When wiring the LED module to the shift register, LED pins A through G connect to pins Q0 through Q6, respectively, and DP connects to Q7.</p>
+<h2>The Sketch</h2>
+<p>In the sketch for Project 18, we store the decimal values (see Table 6-2) in the <code>int digits[]</code> array. In the <code>void loop</code>, we send these values to the shift register in sequential order at <span class="co">❶</span> and then repeat the process with the decimal point on by adding 1 to the value sent to the shift register at <span class="co">❷</span>:</p>
+<pre class="code"><code> // Project 18 - Creating a Single-Digit Display
+ #define DATA  6                       // connect to pin 14 on the 74HC595
+ #define LATCH 8                       // connect to pin 12 on the 74HC595
+ #define CLOCK 10                      // connect to pin 11 on the 74HC595
+ // set up the array with the segments for 0 to 9, A to F (from Table 6-2)
+ int digits[] = {252, 96, 218, 242, 102, 182, 190, 224, 254, 246, 238, 62, 156,
+ 122, 158, 142};
+ void setup()
+ {
+   pinMode(LATCH, OUTPUT);
+   pinMode(CLOCK, OUTPUT);
+   pinMode(DATA, OUTPUT);
+ }
+ void loop()
+ {
+   int i;
+   for ( i = 0 ; i &lt; 16 ; i++ )   // display digits 0-9, A-F
+   {
+     digitalWrite(LATCH, LOW);
+<span class="cm">❶</span> shiftOut(DATA, CLOCK, LSBFIRST, digits[i]);
+     digitalWrite(LATCH, HIGH);
+     delay(250);
+   }
+   for ( i = 0 ; i &lt; 16 ; i++ )   // display digits 0-9, A-F with DP
+   {
+     digitalWrite(LATCH, LOW);
+<span class="cm">❷</span> shiftOut(DATA, CLOCK, LSBFIRST, digits[i]+1); // +1 is to turn on the DP bit
+     digitalWrite(LATCH, HIGH);
+     delay(250);
+   }
+ }</code></pre>
+<p>Seven-segment LCD displays are bright and easy to read. For example, Figure 6-14 shows the digit 9 with the decimal point displayed as a result of this sketch.</p>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="323" height="432" style="width:157px" loading="lazy" alt="Figure 6-14: Digit displayed by Project 18"></a><figcaption><b>Figure 6-14:</b> Digit displayed by Project 18</figcaption></figure>
+<h2>Displaying Double Digits</h2>
+<p>To use more than one shift register to control additional digital outputs, connect pin 9 of the 74HC595 (which receives data from the Arduino) to pin 14 of the second shift register. Once you’ve made this connection, 2 bytes of data will sent: the first to control the second shift register and the second to control the first shift register. Here’s an example:</p>
+<pre class="code"><code>  digitalWrite(LATCH, LOW);
+  shiftOut(DATA, CLOCK, MSBFIRST, 254); // data for second 74HC595
+  shiftOut(DATA, CLOCK, MSBFIRST, 254); // data for first 74HC595
+  digitalWrite(LATCH, HIGH);</code></pre>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/08-seven-segment-led-displays/index.html"><span class="dir">← Previous</span><span class="t">Seven-Segment LED Displays</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/10-project-19-controlling-two-seven-segment-led-display-modules/index.html"><span class="dir">Next →</span><span class="t">Project #19: Controlling Two Seven-Segment LED Display Modules</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

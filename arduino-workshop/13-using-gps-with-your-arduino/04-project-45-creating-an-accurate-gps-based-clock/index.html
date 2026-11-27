@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #45: Creating an Accurate GPS-based Clock — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 13: Using GPS with Your Arduino · Project #45: Creating an Accurate GPS-based Clock">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 13 · Project #45: Creating an Accurate GPS-based Clock</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../13-using-gps-with-your-arduino/03-project-44-creating-a-simple-gps-receiver/index.html" title="Project #44: Creating a Simple GPS Receiver">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 13 · Using GPS with Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-is-gps/index.html">What Is GPS?</a><a href="../02-testing-the-gps-shield/index.html">Testing the GPS Shield</a><a href="../03-project-44-creating-a-simple-gps-receiver/index.html">Project #44: Creating a Simple GPS Receiver</a><a href="../04-project-45-creating-an-accurate-gps-based-clock/index.html" aria-current=page>Project #45: Creating an Accurate GPS-based Clock</a><a href="../05-project-46-recording-the-position-of-a-moving-object-over-ti/index.html">Project #46: Recording the Position of a Moving Object over Time</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../13-using-gps-with-your-arduino/05-project-46-recording-the-position-of-a-moving-object-over-ti/index.html" title="Project #46: Recording the Position of a Moving Object over Time">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:72.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 13 · Using GPS with Your Arduino</a></p>
+  <h1>Project #45: Creating an Accurate GPS-based Clock</h1>
+  <p class="sec-meta">Book pages 263–265</p>
+</div>
+<article class="prose">
+<p>There is more to a GPS than finding a location; the system also transmits time data that can be used to make a very accurate clock.</p>
+<h2>The Hardware</h2>
+<p>For this project, we’ll use the same hardware from Project 44.</p>
+<h2>The Sketch</h2>
+<p>Enter the following sketch to build a GPS clock:</p>
+<pre class="code"><code> // Project 45 - Creating an Accurate GPS-based Clock
+ #include &lt;TinyGPS.h&gt;
+ #include &lt;LiquidCrystal.h&gt;
+ LiquidCrystal lcd( 8, 9, 4, 5, 6, 7 );
+ // Create an instance of the TinyGPS object
+ TinyGPS gps;
+ void getgps(TinyGPS &amp;gps);
+ void setup()
+ {
+   Serial.begin(4800);
+   lcd.begin(16, 2);
+ }
+ void getgps(TinyGPS &amp;gps)
+ {
+   int year,a,t;
+   byte month, day, hour, minute, second, hundredths;
+<span class="cm">❶</span>   gps.crack_datetime(&amp;year,&amp;month,&amp;day,&amp;hour,&amp;minute,&amp;second,&amp;hundredths);
+<span class="cm">❷</span>   hour=hour+10;                            // correct for your time zone
+   if (hour&gt;23)
+   {
+     hour=hour-24;
+   }
+   lcd.setCursor(0,0);                      // print the date and time
+<span class="cm">❸</span>   lcd.print(&quot;Current time: &quot;);
+   lcd.setCursor(4,1);
+   if (hour&lt;10)
+   {
+     lcd.print(&quot;0&quot;);
+   }
+   lcd.print(hour, DEC);
+   lcd.print(&quot;:&quot;);
+   if (minute&lt;10)
+   {
+     lcd.print(&quot;0&quot;);
+   }
+   lcd.print(minute, DEC);
+   lcd.print(&quot;:&quot;);
+   if (second&lt;10)
+   {
+     lcd.print(&quot;0&quot;);
+   }
+   lcd.print(second, DEC);
+ }
+ void loop()
+ {
+   byte a;
+   if ( Serial.available() &gt; 0 )  // if there is data coming into the serial line
+   {
+     a = Serial.read();          // get the byte of data
+     if(gps.encode(a))           // if there is valid GPS data...
+     {
+       getgps(gps);              // then grab the data and display it on the LCD
+     }
+   }
+ }</code></pre>
+<p>This example works in a similar way to Project 44, except that instead of extracting the position data, the sketch extracts the time (always at Greenwich Mean Time, more commonly known as UTC) at <span class="co">❶</span>. At <span class="co">❷</span>, you can either add or subtract a number of hours to bring the clock into line with your current time zone. The time should then be formatted clearly and displayed on the LCD at <span class="co">❸</span>. Figure 13-9 shows an example of the clock.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="659" height="226" style="width:320px" loading="lazy" alt="Figure 13-9: Project 45 at work"></a><figcaption><b>Figure 13-9:</b> Project 45 at work</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../13-using-gps-with-your-arduino/03-project-44-creating-a-simple-gps-receiver/index.html"><span class="dir">← Previous</span><span class="t">Project #44: Creating a Simple GPS Receiver</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a><a class="nx" data-nav="next" href="../../13-using-gps-with-your-arduino/05-project-46-recording-the-position-of-a-moving-object-over-ti/index.html"><span class="dir">Next →</span><span class="t">Project #46: Recording the Position of a Moving Object over Time</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

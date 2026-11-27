@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #27: Creating a Temperature History Monitor — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 7: Liquid Crystal Displays · Project #27: Creating a Temperature History Monitor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 7 · Project #27: Creating a Temperature History Monitor</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../07-liquid-crystal-displays/04-project-26-seeing-the-text-functions-in-action/index.html" title="Project #26: Seeing the Text Functions in Action">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 7 · Liquid Crystal Displays</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-character-lcd-modules/index.html">Character LCD Modules</a><a href="../02-project-25-defining-custom-characters/index.html">Project #25: Defining Custom Characters</a><a href="../03-graphic-lcd-modules/index.html">Graphic LCD Modules</a><a href="../04-project-26-seeing-the-text-functions-in-action/index.html">Project #26: Seeing the Text Functions in Action</a><a href="../05-project-27-creating-a-temperature-history-monitor/index.html" aria-current=page>Project #27: Creating a Temperature History Monitor</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../07-liquid-crystal-displays/06-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:45.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 7 · Liquid Crystal Displays</a></p>
+  <h1>Project #27: Creating a Temperature History Monitor</h1>
+  <p class="sec-meta">Book pages 157–160</p>
+</div>
+<article class="prose">
+<p>In this project, our goal is to measure the temperature once every 20 minutes and display the last 100 readings in a line graph. Each reading will be represented as a pixel, with the temperature on the vertical axis and time on the horizontal. The most current reading will appear on the left, and the display will continually scroll the readings from left to right. The current temperature will also be displayed as a numeral.</p>
+<h2>The Algorithm</h2>
+<p>Although it may sound complex, this project is fairly easy and actually requires only two functions. The first function takes a temperature reading from the TMP36 temperature sensor and stores it in an array of 100 values. Each time a new reading is taken, the previous 99 readings are moved down the array to make way for the new reading, and the oldest reading is erased. The second function draws on the LCD screen. It displays the current temperature, a scale for the graph, and the positions of each pixel for the display of the temperature data over time.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>One 128-by-64-pixel KS0108B graphic LCD module with pins for breadboard use</li><li>One 10 kΩ trimpot</li><li>One TMP36 temperature sensor</li><li>Various connecting wires</li><li>One breadboard</li><li>Arduino and USB cable</li></ul>
+<p>Connect the graphic LCD as described in Table 7-1, and connect the TMP36 sensor to 5 V, analog 5, and GND.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch, which also includes relevant comments about the functions used.</p>
+<pre class="code"><code>// Project 27 - Creating a Temperature History Monitor
+#include &lt;glcd.h&gt;                // include the graphics LCD library
+#include &lt;fonts/SystemFont5x7.h&gt; // include the standard character fonts for it
+int tcurrent;
+int tempArray[100];
+void setup()
+{
+  GLCD.Init(NON_INVERTED); // configure GLCD
+  GLCD.ClearScreen();      // turn off all GLCD pixels
+  GLCD.SelectFont(System5x7);
+}
+void getTemp() // function to read temperature from TMP36
+{
+  float sum = 0;
+  float voltage = 0;
+  float sensor = 0;
+  float celsius;
+  // read the temperature sensor and convert the result to degrees C
+  sensor   = analogRead(5);
+  voltage  = (sensor * 5000) / 1024;
+  voltage  = voltage - 500;
+  celsius  = voltage / 10;
+  tcurrent = int(celsius);
+  // insert the new temperature at the start of the array of past temperatures
+  for (int a = 99 ; a &gt;= 0 ; --a )
+  {
+    tempArray[a] = tempArray[a-1];
+  }
+  tempArray[0] = tcurrent;
+}
+void drawScreen() // generate GLCD display effects
+{
+  int q;
+  GLCD.ClearScreen();
+  GLCD.CursorTo(5, 0);
+  GLCD.Puts(&quot;Current:&quot;);
+  GLCD.PrintNumber(tcurrent);
+  GLCD.CursorTo(0, 1);
+  GLCD.PrintNumber(40);
+  GLCD.CursorTo(0, 2);
+  GLCD.PrintNumber(32);
+  GLCD.CursorTo(0, 3);
+  GLCD.PrintNumber(24);
+  GLCD.CursorTo(0, 4);
+  GLCD.PrintNumber(16);
+  GLCD.CursorTo(1, 5);
+  GLCD.PrintNumber(8);
+  GLCD.CursorTo(1, 6);
+  GLCD.PrintNumber(0);
+  for (int a = 28 ; a &lt; 127 ; a++)
+  {
+    q = (55 - tempArray[a-28]);
+    GLCD.SetDot(a, q, BLACK);
+  }
+}
+void loop()
+{
+  getTemp();
+  drawScreen();
+  for (int a = 0 ; a &lt; 20 ; a++) // wait 20 minutes until the next reading
+  {
+    delay(60000);          // wait 1 minute
+  }
+}</code></pre>
+<h2>The Result</h2>
+<p>The resulting display should look something like Figure 7-10.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="581" height="341" style="width:282px" loading="lazy" alt="Figure 7-10: Results of Project 27"></a><figcaption><b>Figure 7-10:</b> Results of Project 27</figcaption></figure>
+<h2>Modifying the Sketch</h2>
+<p>Some people can better interpret data in a visual way instead of just reading numbers. This type of project could also be used to display other kinds of data, such as the voltage from various sensors as measured by analog input pins. Or you could add another temperature sensor and show both values at once. Almost anything that returns a value can be displayed using the graphic LCD module.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../07-liquid-crystal-displays/04-project-26-seeing-the-text-functions-in-action/index.html"><span class="dir">← Previous</span><span class="t">Project #26: Seeing the Text Functions in Action</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a><a class="nx" data-nav="next" href="../../07-liquid-crystal-displays/06-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

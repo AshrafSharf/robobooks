@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #21: Creating an LED Matrix — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Project #21: Creating an LED Matrix">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Project #21: Creating an LED Matrix</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/13-bitwise-arithmetic/index.html" title="Bitwise Arithmetic">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html" aria-current=page>Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/15-project-22-creating-images-on-an-led-matrix/index.html" title="Project #22: Creating Images on an LED Matrix">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:39.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Project #21: Creating an LED Matrix</h1>
+  <p class="sec-meta">Book pages 141–142</p>
+</div>
+<article class="prose">
+<p>The purpose of this project is to demonstrate the use of the LED matrix; we’ll turn on every second column and row in the matrix, as shown in Figure 6-20.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="398" height="400" style="width:193px" loading="lazy" alt="Figure 6-20: Checkerboard matrix template"></a><figcaption><b>Figure 6-20:</b> Checkerboard matrix template</figcaption></figure>
+<p>To create this display pattern, we’ll send <code>B10101010</code> to the rows shift register and <code>~B10101010</code> to the columns shift register. The 1s and 0s in each byte match the rows and columns of the matrix.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Note the use of the bitwise NOT (</em><code>~</code><em>) on the columns byte. A columns shift register bit </em> <em>needs to be 0 to turn on an LED from the column connections. However, a rows shift </em> <em>register bit needs to be 1 to turn on the LED from the rows connections. Therefore, we </em> <em>use the bitwise arithmetic </em><code>~</code><em> to invert the byte of data being sent to the second shift reg-</em> <em>ister that drives the columns.</em></p></aside>
+<p>To create the effect shown in Figure 6-20, use the following sketch:</p>
+<pre class="code"><code>// Project 21 – Creating an LED Matrix
+#define DATA  6      // connect to pin 14 on the 74HC595
+#define LATCH 8      // connect to pin 12 on the 74HC595
+#define CLOCK 10     // connect to pin 11 on the 74HC595
+void setup()
+{
+  pinMode(LATCH, OUTPUT);
+  pinMode(CLOCK, OUTPUT);
+  pinMode(DATA, OUTPUT);
+}
+void loop()
+{
+  digitalWrite(LATCH, LOW);
+  shiftOut(DATA, CLOCK, MSBFIRST, ~B10101010); // columns
+  shiftOut(DATA, CLOCK, MSBFIRST,  B10101010); // rows
+  digitalWrite(LATCH, HIGH);
+  do {} while (1); // do nothing
+}</code></pre>
+<p>The result is shown in Figure 6-21. We have turned on every other LED inside the matrix to form a checkerboard pattern.</p>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="381" height="371" style="width:185px" loading="lazy" alt="Figure 6-21: Result of Project 21"></a><figcaption><b>Figure 6-21:</b> Result of Project 21</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/13-bitwise-arithmetic/index.html"><span class="dir">← Previous</span><span class="t">Bitwise Arithmetic</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/15-project-22-creating-images-on-an-led-matrix/index.html"><span class="dir">Next →</span><span class="t">Project #22: Creating Images on an LED Matrix</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

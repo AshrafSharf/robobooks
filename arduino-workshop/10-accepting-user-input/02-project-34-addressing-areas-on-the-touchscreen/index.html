@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #34: Addressing Areas on the Touchscreen — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 10: Accepting User Input · Project #34: Addressing Areas on the Touchscreen">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 10 · Project #34: Addressing Areas on the Touchscreen</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../10-accepting-user-input/01-touchscreens/index.html" title="Touchscreens">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 10 · Accepting User Input</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-touchscreens/index.html">Touchscreens</a><a href="../02-project-34-addressing-areas-on-the-touchscreen/index.html" aria-current=page>Project #34: Addressing Areas on the Touchscreen</a><a href="../03-project-35-creating-a-two-zone-on-off-touch-switch/index.html">Project #35: Creating a Two-Zone On/Off Touch Switch</a><a href="../04-project-36-creating-a-three-zone-touch-switch/index.html">Project #36: Creating a Three-Zone Touch Switch</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../10-accepting-user-input/03-project-35-creating-a-two-zone-on-off-touch-switch/index.html" title="Project #35: Creating a Two-Zone On/Off Touch Switch">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:57.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 10 · Accepting User Input</a></p>
+  <h1>Project #34: Addressing Areas on the Touchscreen</h1>
+  <p class="sec-meta">Book pages 197–199</p>
+</div>
+<article class="prose">
+<p>The touchscreen has two layers of resistive coating between the top layer of plastic film and the bottom layer of glass. One coating acts as the x-axis, and the other is the y-axis. As current passes through each coating, the resistance of the coating varies depending on where it has been touched, so when each current is measured, the X and Y positions of the touched area can be determined.</p>
+<p>In this project, we’ll use the Arduino to record touched locations on the screen and to convert the touches to integers that can be used to reference areas of the screen.</p>
+<h2>The Hardware</h2>
+<p>The following hardware is required:</p>
+<ul><li>Touchscreen and breakout board</li><li>One 10 kΩ trimpot</li><li>One 16×2-character LCD module</li><li>Various connecting wires</li><li>One breadboard</li><li>Arduino and USB cable</li></ul>
+<p>Connect the touchscreen as described in Table 10-1, and connect the LCD module as described in Figure 7-2 on page 149.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch. I’ve highlighted important aspects of the sketch with comments:</p>
+<pre class="code"><code> // Project 34 - Addressing Areas on the Touchscreen
+ #include &lt;LiquidCrystal.h&gt;
+ LiquidCrystal lcd(4,5,6,7,8,9);
+ int x,y = 0;
+ void setup()
+ {
+   lcd.begin(16,2);
+   lcd.clear();
+ }
+<span class="cm">❶</span> int readX()   // returns the value of the touchscreen&#x27;s x-axis
+ {
+   int xr=0;
+   pinMode(A0, INPUT);
+   pinMode(A1, OUTPUT);
+   pinMode(A2, INPUT);
+   pinMode(A3, OUTPUT);
+   digitalWrite(A1, LOW);   // set A1 to GND
+   digitalWrite(A3, HIGH);  // set A3 as 5V
+   delay(5);
+   xr=analogRead(0);        // store the value of the x-axis
+   return xr;
+ }
+<span class="cm">❷</span> int readY()     // returns the value of the touchscreen&#x27;s y-axis
+ {
+   int yr=0;
+   pinMode(A0, OUTPUT);    // A0
+   pinMode(A1, INPUT);     // A1
+   pinMode(A2, OUTPUT);    // A2
+   pinMode(A3, INPUT);     // A3
+   digitalWrite(14, LOW);  // set A0 to GND
+   digitalWrite(16, HIGH); // set A2 as 5V
+   delay(5);
+   yr=analogRead(1); // store the value of the y-axis
+   return yr;
+ }
+ void loop()
+ {
+   lcd.setCursor(0,0);
+<span class="cm">❸</span>   lcd.print(&quot; x = &quot;);
+   x=readX();
+   lcd.print(x);
+   y=readY();
+   lcd.setCursor(0,1);
+<span class="cm">❹</span>   lcd.print(&quot; y = &quot;);
+   lcd.print(y);
+   delay (200);
+ }</code></pre>
+<p>The functions <code>readX()</code> and <code>readY()</code> at <span class="co">❶</span> and <span class="co">❷</span> read the currents from the touchscreen’s resistive layers, measure the current using <code>analogRead()</code>, and return the read value. The sketch rapidly runs these two functions to provide a real-time position of the screen area being touched and displays this on the LCD at <span class="co">❸</span> and <span class="co">❹</span>. (The <code>delay(5)</code> in each function is required to allow the input/output pins time to change their states.)</p>
+<h2>Testing the Sketch</h2>
+<p>To test the sketch, monitor the LCD module while you touch the screen, and notice how the X and Y values change relative to the touched position on the screen. Also notice the values displayed when the screen is not being touched, such as those shown in Figure 10-3.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="447" height="188" style="width:217px" loading="lazy" alt="Figure 10-3: Values that appear when the touchscreen is not touched"></a><figcaption><b>Figure 10-3:</b> Values that appear when the  touchscreen is not touched</figcaption></figure>
+<p>It is important that you note these values, because you can use them to detect when the screen is not being touched in your sketch.</p>
+<h2>Mapping the Touchscreen</h2>
+<p>By touching the corners of the touchscreen and recording the values returned, you can actually map the touchscreen, as shown in Figure 10-4. Basically, you’re plotting the coordinates for each corner. Once you have determined these values, you can divide up the touchscreen map into smaller areas for use as control surfaces.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="939" height="526" style="width:456px" loading="lazy" alt="Figure 10-4: A touchscreen map"></a><figcaption><b>Figure 10-4:</b> A touchscreen map</figcaption></figure>
+<p>After you’ve created your touchscreen map, you can divide it into smaller regions and use the functions <code>readX()</code> and <code>readY()</code> to create a variety of control regions on the screen, which you can then use with <code>if-then</code> statements to cause specific actions to occur depending on where the screen is touched, as you’ll see in Project 35.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../10-accepting-user-input/01-touchscreens/index.html"><span class="dir">← Previous</span><span class="t">Touchscreens</span><span class="ch">Chapter 10 · Accepting User Input</span></a><a class="nx" data-nav="next" href="../../10-accepting-user-input/03-project-35-creating-a-two-zone-on-off-touch-switch/index.html"><span class="dir">Next →</span><span class="t">Project #35: Creating a Two-Zone On/Off Touch Switch</span><span class="ch">Chapter 10 · Accepting User Input</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

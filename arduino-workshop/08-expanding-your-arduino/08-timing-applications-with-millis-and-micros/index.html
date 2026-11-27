@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Timing Applications with millis() and micros() — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · Timing Applications with millis() and micros()">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · Timing Applications with millis() and micros()</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/07-project-30-creating-a-temperature-logging-device/index.html" title="Project #30: Creating a Temperature-Logging Device">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html">Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html">Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html">MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html">Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html" aria-current=page>Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html">Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html">Interrupts</a><a href="../11-project-32-using-interrupts/index.html">Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/09-project-31-creating-a-stopwatch/index.html" title="Project #31: Creating a Stopwatch">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:50.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>Timing Applications with millis() and micros()</h1>
+  <p class="sec-meta">Book pages 179–181</p>
+</div>
+<article class="prose">
+<p>Each time the Arduino starts running a sketch, it also records the passage of time using milliseconds and microseconds. A millisecond is one thousandth of a second (0.001), and a microsecond is one millionth of a second (0.000001). You can use these values to measure the passage of time when running sketches.</p>
+<p>The following functions will access the time values stored in an <code>unsigned long</code> variable:</p>
+<pre class="code"><code>  unsigned long a,b;
+  a = micros();
+  b = millis();</code></pre>
+<p>Due to the limitations of the <code>unsigned long</code> variable type, the value will reset to 0 after reaching 4,294,967,295, allowing for around 50 days of counting for <code>millis()</code> and 70 minutes in <code>micros()</code>. Furthermore, due to the limitations of the Arduino’s microprocessor, <code>micros()</code> values are always in multiples of four.</p>
+<p>Let’s use these values to see how long it takes for the Arduino to turn a digital pin from <code>LOW</code> to <code>HIGH</code> and vice versa. To do this, we’ll read <code>micros()</code> before and after a <code>digitalWrite()</code> function, find the difference, and display it on the Serial Monitor. The only required hardware is your Arduino and cable.</p>
+<p>Enter and upload the sketch shown in Listing 8-1.</p>
+<figure class="listing"><pre class="code"><code> // Listing 8-1
+ unsigned long start, finished, elapsed;
+ void setup()
+ {
+   Serial.begin(9600);
+   pinMode(3, OUTPUT);
+   digitalWrite(3, LOW);
+ }
+ void loop()
+ {
+<span class="cm">❶</span>   start = micros();
+   digitalWrite(3, HIGH);
+<span class="cm">❷</span>   finished = micros();
+<span class="cm">❸</span>   elapsed = finished – start;
+   Serial.print(&quot;LOW to HIGH: &quot;);
+   Serial.print(elapsed);
+   Serial.println(&quot; microseconds&quot;);
+   delay(1000);
+<span class="cm">❹</span>   start = micros();
+   digitalWrite(3, LOW);
+   finished = micros();
+   elapsed = finished - start;
+   Serial.print(&quot;HIGH to LOW: &quot;);
+   Serial.print(elapsed);
+   Serial.println(&quot; microseconds&quot;);
+   delay(1000);
+ }</code></pre><figcaption><b>Listing 8-1:</b> Timing digital pin state change with <code>micros()</code></figcaption></figure>
+<p>The sketch takes readings of <code>micros()</code> before and after the <code>digitalWrite(HIGH)</code> functions at <span class="co">❶</span> and <span class="co">❷</span>, and then it calculates the difference and displays it on the Serial Monitor at <span class="co">❸</span>. This is repeated for the opposite function at <span class="co">❹</span>.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="394" height="340" style="width:191px" loading="lazy" alt="Figure 8-29: Output from Listing 8-1"></a><figcaption><b>Figure 8-29:</b> Output from Listing 8-1</figcaption></figure>
+<p>Now open the Serial Monitor to view the results, shown in Figure 8-29.</p>
+<p>Because the resolution is 4 microseconds, if the value is 8 microseconds, then we know that the duration is greater than 4 and less than or equal to 8.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/07-project-30-creating-a-temperature-logging-device/index.html"><span class="dir">← Previous</span><span class="t">Project #30: Creating a Temperature-Logging Device</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/09-project-31-creating-a-stopwatch/index.html"><span class="dir">Next →</span><span class="t">Project #31: Creating a Stopwatch</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

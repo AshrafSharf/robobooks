@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Doing Arithmetic with an Arduino — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · Doing Arithmetic with an Arduino">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · Doing Arithmetic with an Arduino</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/08-project-6-creating-a-single-cell-battery-tester/index.html" title="Project #6: Creating a Single-Cell Battery Tester">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html">Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html">The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html">Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html">Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html" aria-current=page>Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html">Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html">The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html">Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/10-improving-analog-measurement-precision-with-a-reference-volt/index.html" title="Improving Analog Measurement Precision with a Reference Voltage">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:19.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>Doing Arithmetic with an Arduino</h1>
+  <p class="sec-meta">Book pages 83–84</p>
+</div>
+<article class="prose">
+<p>Like a pocket calculator, the Arduino can perform calculations for us, such as multiplication, division, addition, and subtraction. Here are some examples:</p>
+<pre class="code"><code>a = 100;
+b = a + 20;
+c = b - 200;
+d = c + 80; // d will equal 0</code></pre>
+<h2>Float Variables</h2>
+<p>When you need to deal with numbers with a decimal point, you can use the variable type <code>float</code>. The values that can be stored in a <code>float</code> fall between 3.4028235 × 1038 and −3.4028235 × 1038, and are generally limited to six or seven decimal places of precision. And you can mix integers and <code>float</code> numbers in your calculations. For example, you could add the <code>float</code> number <code>f</code> to the integer <code>a</code> then store it as the <code>float</code> variable <code>g</code>:</p>
+<pre class="code"><code>int a = 100;
+float f;
+float g;
+   f = a / 3; // f = 33.333333
+   g = a + f; // g = 133.333333</code></pre>
+<h2>Comparison Operators for Calculations</h2>
+<p>We used comparison operators such as <code>==</code> and <code>!=</code> with <code>if</code> statements and digital input signals in Project 5. In addition to these operators, we can also use the following to compare numbers or numerical variables:</p>
+<p><code>&lt;</code>  less than</p>
+<p><code>&gt;</code>  greater than</p>
+<p><code>&lt;=</code>  less than or equal to</p>
+<p><code>&gt;=</code>  greater than or equal to</p>
+<p>We’ve used these comparison operators to compare numbers in lines <span class="co">❹</span>, <span class="co">❺</span>, and <span class="co">❻</span> in the sketch for Project 6 described earlier.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/08-project-6-creating-a-single-cell-battery-tester/index.html"><span class="dir">← Previous</span><span class="t">Project #6: Creating a Single-Cell Battery Tester</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/10-improving-analog-measurement-precision-with-a-reference-volt/index.html"><span class="dir">Next →</span><span class="t">Improving Analog Measurement Precision with a Reference Voltage</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

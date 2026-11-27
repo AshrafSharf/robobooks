@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 12: Motors and Movement · Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 12 · Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../12-motors-and-movement/10-ultrasonic-distance-sensors/index.html" title="Ultrasonic Distance Sensors">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 12 · Motors and Movement</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-making-small-motions-with-servos/index.html">Making Small Motions with Servos</a><a href="../02-project-38-building-an-analog-thermometer/index.html">Project #38: Building an Analog Thermometer</a><a href="../03-using-electric-motors/index.html">Using Electric Motors</a><a href="../04-project-39-controlling-the-motor/index.html">Project #39: Controlling the Motor</a><a href="../05-project-40-building-and-controlling-a-tank-robot/index.html">Project #40: Building and Controlling a Tank Robot</a><a href="../06-sensing-collisions/index.html">Sensing Collisions</a><a href="../07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html">Project #41: Detecting Tank Bot Collisions with a Microswitch</a><a href="../08-infrared-distance-sensors/index.html">Infrared Distance Sensors</a><a href="../09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html">Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</a><a href="../10-ultrasonic-distance-sensors/index.html">Ultrasonic Distance Sensors</a><a href="../11-project-43-detecting-tank-bot-collisions-with-an-ultrasonic/index.html" aria-current=page>Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../12-motors-and-movement/12-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:68.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12 · Motors and Movement</a></p>
+  <h1>Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</h1>
+  <p class="sec-meta">Book pages 254–256</p>
+</div>
+<article class="prose">
+<h2>Distance Sensor</h2>
+<p>Now that you understand how the sensor works, let’s use it with our tank.</p>
+<h2>The Sketch</h2>
+<p>We can use the <code>getDistance()</code> function from Listing 12-3 to create a test for impending collision. In the following sketch, we check for distances of less than 10 cm, which will give the tank a reason to back up. Enter and upload the following sketch to see for yourself:</p>
+<pre class="code"><code> // Project 43 - Detecting Tank Bot Collisions with an Ultrasonic Distance
+ // Sensor
+ int m1speed=6; // digital pins for speed control
+ int m2speed=5;
+ int m1direction=7; // digital pins for direction control
+ int m2direction=4;
+ int signal=3;
+ boolean crash=false;
+ void setup()
+ {
+   pinMode(m1direction, OUTPUT);
+   pinMode(m2direction, OUTPUT);
+   pinMode(signal, OUTPUT);
+   delay(5000);
+   Serial.begin(9600);
+ }
+ int getDistance()
+ // returns distance from Ping))) sensor in cm
+ {
+   int distance;
+   unsigned long pulseduration=0;
+   // get the raw measurement data from Ping)))
+   // set pin as output so we can send a pulse
+   pinMode(signal, OUTPUT);
+   // set output to LOW
+   digitalWrite(signal, LOW);
+   delayMicroseconds(5);
+   // send the 5uS pulse out to activate Ping)))
+   digitalWrite(signal, HIGH);
+   delayMicroseconds(5);
+   digitalWrite(signal, LOW);
+   // change the digital pin to input to read the incoming pulse
+   pinMode(signal, INPUT);
+   // measure the length of the incoming pulse
+   pulseduration=pulseIn(signal, HIGH);
+   // divide the pulse length in half
+   pulseduration=pulseduration/2;
+   // convert to centimeters
+   distance = int(pulseduration/29);
+   return distance;
+ }
+ void backUp()
+ {
+    digitalWrite(m1direction,LOW); // go back
+    digitalWrite(m2direction,LOW);
+    delay(2000);
+    digitalWrite(m1direction,HIGH); // go left
+    digitalWrite(m2direction,LOW);
+    analogWrite(m1speed, 200); // speed
+    analogWrite(m2speed, 200);
+    delay(2000);
+    analogWrite(m1speed, 0); // speed
+    analogWrite(m2speed, 0);
+ }
+ void goForward(int duration, int pwm)
+ {
+   long a,b;
+   int dist=0;
+   boolean move=true;
+   a=millis();
+   do
+   {
+     dist=getDistance();
+     Serial.println(dist);
+<span class="cm">❶</span>     if (dist&lt;10) // if less than 10cm from object
+     {
+       crash=true;
+     }
+     if (crash==false)
+     {
+       digitalWrite(m1direction,HIGH); // forward
+       digitalWrite(m2direction,HIGH); // forward
+       analogWrite(m1speed, pwm); // speed
+       analogWrite(m2speed, pwm);
+     }
+     if (crash==true)
+     {
+       backUp();
+       crash=false;
+     }
+     b=millis()-a;
+     if (b&gt;=duration)
+     {
+       move=false;
+     }
+   } while (move!=false);
+   // stop motors
+   analogWrite(m1speed, 0);
+   analogWrite(m2speed, 0);
+ }
+ void loop()
+ {
+   goForward(1000, 255);
+ }</code></pre>
+<p>Once again, we constantly measure the distance at <span class="co">❶</span> and then change the variable <code>crash</code> to <code>true</code> if the distance between the ultrasonic sensor and object is less than 10 cm. Watching the tank magically avoid colliding with things or having a battle of wits with a pet can be quite amazing.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../12-motors-and-movement/10-ultrasonic-distance-sensors/index.html"><span class="dir">← Previous</span><span class="t">Ultrasonic Distance Sensors</span><span class="ch">Chapter 12 · Motors and Movement</span></a><a class="nx" data-nav="next" href="../../12-motors-and-movement/12-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 12 · Motors and Movement</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

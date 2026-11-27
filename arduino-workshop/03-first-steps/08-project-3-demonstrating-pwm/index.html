@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #3: Demonstrating PWM — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 3: First Steps · Project #3: Demonstrating PWM">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 3 · Project #3: Demonstrating PWM</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../03-first-steps/07-varying-led-brightness-with-pulse-width-modulation/index.html" title="Varying LED Brightness with Pulse-Width Modulation">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 3 · First Steps</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-planning-your-projects/index.html">Planning Your Projects</a><a href="../02-about-electricity/index.html">About Electricity</a><a href="../03-electronic-components/index.html">Electronic Components</a><a href="../04-project-1-creating-a-blinking-led-wave/index.html">Project #1: Creating a Blinking LED Wave</a><a href="../05-using-variables/index.html">Using Variables</a><a href="../06-project-2-repeating-with-for-loops/index.html">Project #2: Repeating with for Loops</a><a href="../07-varying-led-brightness-with-pulse-width-modulation/index.html">Varying LED Brightness with Pulse-Width Modulation</a><a href="../08-project-3-demonstrating-pwm/index.html" aria-current=page>Project #3: Demonstrating PWM</a><a href="../09-more-electric-components/index.html">More Electric Components</a><a href="../10-higher-voltage-circuits/index.html">Higher-Voltage Circuits</a><a href="../11-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../03-first-steps/09-more-electric-components/index.html" title="More Electric Components">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:12.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 3 · First Steps</a></p>
+  <h1>Project #3: Demonstrating PWM</h1>
+  <p class="sec-meta">Book page 49</p>
+</div>
+<article class="prose">
+<p>Now let’s try this with our circuit from Project 2. Enter the following sketch into the IDE and upload it to the Arduino:</p>
+<pre class="code"><code>// Project 3 - Demonstrating PWM
+int d = 5;
+void setup()
+{
+  pinMode(3, OUTPUT);    // LED control pin is 3, a PWM capable pin
+}
+void loop()
+{
+  for ( int a = 0 ; a &lt; 256 ; a++ )
+  {
+    analogWrite(3, a);
+    delay(d);
+  }
+  for ( int a = 255 ; a &gt;= 0 ; a-- )
+  {
+    analogWrite(3, a);
+    delay(d);
+  }
+  delay(200);
+}</code></pre>
+<p>The LED on digital pin 3 will exhibit a “breathing effect” as the duty cycle increases and decreases. In other words, the LED will turn on, increasing in brightness until fully lit, and then reverse. Experiment with the sketch and circuit. For example, make five LEDs breathe at once, or have them do so sequentially.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../03-first-steps/07-varying-led-brightness-with-pulse-width-modulation/index.html"><span class="dir">← Previous</span><span class="t">Varying LED Brightness with Pulse-Width Modulation</span><span class="ch">Chapter 3 · First Steps</span></a><a class="nx" data-nav="next" href="../../03-first-steps/09-more-electric-components/index.html"><span class="dir">Next →</span><span class="t">More Electric Components</span><span class="ch">Chapter 3 · First Steps</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

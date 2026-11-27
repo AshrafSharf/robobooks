@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #31: Creating a Stopwatch — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · Project #31: Creating a Stopwatch">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · Project #31: Creating a Stopwatch</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/08-timing-applications-with-millis-and-micros/index.html" title="Timing Applications with millis() and micros()">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html">Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html">Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html">MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html">Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html">Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html" aria-current=page>Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html">Interrupts</a><a href="../11-project-32-using-interrupts/index.html">Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/10-interrupts/index.html" title="Interrupts">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:51.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>Project #31: Creating a Stopwatch</h1>
+  <p class="sec-meta">Book pages 181–183</p>
+</div>
+<article class="prose">
+<p>Now that we can measure the elapsed time between two events, we can create a simple stopwatch using an Arduino. Our stopwatch will use two buttons: one to start or reset the count and another to stop counting and show the elapsed time. The sketch will continually check the status of the two buttons. When the start button is pressed, a <code>millis()</code> value will be stored, and when the second button is pressed, a new <code>millis()</code> value will be stored. The custom function <code>displayResult()</code> will convert the elapsed time from milliseconds into hours, minutes, and seconds. Finally, the time will be displayed on the Serial Monitor.</p>
+<h2>The Hardware</h2>
+<p>The following hardware is required for this project:</p>
+<ul><li>One breadboard</li><li>Two push buttons (S1 and S2)</li><li>Two 10 kΩ resistors (R1 and R2)</li><li>Various connecting wires</li><li>Arduino and USB cable</li></ul>
+<h2>The Schematic</h2>
+<p>The circuit schematic is shown in Figure 8-30.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>You will use this circuit for the next project, so don’t pull it apart when you’re finished!</em></p></aside>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="624" height="792" style="width:303px" loading="lazy" alt="Figure 8-30: Schematic for Project 31"></a><figcaption><b>Figure 8-30:</b> Schematic for Project 31</figcaption></figure>
+<h2>The Sketch</h2>
+<p>Enter and upload this sketch:</p>
+<pre class="code"><code> // Project 31 – Creating a Stopwatch
+ unsigned long start, finished, elapsed;
+ void setup()
+ {
+   Serial.begin(9600);
+<span class="cm">❶</span>   pinMode(2, INPUT); // the start button
+   pinMode(3, INPUT); // the stop button
+   Serial.println(&quot;Press 1 for Start/reset, 2 for elapsed time&quot;);
+ }
+ void displayResult()
+ {
+   float h, m, s, ms;
+   unsigned long over;
+<span class="cm">❷</span>   elapsed = finished - start;
+   h    = int(elapsed / 3600000);
+   over = elapsed % 3600000;
+   m    = int(over / 60000);
+   over = over % 60000;
+   s    = int(over / 1000);
+   ms   = over % 1000;
+   Serial.print(&quot;Raw elapsed time: &quot;);
+   Serial.println(elapsed);
+   Serial.print(&quot;Elapsed time: &quot;);
+   Serial.print(h, 0);
+   Serial.print(&quot;h &quot;);
+   Serial.print(m, 0);
+   Serial.print(&quot;m &quot;);
+   Serial.print(s, 0);
+   Serial.print(&quot;s &quot;);
+   Serial.print(ms, 0);
+   Serial.println(&quot;ms&quot;);
+   Serial.println();
+ }
+ void loop()
+ {
+<span class="cm">❸</span>   if (digitalRead(2) == HIGH)
+   {
+     start = millis();
+     delay(200); // for debounce
+     Serial.println(&quot;Started...&quot;);
+   }
+<span class="cm">❹</span>   if (digitalRead(3) == HIGH)
+   {
+     finished = millis();
+     delay(200); // for debounce
+     displayResult();
+   }
+ }</code></pre>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="948" height="453" style="width:461px" loading="lazy" alt="Figure 8-31: Output from Project 31"></a><figcaption><b>Figure 8-31:</b> Output from Project 31</figcaption></figure>
+<p>The basis for our stopwatch is simple. At <span class="co">❶</span>, we set up the digital input pins for the start and stop buttons. At <span class="co">❸</span>, if the start button is pressed, then the Arduino notes the value for the elapsed time once the stop button is pressed at <span class="co">❹</span>. After the stop button is pressed, the elapsed time is calculated in the function <code>displayResult()</code> at <span class="co">❷</span> and shown in the Serial Monitor window.</p>
+<p>The results shown in Figure 8-31 should appear in the Serial Monitor.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/08-timing-applications-with-millis-and-micros/index.html"><span class="dir">← Previous</span><span class="t">Timing Applications with millis() and micros()</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/10-interrupts/index.html"><span class="dir">Next →</span><span class="t">Interrupts</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

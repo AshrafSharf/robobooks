@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #9: Creating a Function to Repeat an Action — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 5: Working with Functions · Project #9: Creating a Function to Repeat an Action">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 5 · Project #9: Creating a Function to Repeat an Action</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../05-working-with-functions/00-introduction/index.html" title="Chapter 5: Working with Functions">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 5 · Working with Functions</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-9-creating-a-function-to-repeat-an-action/index.html" aria-current=page>Project #9: Creating a Function to Repeat an Action</a><a href="../02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html">Project #10: Creating a Function to Set the Number of Blinks</a><a href="../03-creating-a-function-to-return-a-value/index.html">Creating a Function to Return a Value</a><a href="../04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</a><a href="../05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html">Displaying Data from the Arduino in the Serial Monitor</a><a href="../06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html">Project #12: Displaying the Temperature in the Serial Monitor</a><a href="../07-making-decisions-with-while-statements/index.html">Making Decisions with while Statements</a><a href="../08-sending-data-from-the-serial-monitor-to-the-arduino/index.html">Sending Data from the Serial Monitor to the Arduino</a><a href="../09-project-13-multiplying-a-number-by-two/index.html">Project #13: Multiplying a Number by Two</a><a href="../10-long-variables/index.html">long Variables</a><a href="../11-project-14-using-long-variables/index.html">Project #14: Using long Variables</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../05-working-with-functions/02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html" title="Project #10: Creating a Function to Set the Number of Blinks">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:24.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5 · Working with Functions</a></p>
+  <h1>Project #9: Creating a Function to Repeat an Action</h1>
+  <p class="sec-meta">Book page 96</p>
+</div>
+<article class="prose">
+<p>You can write simple functions to repeat actions on demand. For example, the following function will turn the built-in LED on (at <span class="co">❶</span> and <span class="co">❸</span>) and off (at <span class="co">❷</span> and <span class="co">❹</span>) twice.</p>
+<pre class="code"><code> void blinkLED()
+ {
+<span class="cm">❶</span>     digitalWrite(13, HIGH);
+     delay(1000);
+<span class="cm">❷</span>     digitalWrite(13, LOW);
+     delay(1000);
+<span class="cm">❸</span>     digitalWrite(13, HIGH);
+     delay(1000);
+<span class="cm">❹</span>     digitalWrite(13, LOW);
+     delay(1000);
+ }</code></pre>
+<p>Here is the function being used within a complete sketch, which you can upload to the Arduino:</p>
+<pre class="code"><code> // Project 9 - Creating a Function to Repeat an Action
+ #define LED 13
+ #define del 200
+ void setup()
+ {
+   pinMode(LED, OUTPUT);
+ }
+ void blinkLED()
+ {
+   digitalWrite(LED, HIGH);
+   delay(del);
+   digitalWrite(LED, LOW);
+   delay(del);
+   digitalWrite(LED, HIGH);
+   delay(del);
+   digitalWrite(LED, LOW);
+   delay(del);
+ }
+ void loop()
+ {
+<span class="cm">❶</span>   blinkLED();
+   delay(1000);
+ }</code></pre>
+<p>When the <code>blinkLED()</code> function is called in <code>void loop()</code> at <span class="co">❶</span>, the Arduino will run the commands within the <code>void blinkLED()</code> section. In other words, you have created your own function and used it when necessary.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../05-working-with-functions/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 5: Working with Functions</span><span class="ch">Chapter 5 · Working with Functions</span></a><a class="nx" data-nav="next" href="../../05-working-with-functions/02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html"><span class="dir">Next →</span><span class="t">Project #10: Creating a Function to Set the Number of Blinks</span><span class="ch">Chapter 5 · Working with Functions</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

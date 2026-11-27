@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Setting Up for Infrared — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 15: Infrared Remote Control · Setting Up for Infrared">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 15 · Setting Up for Infrared</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../15-infrared-remote-control/01-what-is-infrared/index.html" title="What Is Infrared?">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 15 · Infrared Remote Control</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-is-infrared/index.html">What Is Infrared?</a><a href="../02-setting-up-for-infrared/index.html" aria-current=page>Setting Up for Infrared</a><a href="../03-project-50-creating-an-ir-remote-control-arduino/index.html">Project #50: Creating an IR Remote Control Arduino</a><a href="../04-project-51-creating-an-ir-remote-control-tank/index.html">Project #51: Creating an IR Remote Control Tank</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../15-infrared-remote-control/03-project-50-creating-an-ir-remote-control-arduino/index.html" title="Project #50: Creating an IR Remote Control Arduino">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:79.2%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 15 · Infrared Remote Control</a></p>
+  <h1>Setting Up for Infrared</h1>
+  <p class="sec-meta">Book pages 286–288</p>
+</div>
+<article class="prose">
+<p>Before moving forward, we need to install the infrared Arduino library, so visit <em>https://github.com/shirriff/Arduino-IRremote/</em> to download the required files and install them, as explained in “Expanding Sketches with Libraries” on page 169.</p>
+<h2>The IR Receiver</h2>
+<p>The next step is to set up the IR receiver and test that it is working. You can choose either an independent IR receiver (shown in Figure 15-1) or a prewired module (shown in Figure 15-2), which is the easier route to take.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="446" height="279" style="width:217px" loading="lazy" alt="Figure 15-1: IR receiver"></a><figcaption><b>Figure 15-1:</b> IR receiver</figcaption></figure>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="449" height="279" style="width:218px" loading="lazy" alt="Figure 15-2: Pre-wired IR receiver module"></a><figcaption><b>Figure 15-2:</b> Pre-wired IR receiver module</figcaption></figure>
+<p>The independent IR receiver shown in Figure 15-1 is a Vishay TSOP4138, available from retailers such as Newark (part number 59K0287) or element14 (part number 1040743). The bottom leg of the receiver (as shown in the figure) connects to an Arduino digital pin, the center leg to GND, and the top leg to 5V.</p>
+<p>Figure 15-2 shows a prewired IR module. Prewired receiver modules are available from DFRobot and other retailers. The benefit of using these modules is that they include connection wires and are labeled for easy reference.</p>
+<p>Regardless of your choice of module, in all of the following examples, you’ll connect the D (or data line) to Arduino digital pin 11, VCC to 5V, and GND to GND.</p>
+<h2>The Remote Control</h2>
+<p>Finally, you will need a remote control. We’ll use a Sony TV remote like the one shown in Figure 15-3. If you don’t have access to a Sony remote, any inexpensive universal remote control can be used after you reset it to Sony codes. See the instructions included with your remote control to do this.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="608" height="256" style="width:295px" loading="lazy" alt="Figure 15-3: Typical Sony remote control"></a><figcaption><b>Figure 15-3:</b> Typical Sony remote control</figcaption></figure>
+<h2>A Test Sketch</h2>
+<p>Now let’s make sure that everything works. After connecting your IR receiver to the Arduino, enter and upload the sketch in Listing 15-1.</p>
+<figure class="listing"><pre class="code"><code> // Listing 15-1
+ int receiverpin = 11;       // pin 1 of IR receiver to Arduino digital pin 11
+<span class="cm">❶</span> #include &lt;IRremote.h&gt;       // use the library
+<span class="cm">❷</span> IRrecv irrecv(receiverpin); // create instance of irrecv
+<span class="cm">❸</span> decode_results results;
+ void setup()
+ {
+   Serial.begin(9600);
+   irrecv.enableIRIn();         // start the IR receiver
+ }
+ void loop()
+ {
+<span class="cm">❹</span>   if (irrecv.decode(&amp;results)) // have we received an IR signal?
+   {
+<span class="cm">❺</span>     Serial.print(results.value, HEX); // display IR code on the Serial Monitor
+     Serial.print(&quot; &quot;);
+     irrecv.resume(); // receive the next value
+   }
+ }</code></pre><figcaption><b>Listing 15-1:</b> IR receiver test</figcaption></figure>
+<p>This sketch is relatively simple, because most of the work is done in the background by the IR library. At <span class="co">❹</span>, we check to see if a signal has been received from the remote control. If so, it is displayed on the Serial Monitor in hexadecimal at <span class="co">❺</span>. The lines at <span class="co">❶</span>, <span class="co">❷</span>, and <span class="co">❸</span> activate the IR library and create an instance of the infrared library function to refer to in the rest of the sketch.</p>
+<h2>Testing the Setup</h2>
+<p>Once you’ve uploaded the sketch, open the Serial Monitor, aim the remote at the receiver, and start pressing buttons. You should see codes displayed on the Serial Monitor after each button press. For example, Figure 15-4 shows the results of pressing 1, 2, and 3, once each.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="526" height="321" style="width:256px" loading="lazy" alt="Figure 15-4: Results of pressing buttons after running the code in Listing 15-1"></a><figcaption><b>Figure 15-4:</b> Results of pressing buttons after   running the code in Listing 15-1</figcaption></figure>
+<p>Table 15-1 lists the codes from a basic Sony remote control that we’ll use in upcoming sketches. However, when running Listing 15-1, notice how each code number repeats three times. This is an idiosyncrasy of Sony IR systems, which send the code three times for each button press. You can ignore these repeats with some clever coding, but for now let’s skip to remote controlling with the next project.</p>
+<table class="tbl data"><caption><b>Table 15-1:</b> Example Sony IR codes</caption><thead><tr><th>Button</th><th>Code</th><th>Button</th><th>Code</th></tr></thead><tbody><tr><td>Power</td><td>A90</td><td>7</td><td>610</td></tr><tr><td>Mute</td><td>290</td><td>8</td><td>E10</td></tr><tr><td>1</td><td>10</td><td>9</td><td>110</td></tr><tr><td>2</td><td>810</td><td>0</td><td>910</td></tr><tr><td>3</td><td>410</td><td>Volume up</td><td>490</td></tr><tr><td>4</td><td>C10</td><td>Volume down</td><td>C90</td></tr><tr><td>5</td><td>210</td><td>Channel up</td><td>90</td></tr><tr><td>6</td><td>A10</td><td>Channel down</td><td>890</td></tr></tbody></table>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../15-infrared-remote-control/01-what-is-infrared/index.html"><span class="dir">← Previous</span><span class="t">What Is Infrared?</span><span class="ch">Chapter 15 · Infrared Remote Control</span></a><a class="nx" data-nav="next" href="../../15-infrared-remote-control/03-project-50-creating-an-ir-remote-control-arduino/index.html"><span class="dir">Next →</span><span class="t">Project #50: Creating an IR Remote Control Arduino</span><span class="ch">Chapter 15 · Infrared Remote Control</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

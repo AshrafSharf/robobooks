@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #25: Defining Custom Characters — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 7: Liquid Crystal Displays · Project #25: Defining Custom Characters">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 7 · Project #25: Defining Custom Characters</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../07-liquid-crystal-displays/01-character-lcd-modules/index.html" title="Character LCD Modules">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 7 · Liquid Crystal Displays</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-character-lcd-modules/index.html">Character LCD Modules</a><a href="../02-project-25-defining-custom-characters/index.html" aria-current=page>Project #25: Defining Custom Characters</a><a href="../03-graphic-lcd-modules/index.html">Graphic LCD Modules</a><a href="../04-project-26-seeing-the-text-functions-in-action/index.html">Project #26: Seeing the Text Functions in Action</a><a href="../05-project-27-creating-a-temperature-history-monitor/index.html">Project #27: Creating a Temperature History Monitor</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../07-liquid-crystal-displays/03-graphic-lcd-modules/index.html" title="Graphic LCD Modules">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:43.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 7 · Liquid Crystal Displays</a></p>
+  <h1>Project #25: Defining Custom Characters</h1>
+  <p class="sec-meta">Book pages 152–153</p>
+</div>
+<article class="prose">
+<p>In addition to using the standard letters, numbers, and symbols available on your keyboard, you can define up to eight of your own characters in each sketch. Notice in the LCD module that each character is made up of eight rows of five dots, or <em>pixels</em>. Figure 7-6 shows a close-up.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="506" height="200" style="width:246px" loading="lazy" alt="Figure 7-6: Each character is made up of eight rows of five pixels."></a><figcaption><b>Figure 7-6:</b> Each character is made up of eight   rows of five pixels.</figcaption></figure>
+<p>To display your own characters, you must first define each one using an <em>array</em>. For example, to create a smiley face, you could use the following:</p>
+<pre class="code"><code>byte a[8] = {  B00000,
+               B01010,
+               B01010,
+               B00000,
+               B00100,
+               B10001,
+               B01110,
+               B00000  };</code></pre>
+<p>Each number in the array addresses an individual pixel in the display. A 0 turns off a pixel, and a 1 turns it on. The elements in the array represent the rows of pixels in the display; the top element is the top row, the next element is the second row down, and so on.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>When you’re planning your custom characters, it can be helpful to plan the character </em> <em>using some graph paper. Each square that is filled in represents a 1, and each empty </em> <em>square represents a 0 in the array.</em></p></aside>
+<p>In this example, since the first element is <code>B00000</code>, all the pixels in the top row are turned off because we see only 0s. In the next element, <code>B01010</code>, every other pixel is turned on, and the 1s form the top of the eyes. Each row and pixel continues to fill out the characters.</p>
+<p>Next, assign the array (which defines your new character) to the first of the eight custom character slots in <code>void setup()</code> with the following function:</p>
+<pre class="code"><code> lcd.createChar(0, a); // assign the array a[8] to custom character slot 0</code></pre>
+<p>Finally, to display the character, add the following in <code>void loop()</code>:</p>
+<pre class="code"><code>  lcd.write(0);</code></pre>
+<p>To display our custom character, we’d use the following code:</p>
+<pre class="code"><code>// Project 25 - Defining Custom Characters
+#include &lt;LiquidCrystal.h&gt;
+LiquidCrystal lcd(4, 5, 6, 7, 8, 9);  // pins for RS, E, DB4, DB5, DB6, DB7
+byte a[8] = {  B00000,
+               B01010,
+               B01010,
+               B00000,
+               B00100,
+               B10001,
+               B01110,
+               B00000  };
+void setup()
+{
+   lcd.begin(16, 2);
+   lcd.createChar(0, a);
+}
+void loop()
+{
+   lcd.write(0);  // write the custom character 0 to the next cursor position
+}</code></pre>
+<p>Figure 7-7 shows the smiley faces displayed on the LCD screen.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="631" height="250" style="width:307px" loading="lazy" alt="Figure 7-7: The result of Project 25"></a><figcaption><b>Figure 7-7:</b> The result of Project 25</figcaption></figure>
+<p>Character LCD modules are simple to use and somewhat versatile. For example, using what you’ve learned, you could create a detailed digital thermometer by combining this LCD and the temperature-measurement part of Project 20. However, if you need to display a lot of data or graphical items, you will need to use a <em>graphic LCD module</em>.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../07-liquid-crystal-displays/01-character-lcd-modules/index.html"><span class="dir">← Previous</span><span class="t">Character LCD Modules</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a><a class="nx" data-nav="next" href="../../07-liquid-crystal-displays/03-graphic-lcd-modules/index.html"><span class="dir">Next →</span><span class="t">Graphic LCD Modules</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

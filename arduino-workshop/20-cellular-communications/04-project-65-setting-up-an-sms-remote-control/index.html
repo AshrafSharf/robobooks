@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #65: Setting Up an SMS Remote Control  — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 20: Cellular Communications · Project #65: Setting Up an SMS Remote Control ">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 20 · Project #65: Setting Up an SMS Remote Control </span></div>
+  <a class="tb-btn" data-nav="prev" href="../../20-cellular-communications/03-project-64-building-an-arduino-texter/index.html" title="Project #64: Building an Arduino Texter">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 20 · Cellular Communications</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-hardware/index.html">The Hardware</a><a href="../02-project-63-building-an-arduino-dialer/index.html">Project #63: Building an Arduino Dialer</a><a href="../03-project-64-building-an-arduino-texter/index.html">Project #64: Building an Arduino Texter</a><a href="../04-project-65-setting-up-an-sms-remote-control/index.html" aria-current=page>Project #65: Setting Up an SMS Remote Control </a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../20-cellular-communications/05-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:99.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 20 · Cellular Communications</a></p>
+  <h1>Project #65: Setting Up an SMS Remote Control </h1>
+  <p class="sec-meta">Book pages 360–363</p>
+</div>
+<article class="prose">
+<p>In this project you’ll control the digital output pins on your Arduino by sending a text message from your cell phone. You should be able to use your existing knowledge to add various devices to control. We’ll allow for four separate digital outputs, but you can control more or less as required.</p>
+<p>To turn on or off four digital outputs (pins 10 through 13 in this example), you’d send a text message to your Arduino in the following format: <code>#axbxcxdx</code>, replacing <code>x</code> with either a <code>0</code> for off or a <code>1</code> for on. For example, to turn on all four outputs, you’d send <code>#a1b1c1d1</code>.</p>
+<h2>The Hardware</h2>
+<p>This project uses the hardware described at the start of the chapter, plus any extra circuitry you choose. We’ll use four LEDs to indicate the status of the digital outputs being controlled. Therefore, the following extra hardware is required:</p>
+<ul><li>Four LEDs</li><li>Four 560 Ω resistors</li><li>Various connecting wires</li><li>One breadboard</li></ul>
+<h2>The Schematic</h2>
+<p>Connect the external circuitry, as shown in Figure 20-11.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="946" height="819" style="width:460px" loading="lazy" alt="Figure 20-11: Circuitry for Project 65"></a><figcaption><b>Figure 20-11:</b> Circuitry for Project 65</figcaption></figure>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code> // Project 65 - Setting Up an SMS Remote Control
+ #include &lt;SoftwareSerial.h&gt;
+ SoftwareSerial cell(2,3);
+ char inchar;
+ void setup()
+ {
+   // set up digital output pins to control
+   pinMode(10, OUTPUT);
+   pinMode(11, OUTPUT);
+   pinMode(12, OUTPUT);
+   pinMode(13, OUTPUT);
+   digitalWrite(10, LOW); // default state for I/O pins at power-up or reset,
+   digitalWrite(11, LOW); // change as you wish.
+   digitalWrite(12, LOW);
+   digitalWrite(13, LOW);
+   //Initialize the GSM module serial port for communication.
+   cell.begin(9600);
+   delay(30000);
+<span class="cm">❶</span>   cell.println(&quot;AT+CMGF=1&quot;);
+   delay(200);
+<span class="cm">❷</span>   cell.println(&quot;AT+CNMI=3,3,0,0&quot;);
+   delay(200);
+ }
+ void loop()
+ {
+   // If a character comes in from the cellular module...
+<span class="cm">❸</span>   if(cell.available() &gt; 0)
+   {
+     inchar = cell.read();
+<span class="cm">❹</span>     if (inchar == &#x27;#&#x27;) // the start of our command
+     {
+       delay(10);
+       inchar = cell.read();
+<span class="cm">❺</span>       if (inchar == &#x27;a&#x27;)
+       {
+         delay(10);
+         inchar = cell.read();
+         if (inchar == &#x27;0&#x27;)
+         {
+           digitalWrite(10, LOW);
+         }
+         else if (inchar == &#x27;1&#x27;)
+         {
+           digitalWrite(10, HIGH);
+         }
+         delay(10);
+         inchar = cell.read();
+         if (inchar == &#x27;b&#x27;)
+         {
+           inchar = cell.read();
+           if (inchar == &#x27;0&#x27;)
+           {
+             digitalWrite(11, LOW);
+           }
+           else if (inchar == &#x27;1&#x27;)
+           {
+             digitalWrite(11, HIGH);
+           }
+           delay(10);
+           inchar = cell.read();
+           if (inchar == &#x27;c&#x27;)
+           {
+             inchar = cell.read();
+             if (inchar == &#x27;0&#x27;)
+             {
+               digitalWrite(12, LOW);
+             }
+             else if (inchar == &#x27;1&#x27;)
+             {
+               digitalWrite(12, HIGH);
+             }
+             delay(10);
+             inchar = cell.read();
+             if (inchar == &#x27;d&#x27;)
+             {
+               delay(10);
+               inchar = cell.read();
+               if (inchar == &#x27;0&#x27;)
+               {
+                 digitalWrite(13, LOW);
+               }
+               else if (inchar == &#x27;1&#x27;)
+               {
+                 digitalWrite(13, HIGH);
+               }
+               delay(10);
+             }
+           }
+           cell.println(&quot;AT+CMGD=1,4&quot;); // delete all SMS
+         }
+       }
+     }
+   }
+ }</code></pre>
+<h2>How It Works</h2>
+<p>In this project the Arduino monitors every text character sent from the GSM module. Thus, at <span class="co">❶</span> we tell the GSM shield to convert incoming SMS messages to text and send the contents to the virtual serial port at <span class="co">❷</span>. Next, the Arduino simply waits for a text message to come from the GSM shield at <span class="co">❸</span>.</p>
+<p>Because the commands sent from the cell phone and passed by the GSM module to control pins on the Arduino start with a <code>#</code>, the sketch waits for a hash mark (<code>#</code>) to appear in the text message at <span class="co">❹</span>. At <span class="co">❺</span>, the first output parameter <code>a</code> is checked—if it is followed by a <code>0</code> or <code>1</code>, the pin is turned off or on, respectively. The process repeats for the next three outputs controlled by <code>b</code>, <code>c</code>, and <code>d</code>.</p>
+<p>Imagine how easy it would be to use this project to create a remote control for all manner of things, such as lights, pumps, alarms, and more.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../20-cellular-communications/03-project-64-building-an-arduino-texter/index.html"><span class="dir">← Previous</span><span class="t">Project #64: Building an Arduino Texter</span><span class="ch">Chapter 20 · Cellular Communications</span></a><a class="nx" data-nav="next" href="../../20-cellular-communications/05-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 20 · Cellular Communications</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

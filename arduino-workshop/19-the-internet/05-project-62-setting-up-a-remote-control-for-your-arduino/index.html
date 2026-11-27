@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #62: Setting Up a Remote Control for Your Arduino — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 19: The Internet · Project #62: Setting Up a Remote Control for Your Arduino">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 19 · Project #62: Setting Up a Remote Control for Your Arduino</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../19-the-internet/04-controlling-your-arduino-from-the-web/index.html" title="Controlling Your Arduino from the Web">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 19 · The Internet</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-you-ll-need/index.html">What You’ll Need</a><a href="../02-project-60-building-a-remote-monitoring-station/index.html">Project #60: Building a Remote-Monitoring Station</a><a href="../03-project-61-creating-an-arduino-tweeter/index.html">Project #61: Creating an Arduino Tweeter</a><a href="../04-controlling-your-arduino-from-the-web/index.html">Controlling Your Arduino from the Web</a><a href="../05-project-62-setting-up-a-remote-control-for-your-arduino/index.html" aria-current=page>Project #62: Setting Up a Remote Control for Your Arduino</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../19-the-internet/06-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:96.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 19 · The Internet</a></p>
+  <h1>Project #62: Setting Up a Remote Control for Your Arduino</h1>
+  <p class="sec-meta">Book pages 345–348</p>
+</div>
+<article class="prose">
+<p>Before starting your first Teleduino project, you must register with the Teleduino service and obtain a unique key to identify your Arduino. To do so, visit <em>https://www.teleduino.org/tools/request-key/</em> and enter the required information. You should receive an email with your key, which will look something like this: <code>187654321Z9AEFF952ABCDEF8534B2BBF</code>.</p>
+<p>Next, convert your key into an array variable by visiting <em>https://www​</em> <em>.teleduino.org/tools/arduino-sketch-key/</em>. Enter your key, and the page should return an array similar to that shown in Figure 19-6.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="495" height="136" style="width:241px" loading="lazy" alt="Figure 19-6: A Teleduino key as an array"></a><figcaption><b>Figure 19-6:</b> A Teleduino key as an array</figcaption></figure>
+<p>Each key is unique to a single Arduino, but you can get more keys if you want to run more than one Teleduino project at a time.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>One USB cable</li><li>One network cable</li><li>One Arduino Uno and Ethernet shield, or one Freetronics EtherTen</li><li>One 560 Ω resistor (R1)</li><li>One breadboard</li><li>One LED of any color</li></ul>
+<p>Assemble your hardware and connect an LED to digital pin 8, as shown in Figure 19-7.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="531" height="808" style="width:258px" loading="lazy" alt="Figure 19-7: Schematic for Project 62"></a><figcaption><b>Figure 19-7:</b> Schematic for Project 62</figcaption></figure>
+<h2>The Sketch</h2>
+<p>Teleduino projects use only one sketch, which is included with the Teleduino library. Here’s how to access the sketch:</p>
+<ol><li>Download and install the Teleduino library from <em>https://www.teleduino.org/</em> <em>downloads/</em>.</li><li>Restart the Arduino IDE and select <strong>File</strong>4<strong>Examples</strong>4<strong>Teleduino328</strong>4 <strong>TeleduinoEthernetClientProxy</strong>.</li><li>You should now see the Teleduino sketch. Before uploading it to your Arduino, replace the default key with your key array. The variable you need to replace should be on line 36 of the sketch. Once you’ve replaced it, save the sketch, and then upload it to your Arduino. Now connect your hardware to the network and watch the LED. After</li></ol>
+<p>a minute or so, it should blink a few times and then rest. The number of blinks represents the status of the Teleduino service, as shown in Table 19-1.</p>
+<table class="tbl data"><caption><b>Table 19-1:</b> Teleduino Status Blink Code </caption><thead><tr><th>Number of blinks</th><th>Message</th></tr></thead><tbody><tr><td>1</td><td>Initializing</td></tr><tr><td>2</td><td>Starting network connection</td></tr><tr><td>3</td><td>Connecting to the Teleduino server</td></tr><tr><td>4</td><td>Authentication successful</td></tr><tr><td>5</td><td>Session already exists</td></tr><tr><td>6</td><td>Invalid or unauthorized key</td></tr><tr><td>10</td><td>Connection dropped</td></tr></tbody></table>
+<p>If you see five blinks, then another Arduino is already programmed with your key and connected to the Teleduino server. At 10 blinks, you should check your hardware and Internet connections. Once the Arduino has connected, it should blink once every 5 seconds or so. Because the status LED is controlled by digital pin 8, you can’t use that pin for any other purpose while you’re using Teleduino.</p>
+<h2>Controlling Your Arduino Remotely</h2>
+<p>To control your Teleduino remotely, you can use any device with a web browser. The command to control the Arduino is sent by entering a URL that you create: <em>http://us01.proxy.teleduino.org/api/1.0/328.php?k=&lt;YOURKEY&gt;</em> <em>&amp;r=setDigitalOutput&amp;pin=&lt;X&gt;&amp;output=&lt;S&gt;</em>.</p>
+<p>You’ll need to change three parameters in the URL: First, replace <em>&lt;YOURKEY&gt;</em> with the long alphanumeric key you received from the Teleduino site. Next, replace <em>&lt;X&gt;</em> with the digital pin number you want to control. Third, change the <em>&lt;S&gt;</em> to 0 for LOW or 1 for HIGH to alter the digital output. For example, to turn digital pin 7 to HIGH, you would enter: <em>http:// </em> <em>us01.proxy.teleduino.org/api/1.0/328.php?k=&lt;YOURKEY&gt;&amp;r=setDigitalOutput&amp;</em> <em>pin=7&amp;output=1</em>.</p>
+<p>After the command succeeds, you should see something like the following in the web browser:</p>
+<pre class="code"><code>{&quot;status&quot;:200,&quot;message&quot;:&quot;OK&quot;,&quot;response&quot;
+{&quot;result&quot;:0,&quot;time&quot;:0.22814512252808,&quot;values&quot;:[]}}</code></pre>
+<p>If the command fails, you should see an error message like this:</p>
+<pre class="code"><code>{&quot;status&quot;:403,&quot;message&quot;:&quot;Key is offline or invalid.&quot;,&quot;response&quot;:[]}</code></pre>
+<p>You can send commands to change the digital pins HIGH or LOW by modifying the URL. After you have created the URLs for your project, bookmark them in your browser or create a local web page with the required links as buttons. For example, you might have a URL bookmarked to set digital pin 7 to HIGH and another bookmarked to set it back to LOW.</p>
+<p>In some situations, the status of your Arduino outputs could be critical. As a fail-safe in case your Arduino resets itself due to a power outage or other interruption, set the default state for the digital pins. With your project connected to the Teleduino service, visit <em>https://www.teleduino.org/tools/</em> <em>manage-presets/</em>. After entering your unique key, you should see a screen of options that allow you to select the mode and value for the digital pins, as shown in Figure 19-8.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="759" height="497" style="width:369px" loading="lazy" alt="Figure 19-8: Default pin status setup page"></a><figcaption><b>Figure 19-8:</b> Default pin status setup page</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../19-the-internet/04-controlling-your-arduino-from-the-web/index.html"><span class="dir">← Previous</span><span class="t">Controlling Your Arduino from the Web</span><span class="ch">Chapter 19 · The Internet</span></a><a class="nx" data-nav="next" href="../../19-the-internet/06-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 19 · The Internet</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

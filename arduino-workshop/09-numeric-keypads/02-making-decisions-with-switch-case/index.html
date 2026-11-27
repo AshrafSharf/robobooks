@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Making Decisions with switch-case  — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 9: Numeric Keypads · Making Decisions with switch-case ">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 9 · Making Decisions with switch-case </span></div>
+  <a class="tb-btn" data-nav="prev" href="../../09-numeric-keypads/01-using-a-numeric-keypad/index.html" title="Using a Numeric Keypad">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 9 · Numeric Keypads</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-a-numeric-keypad/index.html">Using a Numeric Keypad</a><a href="../02-making-decisions-with-switch-case/index.html" aria-current=page>Making Decisions with switch-case </a><a href="../03-project-33-creating-a-keypad-controlled-lock/index.html">Project #33: Creating a Keypad-Controlled Lock</a><a href="../04-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../09-numeric-keypads/03-project-33-creating-a-keypad-controlled-lock/index.html" title="Project #33: Creating a Keypad-Controlled Lock">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:54.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 9 · Numeric Keypads</a></p>
+  <h1>Making Decisions with switch-case </h1>
+  <p class="sec-meta">Book page 190</p>
+</div>
+<article class="prose">
+<p>When you need to compare two or more variables, you’ll often find it easier to use a <code>switch</code>-<code>case</code> statement instead of an <code>if</code>-<code>then</code> statement, because <code>switch</code>-<code>case</code> statements can make an indefinite number of comparisons and run code when the comparison is found to be true. For example, if we had the integer variable <code>xx</code> with a possible value of 1, 2, or 3 and we wanted to run certain code based on whether a value was 1, 2, or 3, then we could use code like the following to replace our <code>if</code>-<code>then</code> statement:</p>
+<pre class="code"><code>switch(xx)
+{
+    case 1:
+     // do something as the value of xx is 1
+    break;              // finish and move on with sketch
+    case 2:
+    // do something as the value of xx is 2
+    break;
+    case 3:
+    // do something as the value of xx is 3
+    break;
+    default:
+    // do something if xx is not 1, 2 or 3
+    // default is optional
+}</code></pre>
+<p>The optional <code>default:</code> section at the end of this code segment lets you choose to run some code when true comparisons no longer exist in the <code>switch</code>-<code>case</code> statement.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../09-numeric-keypads/01-using-a-numeric-keypad/index.html"><span class="dir">← Previous</span><span class="t">Using a Numeric Keypad</span><span class="ch">Chapter 9 · Numeric Keypads</span></a><a class="nx" data-nav="next" href="../../09-numeric-keypads/03-project-33-creating-a-keypad-controlled-lock/index.html"><span class="dir">Next →</span><span class="t">Project #33: Creating a Keypad-Controlled Lock</span><span class="ch">Chapter 9 · Numeric Keypads</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

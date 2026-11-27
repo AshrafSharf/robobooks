@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #59: Creating an RFID Time-Clock System — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 18: Real-time Clocks · Project #59: Creating an RFID Time-Clock System">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 18 · Project #59: Creating an RFID Time-Clock System</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../18-real-time-clocks/03-project-58-creating-a-simple-digital-clock/index.html" title="Project #58: Creating a Simple Digital Clock">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 18 · Real-time Clocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-connecting-the-rtc-module/index.html">Connecting the RTC Module</a><a href="../02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html">Project #57: Adding and Displaying Time and Date with an RTC</a><a href="../03-project-58-creating-a-simple-digital-clock/index.html">Project #58: Creating a Simple Digital Clock</a><a href="../04-project-59-creating-an-rfid-time-clock-system/index.html" aria-current=page>Project #59: Creating an RFID Time-Clock System</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../18-real-time-clocks/05-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:91.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 18 · Real-time Clocks</a></p>
+  <h1>Project #59: Creating an RFID Time-Clock System</h1>
+  <p class="sec-meta">Book pages 330–336</p>
+</div>
+<article class="prose">
+<p>In this project we’ll create a time-clock system. You’ll see how Arduino shields can work together and how the ProtoScrewShield helps you introduce electronic parts that aren’t mounted on a shield. This system can be used by two people who are assigned an RFID card or tag that they’ll swipe over an RFID reader when they enter or leave an area (such as the workplace or a home). The time and card details will be recorded to a microSD card for later analysis.</p>
+<p>We covered logging data to a microSD card in Chapter 13, to the RFID in Chapter 16, and to the RTC earlier in this chapter. Now we’ll put the pieces together.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>Arduino and USB cable</li><li>Various connecting wires</li><li>Real-time clock module (shown earlier in the chapter)</li><li>LCD module or Freetronics LCD shield</li><li>MicroSD card shield and card (from Chapter 13)</li><li>ProtoScrewShield or similar product</li><li>RFID reader module and two tags (from Chapter 16)</li></ul>
+<p>To assemble the system, start with the Arduino Uno at the bottom, and then add your ProtoScrewShield, the microSD card shield, and the LCD shield on the top. Connect the RFID reader as you did in Chapter 16, and connect the RTC module as described earlier in this chapter. The assembly should look similar to that shown in Figure 18-5.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="908" height="621" style="width:441px" loading="lazy" alt="Figure 18-5: The time-clock assembly"></a><figcaption><b>Figure 18-5:</b> The time-clock assembly</figcaption></figure>
+<h2>The Sketch</h2>
+<p>Now enter and upload the following sketch. Remember that when you’re uploading sketches to an RFID-connected Arduino, you need to ensure that you remove the wire between the RFID reader RX and Arduino pin D0, and then reconnect it once the sketch has been uploaded successfully.</p>
+<pre class="code"><code> // Project 59 - Creating an RFID Time-Clock System
+<span class="cm">❶</span> #include &quot;Wire.h&quot; // for RTC
+ #define DS3232_I2C_ADDRESS 0x68
+<span class="cm">❷</span> #include &quot;SD.h&quot;  // for SD card
+ #include &lt;LiquidCrystal.h&gt;
+ LiquidCrystal lcd( 8, 9, 4, 5, 6, 7 );
+ int data1 = 0;
+<span class="cm">❸</span> // Use Listing 16-1 to find your tag numbers
+ int Mary[14] = {
+   2, 52, 48, 48, 48, 56, 54, 67, 54, 54, 66, 54, 66, 3};
+ int John[14] = {
+   2, 52, 48, 48, 48, 56, 54, 66, 49, 52, 70, 51, 56, 3};
+ int newtag[14] = {
+   0,0,0,0,0,0,0,0,0,0,0,0,0,0}; // used for read comparisons
+ // Convert normal decimal numbers to binary coded decimal
+ byte decToBcd(byte val)
+ {
+   return( (val/10*16) + (val%10) );
+ }
+ // Convert binary coded decimal to normal decimal numbers
+ byte bcdToDec(byte val)
+ {
+   return( (val/16*10) + (val%16) );
+ }
+ void setDS3232time(byte second, byte minute, byte hour, byte dayOfWeek, byte
+ dayOfMonth, byte month, byte year)
+ {
+   // Sets time and date data to DS3232
+   Wire.beginTransmission(DS3232_I2C_ADDRESS);
+   Wire.write(0);  // set next input to start at the seconds register
+   Wire.write(decToBcd(second));     // set seconds
+   Wire.write(decToBcd(minute));     // set minutes
+   Wire.write(decToBcd(hour));       // set hours
+   Wire.write(decToBcd(dayOfWeek));  // set day of week (1=Sunday, 7=Saturday)
+   Wire.write(decToBcd(dayOfMonth)); // set date (1 to 31)
+   Wire.write(decToBcd(month));      // set month
+   Wire.write(decToBcd(year));       // set year (0 to 99)
+   Wire.endTransmission();
+ }
+ void readDS3232time(byte *second,
+ byte *minute,
+ byte *hour,
+ byte *dayOfWeek,
+ byte *dayOfMonth,
+ byte *month,
+ byte *year)
+ {
+   Wire.beginTransmission(DS3232_I2C_ADDRESS);
+   Wire.write(0); // set DS3232 register pointer to 00h
+   Wire.endTransmission();
+   Wire.requestFrom(DS3232_I2C_ADDRESS, 7);
+   // Request seven bytes of data from DS3232 starting from register 00h
+   *second     = bcdToDec(Wire.read() &amp; 0x7f);
+   *minute     = bcdToDec(Wire.read());
+   *hour       = bcdToDec(Wire.read() &amp; 0x3f);
+   *dayOfWeek  = bcdToDec(Wire.read());
+   *dayOfMonth = bcdToDec(Wire.read());
+   *month      = bcdToDec(Wire.read());
+   *year       = bcdToDec(Wire.read());
+ }
+ void setup()
+ {
+   Serial.flush(); // need to flush serial buffer
+   Serial.begin(9600);
+   Wire.begin();
+   lcd.begin(16, 2);
+   // set the initial time here:
+   // DS3232 seconds, minutes, hours, day, date, month, year
+   //setDS3232time(0, 27, 0, 5, 15, 11, 12);
+   // Check that the microSD card exists and can be used
+<span class="cm">❹</span>   if (!SD.begin(8))
+   {
+     lcd.print(&quot;uSD card failure&quot;);
+     // stop the sketch
+     return;
+   }
+   lcd.print(&quot;uSD card OK&quot;);
+   delay(1000);
+   lcd.clear();
+ }
+ // Compares two arrays and returns true if identical.
+ // This is good for comparing tags.
+ boolean comparetag(int aa[14], int bb[14])
+ {
+   boolean ff=false;
+   int fg=0;
+   for (int cc=0; cc&lt;14; cc++)
+   {
+     if (aa[cc]==bb[cc])
+     {
+       fg++;
+     }
+   }
+   if (fg==14)
+   {
+     ff=true;      // all 14 elements in the array match each other
+   }
+   return ff;
+ }
+ void wipeNewTag()
+ {
+   for (int i=0; i&lt;=14; i++)
+   {
+     newtag[i]=0;
+   }
+ }
+ void loop()
+ {
+   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
+   if (Serial.available() &gt; 0) // if a read has been attempted
+   {
+     // Read the incoming number on serial RX
+     delay(100);  // Allow time for the data to come in from the serial buffer
+     for (int z=0; z&lt;14; z++) // read the rest of the tag
+     {
+       data1=Serial.read();
+       newtag[z]=data1;
+     }
+     Serial.flush(); // stops multiple reads
+     // retrieve data from DS3232
+     readDS3232time(&amp;second, &amp;minute, &amp;hour, &amp;dayOfWeek, &amp;dayOfMonth, &amp;month,
+     &amp;year);
+   }
+   //now do something based on the tag type
+<span class="cm">❺</span>   if (comparetag(newtag, Mary) == true)
+   {
+     lcd.print(&quot;Hello Mary &quot;);
+     File dataFile = SD.open(&quot;DATA.TXT&quot;, FILE_WRITE);
+     if (dataFile)
+     {
+       dataFile.print(&quot;Mary &quot;);
+       dataFile.print(hour);
+       dataFile.print(&quot;:&quot;);
+       if (minute&lt;10) { dataFile.print(&quot;0&quot;); }
+       dataFile.print(minute);
+       dataFile.print(&quot;:&quot;);
+       if (second&lt;10) { dataFile.print(&quot;0&quot;); }
+       dataFile.print(second);
+       dataFile.print(&quot; &quot;);
+       dataFile.print(dayOfMonth);
+       dataFile.print(&quot;/&quot;);
+       dataFile.print(month);
+       dataFile.print(&quot;/&quot;);
+       dataFile.print(year);
+       dataFile.println();
+       dataFile.close();
+     }
+     delay(1000);
+     lcd.clear();
+     wipeNewTag();
+   }
+   if (comparetag(newtag, John)==true)
+   {
+     lcd.print(&quot;Hello John &quot;);
+     File dataFile = SD.open(&quot;DATA.TXT&quot;, FILE_WRITE);
+     if (dataFile)
+     {
+       dataFile.print(&quot;John &quot;);
+       dataFile.print(hour);
+       dataFile.print(&quot;:&quot;);
+       if (minute&lt;10) { dataFile.print(&quot;0&quot;); }
+       dataFile.print(minute);
+       dataFile.print(&quot;:&quot;);
+       if (second&lt;10) { dataFile.print(&quot;0&quot;); }
+       dataFile.print(second);
+       dataFile.print(&quot; &quot;);
+       dataFile.print(dayOfMonth);
+       dataFile.print(&quot;/&quot;);
+       dataFile.print(month);
+       dataFile.print(&quot;/&quot;);
+       dataFile.print(year);
+       dataFile.println();
+       dataFile.close();
+     }
+     delay(1000);
+     lcd.clear();
+     wipeNewTag();
+   }
+ }</code></pre>
+<h2>How It Works</h2>
+<p>In this sketch, the system first waits for an RFID card to be presented to the reader. If the RFID card is recognized, then the card owner’s name, the time, and the date are appended to a text file stored on the microSD card.</p>
+<p>At <span class="co">❶</span> are the functions required for the I<sup>2</sup>C bus and the real-time clock, and at <span class="co">❷</span> is the line required to set up the microSD card shield. At <span class="co">❹</span>, we check and report on the status of the microSD card. At <span class="co">❺</span>, the card just read is compared against the stored card number for one of two people—in this case, John and Mary. If there is a match, the data is written to the microSD card. With some modification, you could add more cards to the system simply by adding the card serial numbers below the existing numbers at <span class="co">❸</span> and then adding other comparison functions like those at <span class="co">❺</span>.</p>
+<p>When the time comes to review the logged data, simply copy the file <em>data.txt</em> from the microSD card and view the data with a text editor; or import it into a spreadsheet for further analysis. The data is laid out so that it’s easy to read, as shown in Figure 18-6.</p>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="416" height="290" style="width:202px" loading="lazy" alt="Figure 18-6: Example data generated by Project 59"></a><figcaption><b>Figure 18-6:</b> Example data generated   by Project 59</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../18-real-time-clocks/03-project-58-creating-a-simple-digital-clock/index.html"><span class="dir">← Previous</span><span class="t">Project #58: Creating a Simple Digital Clock</span><span class="ch">Chapter 18 · Real-time Clocks</span></a><a class="nx" data-nav="next" href="../../18-real-time-clocks/05-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 18 · Real-time Clocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #60: Building a Remote-Monitoring Station — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 19: The Internet · Project #60: Building a Remote-Monitoring Station">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 19 · Project #60: Building a Remote-Monitoring Station</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../19-the-internet/01-what-you-ll-need/index.html" title="What You’ll Need">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 19 · The Internet</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-you-ll-need/index.html">What You’ll Need</a><a href="../02-project-60-building-a-remote-monitoring-station/index.html" aria-current=page>Project #60: Building a Remote-Monitoring Station</a><a href="../03-project-61-creating-an-arduino-tweeter/index.html">Project #61: Creating an Arduino Tweeter</a><a href="../04-controlling-your-arduino-from-the-web/index.html">Controlling Your Arduino from the Web</a><a href="../05-project-62-setting-up-a-remote-control-for-your-arduino/index.html">Project #62: Setting Up a Remote Control for Your Arduino</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../19-the-internet/03-project-61-creating-an-arduino-tweeter/index.html" title="Project #61: Creating an Arduino Tweeter">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:94.2%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 19 · The Internet</a></p>
+  <h1>Project #60: Building a Remote-Monitoring Station</h1>
+  <p class="sec-meta">Book pages 339–342</p>
+</div>
+<article class="prose">
+<p>In projects in previous chapters, we gathered data from sensors to measure temperature and light. In this project, you’ll learn how to display those values on a simple web page that you can access from almost any webenabled device. This project will display the values of the analog input pins and the status of digital inputs zero to nine on a simple web page as the basis for a remote-monitoring situation.</p>
+<p>Using this framework, you can add sensors with analog and digital outputs such as temperature, light, and switch sensors and then display the sensors’ status on a web page.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>One USB cable</li><li>One network cable</li><li>One Arduino Uno and Ethernet shield, or one Freetronics EtherTen</li></ul>
+<h2>The Sketch</h2>
+<p>Enter the following sketch, but <em>don’t upload it</em> yet:</p>
+<pre class="code"><code> /* Project 60 – Building a Remote-Monitoring Station
+  created 18 Dec 2009 by David A. Mellis, modified 9 Apr 2012 by Tom Igoe
+  modified 20 Mar 2013 by John Boxall
+  */
+ #include &lt;SPI.h&gt;
+ #include &lt;Ethernet.h&gt;
+<span class="cm">❶</span> IPAddress ip( xxx , xxx , xxx , xxx ); //  Replace this with your project&#x27;s IP address
+<span class="cm">❷</span> byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+ EthernetServer server(80);
+ void setup()
+ {
+   // Start the Ethernet connection and server
+   Ethernet.begin(mac, ip);
+   server.begin();
+   for (int z=0; z&lt;10; z++)
+   {
+     pinMode(z, INPUT); // set digital pins 0 to 9 to inputs
+   }
+ }
+ void loop()
+ {
+   // listen for incoming clients (incoming web page request connections)
+   EthernetClient client = server.available();
+   if (client) {
+     // an http request ends with a blank line
+     boolean currentLineIsBlank = true;
+     while (client.connected()) {
+       if (client.available()) {
+         char c = client.read();
+         if (c == &#x27;\n&#x27; &amp;&amp; currentLineIsBlank) {
+           client.println(&quot;HTTP/1.1 200 OK&quot;);
+           client.println(&quot;Content-Type: text/html&quot;);
+           client.println(&quot;Connection: close&quot;);
+           client.println();
+           client.println(&quot;&lt;!DOCTYPE HTML&gt;&quot;);
+           client.println(&quot;&lt;html&gt;&quot;);
+           // add a meta refresh tag, so the browser pulls again every 5 sec:
+<span class="cm">❸</span>           client.println(&quot;&lt;meta http-equiv=\&quot;refresh\&quot; content=\&quot;5\&quot;&gt;&quot;);
+           // output the value of each analog input pin onto the web page
+           for (int analogChannel = 0; analogChannel &lt; 6; analogChannel++) {
+             int sensorReading = analogRead(analogChannel);
+<span class="cm">❹</span>             client.print(&quot;analog input &quot;);
+             client.print(analogChannel);
+             client.print(&quot; is &quot;);
+             client.print(sensorReading);
+             client.println(&quot;&lt;br /&gt;&quot;);
+           }
+           // output the value of digital pins 0 to 9 onto the web page
+           for (int digitalChannel = 0; digitalChannel &lt; 10; digitalChannel++)
+ {
+             boolean pinStatus = digitalRead(digitalChannel);
+             client.print(&quot;digital pin &quot;);
+             client.print(digitalChannel);
+             client.print(&quot; is &quot;);
+             client.print(pinStatus);
+             client.println(&quot;&lt;br /&gt;&quot;);
+           }
+           client.println(&quot;&lt;/html&gt;&quot;);
+           break;
+         }
+         if (c == &#x27;\n&#x27;) {
+           // you&#x27;re starting a new line
+           currentLineIsBlank = true;
+         }
+         else if (c != &#x27;\r&#x27;) {
+           // you&#x27;ve gotten a character on the current line
+           currentLineIsBlank = false;
+         }
+       }
+     }
+     // give the web browser time to receive the data
+     delay(1);
+     // close the connection:
+     client.stop();
+    }
+ }</code></pre>
+<p>We’ll discuss this sketch in more detail a bit later. First, before uploading the sketch, you’ll need to enter an IP address for your Ethernet shield so that it can be found on your local network or modem. You can determine the first three parts of the address by checking your router’s IP address. For example, if your router’s address is 192.168.0.1, change the last digit to something random and different from that of other devices on your network, using a number between 1 and 254 that isn’t already in use on your network. Enter this at <span class="co">❶</span> in the sketch, like so:</p>
+<pre class="code"><code>IPAddress ip(192, 168, 0, 69); // Ethernet shield&#x27;s IP address</code></pre>
+<p>Once you’ve made that change, save and upload your sketch. Next, insert the Ethernet shield into your Arduino if required, connect the network cable into your router or modem and the Ethernet connector, and power on your Arduino board.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="386" height="420" style="width:188px" loading="lazy" alt="Figure 19-3: Values of the pins mon- itored by our station shown as a web page on any web-connected device with a web browser"></a><figcaption><b>Figure 19-3:</b> Values of the pins mon- itored by our station shown as a  web page on any web-connected  device with a web browser</figcaption></figure>
+<p>Wait about 20 seconds, and then using a web browser on any device or computer on your network, enter the IP address from <span class="co">❶</span>. If you see something like Figure 19-3, the framework of your monitoring station is working correctly.</p>
+<h2>Troubleshooting</h2>
+<p>If this project doesn’t work for you, try the following:</p>
+<ul><li>Check that the IP address is set correctly in the sketch at <span class="co">❶</span>.</li><li>Check that the sketch is correct and uploaded to your Arduino.</li><li>Double-check the local network. You might check to see if a connected computer can access the Internet. If so, check that the Arduino board has power and is connected to the router or modem.</li><li>If you’re accessing the project web page from a smartphone, make sure your smartphone is accessing your local Wi-Fi network and not the cell phone company’s cellular network.</li><li>If none of the Ethernet shield’s LEDs are blinking when the Arduino has power and the Ethernet cable is connected to the shield and router or modem, try another patch lead.</li></ul>
+<h2>How It Works</h2>
+<p>If and when your monitoring station is working, you can return to the most important parts of the sketch. The code from the beginning until <span class="co">❸</span> is required because it activates the Ethernet hardware, loads the necessary libraries, and starts the Ethernet hardware in <code>void setup</code>. Prior to <span class="co">❸</span>, the <code>client.print</code> statements are where the sketch sets up the web page to allow it to be read by the web browser. From <span class="co">❸</span> on, you can use the functions <code>client.print</code> and <code>client.println</code> to display information on the web page as you would with the Serial Monitor. For example, the following code is used to display the first six lines of the web page shown in Figure 19-3.</p>
+<pre class="code"><code>client.print(&quot;analog input &quot;);
+client.print(analogChannel);
+client.print(&quot; is &quot;);
+client.print(sensorReading);</code></pre>
+<p>At <span class="co">❹</span> in the sketch, you see an example of writing text and the contents of a variable to the web page. Here you can use HTML to control the look of your displayed web page, as long as you don’t overtax your Arduino’s memory. In other words, you can use as much HTML code as you like until you reach the maximum sketch size, which is dictated by the amount of memory in your Arduino board. (The sizes for each board type are described in Table 11-2 on page 218.)</p>
+<p>One thing to notice is the MAC address that networks can use to detect individual pieces of hardware connected to the network. Each piece of hardware on a network has a unique MAC address, which can be changed by altering one of the hexadecimal values at <span class="co">❷</span>. If two or more Arduino-based projects are using one network, you must enter a different MAC address for each device at <span class="co">❷</span>.</p>
+<p>Finally, if you want to view your web page from a device that is not connected to your local network, such as a tablet or phone using a cellular connection, then you’ll need to use a technique called <em>port forwarding</em> in your network router or modem, with the public IP set up from an organization such as no-ip (<em>http://www.no-ip.com/</em>) or Dyn (<em>http://dyn.com/dns/</em>). Port forwarding is often unique to the make and model of your router, so do an Internet search for <em>router port forwarding</em> or visit a tutorial site such as <em>http://</em> <em>www.wikihow.com/Port-Forward/</em> for more information.</p>
+<p>Now that you know how to broadcast text and variables over a web page, let’s use the Arduino to tweet.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../19-the-internet/01-what-you-ll-need/index.html"><span class="dir">← Previous</span><span class="t">What You’ll Need</span><span class="ch">Chapter 19 · The Internet</span></a><a class="nx" data-nav="next" href="../../19-the-internet/03-project-61-creating-an-arduino-tweeter/index.html"><span class="dir">Next →</span><span class="t">Project #61: Creating an Arduino Tweeter</span><span class="ch">Chapter 19 · The Internet</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

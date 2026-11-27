@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>More Electric Components — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 3: First Steps · More Electric Components">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 3 · More Electric Components</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../03-first-steps/08-project-3-demonstrating-pwm/index.html" title="Project #3: Demonstrating PWM">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 3 · First Steps</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-planning-your-projects/index.html">Planning Your Projects</a><a href="../02-about-electricity/index.html">About Electricity</a><a href="../03-electronic-components/index.html">Electronic Components</a><a href="../04-project-1-creating-a-blinking-led-wave/index.html">Project #1: Creating a Blinking LED Wave</a><a href="../05-using-variables/index.html">Using Variables</a><a href="../06-project-2-repeating-with-for-loops/index.html">Project #2: Repeating with for Loops</a><a href="../07-varying-led-brightness-with-pulse-width-modulation/index.html">Varying LED Brightness with Pulse-Width Modulation</a><a href="../08-project-3-demonstrating-pwm/index.html">Project #3: Demonstrating PWM</a><a href="../09-more-electric-components/index.html" aria-current=page>More Electric Components</a><a href="../10-higher-voltage-circuits/index.html">Higher-Voltage Circuits</a><a href="../11-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../03-first-steps/10-higher-voltage-circuits/index.html" title="Higher-Voltage Circuits">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:12.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 3 · First Steps</a></p>
+  <h1>More Electric Components</h1>
+  <p class="sec-meta">Book pages 49–52</p>
+</div>
+<article class="prose">
+<p>You’ll usually find it easy to plan on having a digital output control do something without taking into account how much current the control really needs to get the job done. As you create your project, remember that each digital output pin on the Arduino Uno can offer a maximum of 40 mA of current per pin and 200 mA total for all pins. Three electronic hardware components can help you increase the current-handling ability of the Arduino, however, and are discussed next.</p>
+<aside class="note"><span class="lbl">WARNING</span><p><em>If you attempt to exceed 40 mA on a single pin, or 200 mA total, then you risk per-</em> <em>manently damaging the microcontroller integrated circuit (IC).</em></p></aside>
+<h2>The Transistor</h2>
+<p>Almost everyone has heard of a <em>transistor</em>, but most people don’t really understand how it works. In the spirit of brevity, I will keep the explanation as simple as possible. A transistor can turn on or off the flow of a much larger current than the Arduino Uno can handle. We can, however, safely control a transistor using an Arduino digital output pin. A popular example is the BC548, shown in Figure 3-16.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="667" height="324" style="width:324px" loading="lazy" alt="Figure 3-16: A typical transistor: the BC548"></a><figcaption><b>Figure 3-16:</b> A typical transistor: the BC548</figcaption></figure>
+<p>Similar to the LED, the transistor’s pins have a unique function and need to be connected in the proper orientation. With the flat front of the transistor facing you (as shown on the left of Figure 3-16), the pins on the BC548 are called (from left to right) <em>collector</em>, <em>base</em>, and <em>emitter</em>. (Note that this pin order, or pinout, is for the BC548 transistor; other transistors may be oriented differently.) When a small current is applied to the base, such as from an Arduino digital I/O pin, the larger current we want to switch enters through the collector; then it is combined with the small current from the base, and then it flows out via the emitter. When the small control current at the base is turned off, no current can flow through the transistor.</p>
+<p>The BC548 can switch up to 100 mA of current at a maximum of 30 V—much more than the Arduino’s digital output. In projects later in the book, we will use this in other transistors, and at that time, you’ll read about transistors in more detail.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Always pay attention to the pin order for your particular transistor, because each </em> <em>transistor can have its own orientation.</em></p></aside>
+<h2>The Rectifier Diode</h2>
+<p>The <em>diode</em> is a very simple yet useful component that allows current to flow in one direction only. It looks a lot like a resistor, as you can see in Figure 3-17.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="868" height="263" style="width:422px" loading="lazy" alt="Figure 3-17: A 1N4004-type rectifier diode"></a><figcaption><b>Figure 3-17:</b> A 1N4004-type rectifier diode</figcaption></figure>
+<p>The projects in this book will use the 1N4004-type rectifier diode. Current flows into the diode via the anode and out through the cathode, which is marked with the ring around the diode’s body. These diodes can protect parts of the circuit against reverse current flow, but there is a price to pay: diodes also cause a drop in the voltage of around 0.7 V. The 1N4004 diode is rated to handle 1 A and 400 V, much higher than we will be using. It’s a tough, common, and low-cost diode.</p>
+<h2>The Relay</h2>
+<p><em>Relays</em> are used for the same reason as transistors—to control a much larger current and voltage. A relay has the advantage of being <em>electrically isolated</em> from the control circuit, which allows the Arduino to switch very large currents and voltages. Isolation is sometimes necessary to protect circuits from these very large currents and voltages, which can damage an Arduino. Inside the relay is an interesting pair of items: mechanical switch contacts and a low-voltage coil of wire, as shown in Figure 3-18.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="545" height="528" style="width:265px" loading="lazy" alt="Figure 3-18: Inside a typical relay"></a><figcaption><b>Figure 3-18:</b> Inside a typical relay</figcaption></figure>
+<aside class="sidebar"><p>NO NC</p><p>contacts</p><p>COM</p></aside>
+<p>When a current is applied to the coil, the component becomes an electromagnet and attracts a bar of metal that acts just like the toggle of a switch. The magnet pulls the bar in one direction when on and lets it fall back when off, thereby turning it on or off as current is applied and removed from the coil. This movement has a distinctive “click” that you might recognize from the turn signal in older cars.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../03-first-steps/08-project-3-demonstrating-pwm/index.html"><span class="dir">← Previous</span><span class="t">Project #3: Demonstrating PWM</span><span class="ch">Chapter 3 · First Steps</span></a><a class="nx" data-nav="next" href="../../03-first-steps/10-higher-voltage-circuits/index.html"><span class="dir">Next →</span><span class="t">Higher-Voltage Circuits</span><span class="ch">Chapter 3 · First Steps</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

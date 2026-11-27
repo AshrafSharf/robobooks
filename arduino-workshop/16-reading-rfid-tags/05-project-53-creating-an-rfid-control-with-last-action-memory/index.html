@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #53: Creating an RFID Control with 
+“Last Action” Memory — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 16: Reading RFID Tags · Project #53: Creating an RFID Control with 
+“Last Action” Memory">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 16 · Project #53: Creating an RFID Control with 
+“Last Action” Memory</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../16-reading-rfid-tags/04-storing-data-in-the-arduino-s-built-in-eeprom/index.html" title="Storing Data in the Arduino’s Built-in EEPROM">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 16 · Reading RFID Tags</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-inside-rfid-devices/index.html">Inside RFID Devices</a><a href="../02-testing-the-hardware/index.html">Testing the Hardware</a><a href="../03-project-52-creating-a-simple-rfid-control-system/index.html">Project #52: Creating a Simple RFID Control System</a><a href="../04-storing-data-in-the-arduino-s-built-in-eeprom/index.html">Storing Data in the Arduino’s Built-in EEPROM</a><a href="../05-project-53-creating-an-rfid-control-with-last-action-memory/index.html" aria-current=page>Project #53: Creating an RFID Control with 
+“Last Action” Memory</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../16-reading-rfid-tags/06-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:84.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 16 · Reading RFID Tags</a></p>
+  <h1>Project #53: Creating an RFID Control with 
+“Last Action” Memory</h1>
+  <p class="sec-meta">Book pages 303–306</p>
+</div>
+<article class="prose">
+<h2>“Last Action” Memory</h2>
+<p>Although Project 52 showed how to use an RFID to control something, such as a light or electric door lock, we had to assume that nothing would be remembered if the system were reset or the power went out. For example, if a light was on and the power went out, then the light would be off once the power returned. However, once the power comes back on, you want the Arduino to remember what was happening before the power went out and return to that state. Let’s solve that problem now.</p>
+<p>In this project, the last action will be stored in the EEPROM (for example, “locked” or “unlocked”). When the sketch restarts after a power failure or an Arduino reset, the system will revert to the previous state stored in the EEPROM.</p>
+<h2>The Sketch</h2>
+<p>Enter and upload the following sketch. Again, replace the <code>x</code>s in each array at <span class="co">❶</span> and <span class="co">❷</span> with the numbers for each of the two RFID tags as you did for Project 52.</p>
+<pre class="code"><code> // Project 53 – Creating an RFID Control with &quot;Last Action&quot; Memory
+ #include &lt;EEPROM.h&gt;
+ int data1 = 0;
+ int ok = -1;
+ int lockStatus = 0;
+ // use Listing 16-1 to find your tag numbers
+<span class="cm">❶</span> int tag1[14] = { x , x , x , x , x , x , x , x , x , x , x , x , x , x };
+<span class="cm">❷</span> int tag2[14] = { x , x , x , x , x , x , x , x , x , x , x , x , x , x };
+ int newtag[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0}; // used for read comparisons
+ void setup()
+ {
+   Serial.flush();
+   Serial.begin(9600);
+   pinMode(13, OUTPUT);
+<span class="cm">❸</span>   checkLock();
+ }
+ // comparetag compares two arrays and returns true if identical
+ // this is good for comparing tags
+ boolean comparetag(int aa[14], int bb[14])
+ {
+   boolean ff = false;
+   int fg = 0;
+   for (int cc = 0; cc &lt; 14; cc++)
+   {
+     if (aa[cc] == bb[cc])
+     {
+       fg++;
+     }
+   }
+   if (fg == 14)
+   {
+     ff = true;
+   }
+   return ff;
+ }
+ void checkmytags()
+ // compares each tag against the tag just read
+ {
+   ok = 0;
+   if (comparetag(newtag, tag1) == true)
+   {
+     ok++;
+   }
+   if (comparetag(newtag, tag2) == true)
+   {
+     ok++;
+   }
+ }
+<span class="cm">❹</span> void checkLock()
+ {
+   Serial.print(&quot;System Status after restart &quot;);
+   lockStatus = EEPROM.read(0);
+   if (lockStatus == 1)
+   {
+     Serial.println(&quot;- locked&quot;);
+     digitalWrite(13, HIGH);
+   }
+   if (lockStatus == 0)
+   {
+     Serial.println(&quot;- unlocked&quot;);
+     digitalWrite(13, LOW);
+   }
+   if ((lockStatus != 1) &amp;&amp; (lockStatus != 0))
+   {
+     Serial.println(&quot;EEPROM fault - Replace Arduino hardware&quot;);
+   }
+ }
+ void loop()
+ {
+   ok = -1;
+   if (Serial.available() &gt; 0) // if a read has been attempted
+   {
+     // read the incoming number on serial RX
+     delay(100);
+     for (int z = 0; z &lt; 14; z++) // read the rest of the tag
+     {
+       data1 = Serial.read();
+       newtag[z] = data1;
+     }
+     Serial.flush(); // prevents multiple reads
+     // now to match tags up
+     checkmytags();
+   }
+<span class="cm">❺</span>   if (ok &gt; 0) // if we had a match
+   {
+     lockStatus = EEPROM.read(0);
+     if (lockStatus == 1) // if locked, unlock it
+<span class="cm">❻</span>     {
+       Serial.println(&quot;Status - unlocked&quot;);
+       digitalWrite(13, LOW);
+       EEPROM.write(0, 0);
+     }
+     if (lockStatus == 0)
+<span class="cm">❼</span>     {
+       Serial.println(&quot;Status - locked&quot;);
+       digitalWrite(13, HIGH);
+       EEPROM.write(0, 1);
+     }
+     if ((lockStatus != 1) &amp;&amp; (lockStatus != 0))
+<span class="cm">❽</span>     {
+       Serial.println(&quot;EEPROM fault - Replace Arduino hardware&quot;);
+     }
+   }
+   else if (ok == 0) // if we didn&#x27;t have a match
+   {
+     Serial.println(&quot;Incorrect tag&quot;);
+     ok = -1;
+   }
+   delay(500);
+ }</code></pre>
+<h2>How It Works</h2>
+<p>This sketch is a modification of Project 52. We use the onboard LED to simulate the status of something that we want to turn on or off every time an acceptable RFID tag is read. After a tag has been read and matched, the status of the lock is changed at <span class="co">❺</span>. We store the status of the lock in the first position of the EEPROM. The status is represented by a number: <code>0</code> is unlocked and <code>1</code> is locked. This status will change (from locked to unlocked and back to locked) after every successful tag read at <span class="co">❻</span> or <span class="co">❼</span>.</p>
+<p>We’ve also introduced a fail-safe in case the EEPROM has worn out. If the value returned from reading the EEPROM is not <code>0</code> or <code>1</code>, we should be notified at <span class="co">❽</span>. Furthermore, the status is checked when the sketch restarts after a reset using the function <code>checkLock()</code> at <span class="co">❶</span>, <span class="co">❷</span>, <span class="co">❸</span>, and <span class="co">❹</span>, which reads the EEPROM value, determines the last status, and then sets the lock to that status (locked or unlocked).</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../16-reading-rfid-tags/04-storing-data-in-the-arduino-s-built-in-eeprom/index.html"><span class="dir">← Previous</span><span class="t">Storing Data in the Arduino’s Built-in EEPROM</span><span class="ch">Chapter 16 · Reading RFID Tags</span></a><a class="nx" data-nav="next" href="../../16-reading-rfid-tags/06-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 16 · Reading RFID Tags</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

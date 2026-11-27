@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arrays — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Arrays">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Arrays</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/06-project-17-making-a-binary-quiz-game/index.html" title="Project #17: Making a Binary Quiz Game">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html" aria-current=page>Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/08-seven-segment-led-displays/index.html" title="Seven-Segment LED Displays">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:35.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Arrays</h1>
+  <p class="sec-meta">Book pages 124–126</p>
+</div>
+<article class="prose">
+<p>An <em>array</em> is a set of variables or values grouped together so that they can be referenced as a whole. When dealing with lots of related data, you’ll find it a good idea to use arrays to keep your data organized.</p>
+<h2>Defining an Array</h2>
+<p>Each item in an array is called an <em>element</em>. For example, suppose six <code>float</code> variables contain temperatures taken over the last six hours; instead of giving them all separate names, we can define an array called <code>temperatures</code> with six elements like this:</p>
+<pre class="code"><code>float temperatures[6];</code></pre>
+<p>We can also insert values when defining the array. When we do that, we don’t need to define the array size. Here’s an example:</p>
+<pre class="code"><code>float temperatures[]={11.1, 12.2, 13.3, 14.4, 15.5, 16.6};</code></pre>
+<p>Notice that this time we didn’t explicitly define the size of the array within the square brackets (<code>[]</code>); instead, its size is deduced based on the number of elements set by the values inside the curly brackets (<code>{}</code>).</p>
+<h2>Referring to Values in an Array</h2>
+<p>We count the elements in an array beginning from the left and starting from 0; the <code>temperatures[]</code> array has elements numbered 0 to 5. We can refer to individual values within an array by inserting the number of the element in the square brackets. For example, to change the first element in <code>temperatures[]</code> (currently 16.6) to 12.34, we would use this:</p>
+<pre class="code"><code>  temperatures[0] = 12.34;</code></pre>
+<h2>Writing to and Reading from Arrays</h2>
+<p>In Listing 6-3, we demonstrate writing values to and reading values from an array of five elements. The first <code>for</code> loop in the sketch writes a random number into each of the array’s elements, and the second <code>for</code> loop retrieves the elements and displays them in the Serial Monitor.</p>
+<figure class="listing"><pre class="code"><code>// Listing 6-3
+void setup()
+{
+  Serial.begin(9600);
+  randomSeed(analogRead(0));
+}
+int array[5];    // define our array of five integer elements
+void loop()
+{
+  int i;
+  Serial.println();
+  for ( i = 0 ; i &lt; 5 ; i++ )   // write to the array
+  {
+    array[i] = random(10);      // random numbers from 0 to 9
+  }
+  for ( i = 0 ; i &lt; 5 ; i++ )   // display the contents of the array
+  {
+    Serial.print(&quot;array[&quot;);
+    Serial.print(i);
+    Serial.print(&quot;] contains &quot;);
+    Serial.println(array[i]);
+  }
+  delay(5000);
+}</code></pre><figcaption><b>Listing 6-3:</b> Array read/write demonstration</figcaption></figure>
+<p>Figure 6-8 shows the output of this sketch in the Serial Monitor.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="656" height="347" style="width:319px" loading="lazy" alt="Figure 6-8: Listing 6-3 in action"></a><figcaption><b>Figure 6-8:</b> Listing 6-3 in action</figcaption></figure>
+<p>Now that you know how to work with binary numbers, shift registers, and arrays, it’s time you put that knowledge to work. In the next section, we’ll wire up some digital number displays.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/06-project-17-making-a-binary-quiz-game/index.html"><span class="dir">← Previous</span><span class="t">Project #17: Making a Binary Quiz Game</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/08-seven-segment-led-displays/index.html"><span class="dir">Next →</span><span class="t">Seven-Segment LED Displays</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

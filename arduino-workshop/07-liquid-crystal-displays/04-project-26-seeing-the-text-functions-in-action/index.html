@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #26: Seeing the Text Functions in Action — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 7: Liquid Crystal Displays · Project #26: Seeing the Text Functions in Action">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 7 · Project #26: Seeing the Text Functions in Action</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../07-liquid-crystal-displays/03-graphic-lcd-modules/index.html" title="Graphic LCD Modules">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 7 · Liquid Crystal Displays</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-character-lcd-modules/index.html">Character LCD Modules</a><a href="../02-project-25-defining-custom-characters/index.html">Project #25: Defining Custom Characters</a><a href="../03-graphic-lcd-modules/index.html">Graphic LCD Modules</a><a href="../04-project-26-seeing-the-text-functions-in-action/index.html" aria-current=page>Project #26: Seeing the Text Functions in Action</a><a href="../05-project-27-creating-a-temperature-history-monitor/index.html">Project #27: Creating a Temperature History Monitor</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../07-liquid-crystal-displays/05-project-27-creating-a-temperature-history-monitor/index.html" title="Project #27: Creating a Temperature History Monitor">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:44.5%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 7 · Liquid Crystal Displays</a></p>
+  <h1>Project #26: Seeing the Text Functions in Action</h1>
+  <p class="sec-meta">Book pages 155–157</p>
+</div>
+<article class="prose">
+<p>The text functions are demonstrated in this sketch:</p>
+<pre class="code"><code>// Project 26 - Seeing the Text Functions in Action
+#include &lt;glcd.h&gt;                // include the graphics LCD library
+#include &quot;fonts/SystemFont5x7.h&quot; // include the standard character fonts for it
+int j = 7;
+void setup()
+{
+  GLCD.Init(NON_INVERTED);
+  GLCD.ClearScreen();
+  GLCD.SelectFont(System5x7);
+}
+void loop()
+{
+  GLCD.ClearScreen();
+  GLCD.CursorTo(1, 1);
+  GLCD.Puts(&quot;Hello, world.&quot;);
+  GLCD.CursorTo(1, 2);
+  GLCD.Puts(&quot;I hope you are &quot;);
+  GLCD.CursorTo(1, 3);
+  GLCD.Puts(&quot;enjoying this&quot;);
+  GLCD.CursorTo(1, 4);
+  GLCD.Puts(&quot;book. &quot;);
+  GLCD.CursorTo(1, 5);
+  GLCD.Puts(&quot;This is from &quot;);
+  GLCD.CursorTo(1, 6);
+  GLCD.Puts(&quot;chapter &quot;);
+  GLCD.PrintNumber(j);
+  GLCD.Puts(&quot;.&quot;);
+  do {} while (1);
+}</code></pre>
+<p>The sketch should display the output shown in Figure 7-9.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="535" height="335" style="width:260px" loading="lazy" alt="Figure 7-9: Output from Project 26"></a><figcaption><b>Figure 7-9:</b> Output from Project 26</figcaption></figure>
+<h2>Creating More Complex Display Effects</h2>
+<p>Now let’s look at a few functions we can use to create various display effects. Keep in mind that the graphic LCD screen has a resolution of 128 columns of 64 pixels, but when we refer to them in various functions, they are counted from 0 to 127 across and 0 to 63 down.</p>
+<p>This graphical function will turn on a single pixel at position <code>x, y</code> with the color set to <code>BLACK</code>, or it will turn off a single pixel with the color set to <code>WHITE</code>. The <code>color</code> parameter always sets black to on and white to off.</p>
+<pre class="code"><code>  GLCD.SetDot( x , y , color ); // color is BLACK or WHITE</code></pre>
+<p>The next function draws a rectangle with the upper-left corner at <code>x, y</code>. The width is <code>w</code>, and the depth or vertical size is <code>h</code>. The resulting rectangle will have a black outline and a white background.</p>
+<pre class="code"><code>  GLCD.DrawRect( x , y , w , h , color );</code></pre>
+<p>This function draws a filled rectangle with the same parameters:</p>
+<pre class="code"><code>  GLCD.FillRect( x , y , w , h , color );</code></pre>
+<p>This function draws a rectangle with the same parameters but with rounded corners of radius <code>r</code>.</p>
+<pre class="code"><code>  GLCD.DrawRoundRect(x, y, w, h, r, color);</code></pre>
+<p>This function draws a circle with the center at <code>x</code>, <code>y</code> and a radius of <code>r</code> pixels:</p>
+<pre class="code"><code>  GLCD.DrawCircle(x, y, r, color);</code></pre>
+<p>This draws a vertical line starting from point <code>x, y</code>  with a length of <code>l</code> pixel.</p>
+<pre class="code"><code>  GLCD.DrawVertLine(x, y, l, color);</code></pre>
+<p>And this draws a horizontal line starting from point <code>x, y</code> with a length of <code>l</code> pixel.</p>
+<pre class="code"><code>  GLCD.DrawHoriLine(x, y, l, color);</code></pre>
+<p>With the functions discussed so far and some imagination, you can create a variety of display effects or display data graphically. In the next section, we’ll build on our quick-read thermometer example using the LCD screen and some of these functions.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../07-liquid-crystal-displays/03-graphic-lcd-modules/index.html"><span class="dir">← Previous</span><span class="t">Graphic LCD Modules</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a><a class="nx" data-nav="next" href="../../07-liquid-crystal-displays/05-project-27-creating-a-temperature-history-monitor/index.html"><span class="dir">Next →</span><span class="t">Project #27: Creating a Temperature History Monitor</span><span class="ch">Chapter 7 · Liquid Crystal Displays</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

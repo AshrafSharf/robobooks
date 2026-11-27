@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LED Matrix Display Modules — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · LED Matrix Display Modules">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · LED Matrix Display Modules</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/11-project-20-creating-a-digital-thermometer/index.html" title="Project #20: Creating a Digital Thermometer">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html" aria-current=page>LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html">Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/13-bitwise-arithmetic/index.html" title="Bitwise Arithmetic">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:38.2%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>LED Matrix Display Modules</h1>
+  <p class="sec-meta">Book pages 135–139</p>
+</div>
+<article class="prose">
+<p>If you enjoyed experimenting with blinking LEDs, then you’re going to love LED matrix modules. An <em>LED matrix module</em> consists of several rows and columns of LEDs that you can control individually or in groups. The example that we’ll use (shown in Figure 6-16) has eight rows and eight columns of red LEDs for a total of 64 LEDs.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="417" height="405" style="width:203px" loading="lazy" alt="Figure 6-16: LED matrix"></a><figcaption><b>Figure 6-16:</b> LED matrix</figcaption></figure>
+<p>In this project we’ll build one circuit, and then we’ll use various sketches to create different effects.</p>
+<h2>The LED Matrix Schematic</h2>
+<p>The schematic symbol for the matrix looks a bit complex, as shown in Figure 6-17.</p>
+<aside class="sidebar"><p>COL.12345678</p><figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="497" height="603" style="width:242px" loading="lazy" alt="Figure 6-17: LED matrix schematic symbol"></a><figcaption><b>Figure 6-17:</b> LED matrix schematic symbol</figcaption></figure></aside>
+<p>Notice that the numbering of the rows and columns of LEDs does not match the order of the pins beneath the matrix; see the circled pin numbers in Figure 6-17. On the underside of our matrix, pin 1 is indicated at the bottom right. For example, in Figure 6-18, you can see a tiny <em>1</em> printed below the pin.</p>
+<figure class="fig side-fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="510" height="514" style="width:248px" loading="lazy" alt="Figure 6-18: Pins on the LED matrix with a tiny 1 printed below the bottom-right pin"></a><figcaption><b>Figure 6-18:</b> Pins on the LED matrix with a   tiny 1 printed below the bottom-right pin</figcaption></figure>
+<p>The pins on the LED matrix are numbered clockwise, with pin 8 at the bottom left and pin 16 at the top right. We’ll control the matrix with two 74HC595 shift registers in a way that’s similar to the method used in Project 19.</p>
+<p>Figure 6-19 shows the schematic for our project. Resistors R1 through R8 are 560 ohms each. One shift register controls the rows of LEDs, and the other controls the columns. The LED matrix (not shown here) is connected to the outputs at the bottom of this schematic with the pin connections listed in Table 6-3.</p>
+<table class="tbl data"><caption><b>Table 6-3:</b> Matrix to 74HC595 link table</caption><thead><tr><th>Row SR Pin</th><th>Matrix Pin</th><th>Column SR Pin</th><th>Matrix Pin</th></tr></thead><tbody><tr><td>15</td><td>9</td><td>15</td><td>13</td></tr><tr><td>1</td><td>14</td><td>1</td><td>3</td></tr><tr><td>2</td><td>8</td><td>2</td><td>4</td></tr><tr><td>3</td><td>12</td><td>3</td><td>10</td></tr><tr><td>4</td><td>1</td><td>4</td><td>6</td></tr><tr><td>5</td><td>7</td><td>5</td><td>11</td></tr><tr><td>6</td><td>2</td><td>6</td><td>15</td></tr><tr><td>7</td><td>5</td><td>7</td><td>16</td></tr></tbody></table>
+<h2>Making the Connections</h2>
+<p>Make the connections between the shift registers and the LED matrix (don’t forget the resistors between the output pins of the shift register, which controls the matrix rows, and the matrix row pins), as shown in Table 6-3.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="1141" height="1455" style="width:555px" loading="lazy" alt="Figure 6-19: Matrix circuit schematic"></a><figcaption><b>Figure 6-19:</b> Matrix circuit schematic</figcaption></figure>
+<p>Now to get the matrix working. The shift register marked “rows” in Figure 6-19 allows current to flow into each row of the matrix, and the “columns” shift register allows current to flow from each of the columns of the matrix to GND. We’ll use a simple sketch to test the setup in the next project. To turn on an LED, we need to control the matching row and column pins of the shift registers.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/11-project-20-creating-a-digital-thermometer/index.html"><span class="dir">← Previous</span><span class="t">Project #20: Creating a Digital Thermometer</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/13-bitwise-arithmetic/index.html"><span class="dir">Next →</span><span class="t">Bitwise Arithmetic</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

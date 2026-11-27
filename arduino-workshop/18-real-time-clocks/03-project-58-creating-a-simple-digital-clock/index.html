@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #58: Creating a Simple Digital Clock — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 18: Real-time Clocks · Project #58: Creating a Simple Digital Clock">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 18 · Project #58: Creating a Simple Digital Clock</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../18-real-time-clocks/02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html" title="Project #57: Adding and Displaying Time and Date with an RTC">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 18 · Real-time Clocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-connecting-the-rtc-module/index.html">Connecting the RTC Module</a><a href="../02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html">Project #57: Adding and Displaying Time and Date with an RTC</a><a href="../03-project-58-creating-a-simple-digital-clock/index.html" aria-current=page>Project #58: Creating a Simple Digital Clock</a><a href="../04-project-59-creating-an-rfid-time-clock-system/index.html">Project #59: Creating an RFID Time-Clock System</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../18-real-time-clocks/04-project-59-creating-an-rfid-time-clock-system/index.html" title="Project #59: Creating an RFID Time-Clock System">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:91.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 18 · Real-time Clocks</a></p>
+  <h1>Project #58: Creating a Simple Digital Clock</h1>
+  <p class="sec-meta">Book pages 326–330</p>
+</div>
+<article class="prose">
+<p>In this project we’ll use the functions from Project 57 to display the time and date on a standard character LCD, similar to the one used in the GPS receiver in Project 44.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>Arduino and USB cable</li><li>Various connecting wires</li><li>One breadboard</li><li>ProtoScrewShield or similar product</li><li>LCD module or Freetronics LCD shield</li><li>Real-time clock module (shown earlier in the chapter)</li></ul>
+<p>First, re-create the hardware used in Project 57. If you connected the RTC module with wires into the Arduino, use a ProtoScrewShield instead to interface with the RTC. Then insert your LCD shield on top of the other shields.</p>
+<aside class="sidebar"><h4 class="st">ProtoScrewShield</h4><p>Over time, your projects may consist of several Arduino shields and external devices, all connected by a mess of wires.  A great way to control the mess is the ProtoScrewShield for Arduino from Wingshield Industries (<em>http://</em> <em>wingshieldindustries.com/ </em>), as shown in Figure 18-3.</p><figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="527" height="436" style="width:256px" loading="lazy" alt="Figure 18-3: The ProtoScrewShield in use"></a><figcaption><b>Figure 18-3:</b> The ProtoScrewShield in use</figcaption></figure><p>This component comprises two parts, one for each row of sockets on the Arduino.  Once you insert the component into the Arduino, you can continue using shields.  However, you can also connect wires from external devices such as sensors or servos directly to the Arduino I/O pins via the screw terminals on the ProtoScrewShield.</p></aside>
+<h2>The Sketch</h2>
+<p>Enter but <em>do not upload</em> the following sketch:</p>
+<pre class="code"><code> // Project 58 - Creating a Simple Digital Clock
+ #include &quot;Wire.h&quot;
+ #define DS3232_I2C_ADDRESS 0x68
+<span class="cm">❶</span> #include &lt;LiquidCrystal.h&gt;
+ LiquidCrystal lcd( 8, 9, 4, 5, 6, 7 );
+ // Convert normal decimal numbers to binary coded decimal
+ byte decToBcd(byte val)
+ {
+   return( (val/10*16) + (val%10) );
+ }
+ // Convert binary coded decimal to normal decimal numbers
+ byte bcdToDec(byte val)
+ {
+   return( (val/16*10) + (val%16) );
+ }
+ void setup()
+ {
+   Wire.begin();
+<span class="cm">❷</span>   lcd.begin(16, 2);
+   // set the initial time here:
+   // DS3232 seconds, minutes, hours, day, date, month, year
+<span class="cm">❸</span>   //setDS3232time(0, 27, 0, 5, 15, 11, 12);
+ }
+ void setDS3232time(byte second, byte minute, byte hour, byte dayOfWeek, byte
+ dayOfMonth, byte month, byte year)
+ {
+   // sets time and date data to DS3232
+   Wire.beginTransmission(DS3232_I2C_ADDRESS);
+   Wire.write(0);  // set next input to start at the seconds register
+   Wire.write(decToBcd(second));     // set seconds
+   Wire.write(decToBcd(minute));     // set minutes
+   Wire.write(decToBcd(hour));       // set hours
+   Wire.write(decToBcd(dayOfWeek));  // set day of week (1=Sunday, 7=Saturday)
+   Wire.write(decToBcd(dayOfMonth)); // set date (1 to 31)
+   Wire.write(decToBcd(month));      // set month
+   Wire.write(decToBcd(year));       // set year (0 to 99)
+   Wire.endTransmission();
+ }
+ void readDS3232time(byte *second,
+ byte *minute,
+ byte *hour,
+ byte *dayOfWeek,
+ byte *dayOfMonth,
+ byte *month,
+ byte *year)
+ {
+   Wire.beginTransmission(DS3232_I2C_ADDRESS);
+   Wire.write(0); // set DS3232 register pointer to 00h
+   Wire.endTransmission();
+   Wire.requestFrom(DS3232_I2C_ADDRESS, 7);
+   // request seven bytes of data from DS3232 starting from register 00h
+   *second     = bcdToDec(Wire.read() &amp; 0x7f);
+   *minute     = bcdToDec(Wire.read());
+   *hour       = bcdToDec(Wire.read() &amp; 0x3f);
+   *dayOfWeek  = bcdToDec(Wire.read());
+   *dayOfMonth = bcdToDec(Wire.read());
+   *month      = bcdToDec(Wire.read());
+   *year       = bcdToDec(Wire.read());
+ }
+ void displayTime()
+ {
+   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
+ // retrieve data from DS3232
+   readDS3232time(&amp;second, &amp;minute, &amp;hour, &amp;dayOfWeek, &amp;dayOfMonth, &amp;month,
+   &amp;year);
+   // send the data to the LCD shield
+   lcd.clear();
+   lcd.setCursor(4,0);
+   lcd.print(hour, DEC);
+   lcd.print(&quot;:&quot;);
+   if (minute&lt;10)
+   {
+     lcd.print(&quot;0&quot;);
+   }
+   lcd.print(minute, DEC);
+   lcd.print(&quot;:&quot;);
+   if (second&lt;10)
+   {
+     lcd.print(&quot;0&quot;);
+   }
+   lcd.print(second, DEC);
+   lcd.setCursor(0,1);
+   switch(dayOfWeek){
+   case 1:
+     lcd.print(&quot;Sun&quot;);
+     break;
+   case 2:
+     lcd.print(&quot;Mon&quot;);
+     break;
+   case 3:
+     lcd.print(&quot;Tue&quot;);
+     break;
+   case 4:
+     lcd.print(&quot;Wed&quot;);
+     break;
+   case 5:
+     lcd.print(&quot;Thu&quot;);
+     break;
+   case 6:
+     lcd.print(&quot;Fri&quot;);
+     break;
+   case 7:
+     lcd.print(&quot;Sat&quot;);
+     break;
+   }
+   lcd.print(&quot; &quot;);
+   lcd.print(dayOfMonth, DEC);
+   lcd.print(&quot;/&quot;);
+   lcd.print(month, DEC);
+   lcd.print(&quot;/&quot;);
+   lcd.print(year, DEC);
+ }
+ void loop()
+ {
+    displayTime(); // display the real-time clock time on the LCD,
+    delay(1000);   // every second
+ }</code></pre>
+<h2>How It Works and Results</h2>
+<p>The operation of this sketch is similar to that of Project 57, except in this case, we’ve altered the function <code>displayTime</code> to send time and date data to the LCD instead of to the Serial Monitor, and we’ve added the setup lines required for the LCD at <span class="co">❶</span> and <span class="co">❷</span>. (For a refresher on using the LCD module, see Chapter 7.) Don’t forget to upload the sketch first with the time and date data entered at <span class="co">❸</span>, and then re-upload the sketch with that point commented out. After uploading the sketch, your results should be similar to those shown in Figure 18-4.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="583" height="160" style="width:283px" loading="lazy" alt="Figure 18-4: Display from Project 58"></a><figcaption><b>Figure 18-4:</b> Display from Project 58</figcaption></figure>
+<p>Now that you’ve worked through Projects 57 and 58, you should have a sense of how to read and write data to and from the RTC IC in your sketches. Now let’s use what you’ve learned so far to create something really useful.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../18-real-time-clocks/02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html"><span class="dir">← Previous</span><span class="t">Project #57: Adding and Displaying Time and Date with an RTC</span><span class="ch">Chapter 18 · Real-time Clocks</span></a><a class="nx" data-nav="next" href="../../18-real-time-clocks/04-project-59-creating-an-rfid-time-clock-system/index.html"><span class="dir">Next →</span><span class="t">Project #59: Creating an RFID Time-Clock System</span><span class="ch">Chapter 18 · Real-time Clocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

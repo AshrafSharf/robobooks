@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #64: Building an Arduino Texter — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 20: Cellular Communications · Project #64: Building an Arduino Texter">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 20 · Project #64: Building an Arduino Texter</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../20-cellular-communications/02-project-63-building-an-arduino-dialer/index.html" title="Project #63: Building an Arduino Dialer">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 20 · Cellular Communications</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-hardware/index.html">The Hardware</a><a href="../02-project-63-building-an-arduino-dialer/index.html">Project #63: Building an Arduino Dialer</a><a href="../03-project-64-building-an-arduino-texter/index.html" aria-current=page>Project #64: Building an Arduino Texter</a><a href="../04-project-65-setting-up-an-sms-remote-control/index.html">Project #65: Setting Up an SMS Remote Control </a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../20-cellular-communications/04-project-65-setting-up-an-sms-remote-control/index.html" title="Project #65: Setting Up an SMS Remote Control ">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:98.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 20 · Cellular Communications</a></p>
+  <h1>Project #64: Building an Arduino Texter</h1>
+  <p class="sec-meta">Book pages 358–360</p>
+</div>
+<article class="prose">
+<p>In this project, the Arduino will send a text message to another cell phone when an event occurs. To simplify the code, we’ll use the SerialGSM Arduino library, available from <em>https://github.com/meirm/SerialGSM/</em>. After you’ve installed the library, restart the Arduino IDE.</p>
+<p>The hardware you’ll need for this project is identical to that for Project 63.</p>
+<h2>The Sketch</h2>
+<p>Enter the following sketch into the Arduino IDE, but <em>don’t upload it</em> yet:</p>
+<pre class="code"><code> // Project 64 - Building an Arduino Texter
+ #include &lt;SerialGSM.h&gt;
+ #include &lt;SoftwareSerial.h&gt;
+<span class="cm">❶</span> SerialGSM cell(2,3);
+ void setup()
+ {
+   pinMode(7, INPUT);
+   delay(30000); // wait for the GSM module
+   cell.begin(9600);
+ }
+ void textSomeone()
+ {
+   cell.Verbose(true); // used for debugging
+   cell.Boot();
+   cell.FwdSMS2Serial();
+<span class="cm">❷</span>   cell.Rcpt(&quot;+ xxxxxxxxxxx &quot;);  // replace xxxxxxxxxxx with the
+                               // recipient&#x27;s cell number
+<span class="cm">❸</span>   cell.Message(&quot;This is the contents of a text message&quot;);
+   cell.SendSMS();
+ }
+ void loop()
+ {
+<span class="cm">❹</span>   if (digitalRead(7) == HIGH)
+   {
+     textSomeone();
+   }
+   if (cell.ReceiveSMS())
+   {
+     Serial.println(cell.Message());
+     cell.DeleteAllSMS();
+   }
+ }</code></pre>
+<h2>How It Works</h2>
+<p>The GSM shield is set up as normal at <span class="co">❶</span> and in <code>void setup()</code>. Button presses are detected at <span class="co">❹</span>, and the function <code>textSomeone</code> is called. This simple function sends a text message to the cellular phone number stored at <span class="co">❷</span>.</p>
+<p>Before uploading the sketch, replace <code>xxxxxxxxxxx</code> with the recipient’s cellular phone number in international format: the country code, the area code, and the number, without any spaces or brackets. For example, to send a text to 212.555.1212 in the United States, you would store <code>+12125551212</code>.</p>
+<p>The text message to be sent is stored at <span class="co">❸</span>. (Note that the maximum length for a message is 160 characters.)</p>
+<p>After you have stored a sample text message and a destination number, upload the sketch, wait 30 seconds, and then press the button. In a moment, the message should arrive on the destination phone, as shown in Figure 20-10.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="548" height="282" style="width:266px" loading="lazy" alt="Figure 20-10: Sample text message being received"></a><figcaption><b>Figure 20-10:</b> Sample text message being received</figcaption></figure>
+<p>Project 64 can be integrated quite easily into other sketches, and various text messages could be sent by comparing data against a parameter with a <code>switch-case</code> function.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Remember that the cost of text messages can add up quickly, so when you’re experi-</em> <em>menting, be sure that you’re using an unlimited or prepaid calling plan.</em></p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../20-cellular-communications/02-project-63-building-an-arduino-dialer/index.html"><span class="dir">← Previous</span><span class="t">Project #63: Building an Arduino Dialer</span><span class="ch">Chapter 20 · Cellular Communications</span></a><a class="nx" data-nav="next" href="../../20-cellular-communications/04-project-65-setting-up-an-sms-remote-control/index.html"><span class="dir">Next →</span><span class="t">Project #65: Setting Up an SMS Remote Control </span><span class="ch">Chapter 20 · Cellular Communications</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

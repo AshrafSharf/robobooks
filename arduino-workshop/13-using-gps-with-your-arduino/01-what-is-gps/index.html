@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What Is GPS? — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 13: Using GPS with Your Arduino · What Is GPS?">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 13 · What Is GPS?</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../13-using-gps-with-your-arduino/00-introduction/index.html" title="Chapter 13: Using GPS with Your Arduino">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 13 · Using GPS with Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-is-gps/index.html" aria-current=page>What Is GPS?</a><a href="../02-testing-the-gps-shield/index.html">Testing the GPS Shield</a><a href="../03-project-44-creating-a-simple-gps-receiver/index.html">Project #44: Creating a Simple GPS Receiver</a><a href="../04-project-45-creating-an-accurate-gps-based-clock/index.html">Project #45: Creating an Accurate GPS-based Clock</a><a href="../05-project-46-recording-the-position-of-a-moving-object-over-ti/index.html">Project #46: Recording the Position of a Moving Object over Time</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../13-using-gps-with-your-arduino/02-testing-the-gps-shield/index.html" title="Testing the GPS Shield">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:70.5%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 13 · Using GPS with Your Arduino</a></p>
+  <h1>What Is GPS?</h1>
+  <p class="sec-meta">Book pages 258–259</p>
+</div>
+<article class="prose">
+<p>The <em>Global Positioning System (GPS)</em> is a satellite-based navigation system that sends data from satellites orbiting Earth to GPS receivers on the ground that can use that data to determine position and the current time anywhere on Earth. You are probably already familiar with GPS navigation devices used in cars or on your cell phone.</p>
+<p>Although we can’t create detailed map navigation systems with our Arduino, we can use a GPS module to determine position, time, and your approximate speed (if you’re traveling). We’ll do this by using the EM406 GPS receiver module shown in Figure 13-1.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="351" height="309" style="width:171px" loading="lazy" alt="Figure 13-1: EM406 GPS receiver"></a><figcaption><b>Figure 13-1:</b> EM406 GPS receiver</figcaption></figure>
+<p>To use this receiver, you’ll need the GPS shield kit from SparkFun (part number RTL-10709) shown in Figure 13-2. This part includes the receiver, a matching Arduino shield, and the connection cable.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="949" height="473" style="width:461px" loading="lazy" alt="Figure 13-2: Complete GPS shield bundle"></a><figcaption><b>Figure 13-2:</b> Complete GPS shield bundle</figcaption></figure>
+<p>You should also purchase a 1-foot-long cable (SparkFun part number GPS-09123), as shown in Figure 13-3, which will make placement of the receiver much simpler.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="671" height="603" style="width:326px" loading="lazy" alt="Figure 13-3: A long GPS-receiver-to-shield cable"></a><figcaption><b>Figure 13-3:</b> A long GPS-receiver-to-shield cable</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../13-using-gps-with-your-arduino/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 13: Using GPS with Your Arduino</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a><a class="nx" data-nav="next" href="../../13-using-gps-with-your-arduino/02-testing-the-gps-shield/index.html"><span class="dir">Next →</span><span class="t">Testing the GPS Shield</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

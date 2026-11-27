@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Variable Resistor — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · The Variable Resistor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · The Variable Resistor</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/10-improving-analog-measurement-precision-with-a-reference-volt/index.html" title="Improving Analog Measurement Precision with a Reference Voltage">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html">Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html">The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html">Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html">Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html">Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html">Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html" aria-current=page>The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html">Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/12-piezoelectric-buzzers/index.html" title="Piezoelectric Buzzers">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:20.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>The Variable Resistor</h1>
+  <p class="sec-meta">Book pages 86–87</p>
+</div>
+<article class="prose">
+<p>Variable resistors, also known as <em>potentiometers</em>, can generally be adjusted from 0 Ω up to their rated value. Their schematic symbol is shown in Figure 4-34.</p>
+<p>Variable resistors have three pin connections: one in the center pin and one on each side. As the shaft of a variable resistor turns, it increases the resistance between one side and the center and decreases the resistance between the center and the opposite side.</p>
+<p>Variable resistors are available as <em>linear</em> and <em>logarithmic</em>. The resistance of linear models changes at a constant rate when turning, while the resistance of logarithmic models changes slowly at first and then increases rapidly. Logarithmic potentiometers are used more often in audio amplifier circuits, because they model the human hearing response. Most Arduino projects use linear variable resistors such as the one shown in Figure 4-35.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="432" height="438" style="width:210px" loading="lazy" alt="Figure 4-35: A typical linear variable resistor"></a><figcaption><b>Figure 4-35:</b> A typical linear variable  resistor</figcaption></figure>
+<figure class="fig side-fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="196" height="109" style="width:95px" loading="lazy" alt="Figure 4-34: Variable resistor (potentiometer) symbol"></a><figcaption><b>Figure 4-34:</b> Variable resistor  (potentiometer) symbol</figcaption></figure>
+<p>You can also get miniature versions of variable resistors, known as <em>trimpots</em> or <em>trimmers</em> (see Figure 4-36). Because of their size, trimpots are more useful for making adjustments in circuits, but they’re also very useful for breadboard work because they can be slotted in.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="873" height="405" style="width:424px" loading="lazy" alt="Figure 4-36: Various trimpots"></a><figcaption><b>Figure 4-36:</b> Various trimpots</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>When shopping for trimpots, take note of the type. Often you will want one that is </em> <em>easy to adjust with a screwdriver that you have on hand, and the enclosed types, as </em> <em>pictured in Figure 4-36, last longer than the cheaper, open contact types. </em></p></aside>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/10-improving-analog-measurement-precision-with-a-reference-volt/index.html"><span class="dir">← Previous</span><span class="t">Improving Analog Measurement Precision with a Reference Voltage</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/12-piezoelectric-buzzers/index.html"><span class="dir">Next →</span><span class="t">Piezoelectric Buzzers</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

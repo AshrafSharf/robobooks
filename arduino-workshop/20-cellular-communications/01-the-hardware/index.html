@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Hardware — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 20: Cellular Communications · The Hardware">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 20 · The Hardware</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../20-cellular-communications/00-introduction/index.html" title="Chapter 20: Cellular Communications">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 20 · Cellular Communications</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-hardware/index.html" aria-current=page>The Hardware</a><a href="../02-project-63-building-an-arduino-dialer/index.html">Project #63: Building an Arduino Dialer</a><a href="../03-project-64-building-an-arduino-texter/index.html">Project #64: Building an Arduino Texter</a><a href="../04-project-65-setting-up-an-sms-remote-control/index.html">Project #65: Setting Up an SMS Remote Control </a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../20-cellular-communications/02-project-63-building-an-arduino-dialer/index.html" title="Project #63: Building an Arduino Dialer">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:97.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 20 · Cellular Communications</a></p>
+  <h1>The Hardware</h1>
+  <p class="sec-meta">Book pages 350–356</p>
+</div>
+<article class="prose">
+<p>Because of hardware restrictions, the projects in this chapter will function only with an Arduino Uno or compatible board (that means no Arduino Mega boards). All the projects use a common hardware configuration, so we’ll set that up first.</p>
+<p>You’ll need specific hardware to complete the projects in this chapter, starting with an SM5100 GSM shield and antenna, shown in Figure 20-1. This shield is available from SparkFun and its distributors. (Look for shield part number CEL-09607, stackable header set PRT-10007, and antenna part number CEL-00675.)</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="762" height="629" style="width:370px" loading="lazy" alt="Figure 20-1: GSM shield with antenna attached"></a><figcaption><b>Figure 20-1:</b> GSM shield with antenna attached</figcaption></figure>
+<p>You’ll also need a power shield and supply. The GSM shield draws up to 2 A of current (more than is available from the Arduino) and will damage your Arduino if it’s used without external power. An Arduino-compatible power shield is available from DFRobot at <em>http://www.dfrobot.com/</em>, part number DFR0105, and shown in Figure 20-2.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="595" height="504" style="width:289px" loading="lazy" alt="Figure 20-2: DFRobot power shield"></a><figcaption><b>Figure 20-2:</b> DFRobot power shield</figcaption></figure>
+<p>Finally, you’ll need an external power supply. This can be a DC plug pack or wall wart power supply brick (or a large 7.2 V rechargeable battery, solar panel/battery source, 12 V battery, or similar, as long as it doesn’t exceed 35 V DC) that can offer up to 2 A of current.</p>
+<h2>Preparing the Power Shield</h2>
+<p>Prepare the power shield, and (this is important) <em>set its output voltage for use </em> <em>before attaching it to any other parts</em>. To do this, first remove the jumpers over the top-right and bottom-right header pins (circled on the right side of Figure 20-2). Next, ensure that the two jumpers are set horizontally across the PWRIN pairs at the bottom-left of the shield (circled at the bottom of Figure 20-2).</p>
+<p>Now connect your external power supply to the PWRIN terminal block at the bottom-left corner of the power shield. Make sure to match the positive (+) and negative (−) wires correctly. Then turn on the power, and measure the voltage at the PWROUT terminal block at the top-left of the shield while using a small screwdriver to adjust the blue potentiometer, shown in Figure 20-3.</p>
+<figure class="fig side-fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="380" height="322" style="width:185px" loading="lazy" alt="Figure 20-3: Power shield voltage adjust potentiometer"></a><figcaption><b>Figure 20-3:</b> Power shield voltage   adjust potentiometer</figcaption></figure>
+<p>Continue these adjustments until the voltage measured by the multi­ meter from the power shield is 5.0 V DC. When you’re done adjusting, turn off the power supply shield.</p>
+<p>Now you can put the pieces together:</p>
+<ol><li>Insert the SIM card into the GSM shield.</li><li>Plug the GSM shield into the Arduino Uno.</li><li>Add the power shield on top.</li><li>Run a small wire from the positive PWROUT terminal block on the power shield to the 5V pin on the shield, and run another wire from the negative PWROUT terminal block to the GND pin on the power shield. These two wires will feed the high-capacity 5 V power from the power shield into the Arduino.</li></ol>
+<aside class="note"><span class="lbl">WARNING</span><p><em>Always ensure that power is applied to the project before connecting the USB cable </em> <em>between the Arduino and the computer. And always remove the USB cable before </em> <em>turning off the external power to the shield. </em></p></aside>
+<h2>Hardware Configuration and Testing</h2>
+<p>Now let’s configure and test the hardware by making sure that the GSM module can communicate with the cellular network and the Arduino. After assembling the hardware and the SIM card, enter and upload the sketch shown in Listing 20-1.</p>
+<figure class="listing"><pre class="code"><code> // Listing 20-1
+ // Written by Ryan Owens - SparkFun CC by v3.0 3/8/10
+<span class="cm">❶</span> #include &lt;SoftwareSerial.h&gt; // Virtual serial port
+<span class="cm">❷</span> SoftwareSerial cell(2,3);
+ char incoming_char = 0;
+ void setup()
+ {
+   //Initialize serial ports for communication.
+   Serial.begin(9600);
+<span class="cm">❸</span>   cell.begin(9600);
+   Serial.println(&quot;Starting SM5100B Communication...&quot;);
+ }
+ void loop()
+ {
+   //If a character comes in from the cellular module...
+   if( cell.available() &gt; 0 )
+   {
+     //Get the character from the cellular serial port.
+     incoming_char = cell.read();
+     //Print the incoming character to the terminal.
+     Serial.print(incoming_char);
+   }
+   //If a character is coming from the terminal to the Arduino...
+   if( Serial.available() &gt; 0 )
+   {
+     incoming_char = Serial.read();//Get the character coming from the terminal
+     cell.print(incoming_char);    //Send the character to the cellular module.
+   }
+ }</code></pre><figcaption><b>Listing 20-1:</b> GSM shield test sketch</figcaption></figure>
+<p>This sketch simply relays all the information coming from the GSM shield to the Serial Monitor. The GSM shield has a serial connection between it and Arduino digital pins 2 and 3 so that it won’t interfere with the normal serial port between the Arduino and the PC, which is on digital pins 0 and 1. We set up a <code>SoftwareSerial</code> virtual serial port for the GSM shield at <span class="co">❶</span>, <span class="co">❷</span>, and <span class="co">❸</span>. (The required library is included with the Arduino IDE.)</p>
+<p>Once you’ve uploaded the sketch, open the Serial Monitor window and wait about 30 seconds. You should see data similar to that shown in Figure 20-4.</p>
+<p>You’re looking for messages that start with <code>+SIND:</code> because they tell you about the status of the GSM module and its connection with the network. If your messages end with <code>+SIND: 4</code>, your shield has found and connected to the network, and you can move on to Project 63. However, if your messages end with a <code>+SIND: 8</code>, change the frequency that the module uses, as described in the next section.</p>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="694" height="499" style="width:337px" loading="lazy" alt="Figure 20-4: Example output from Listing 20-1"></a><figcaption><b>Figure 20-4:</b> Example output from Listing 20-1</figcaption></figure>
+<h2>Changing the Operating Frequency</h2>
+<p>To change your module’s operating frequency, follow these steps:</p>
+<ol><li>Close the Arduino IDE and the Serial Monitor. Then load the terminal software used for Project 48.</li><li>Select the same COM port used by the Arduino board, and click <strong>Connect</strong>.</li><li>Look up the frequency used by your cell network in Table 20-1, and note the band number.</li></ol>
+<table class="tbl data"><caption><b>Table 20-1:</b> GSM Module Operating Bands</caption><thead><tr><th>Frequency</th><th>Band</th></tr></thead><tbody><tr><td>GSM 900 MHz</td><td>0</td></tr><tr><td>DCS 1800 MHz</td><td>1</td></tr><tr><td>PCS 1900 MHz</td><td>2</td></tr><tr><td>GSM 850 MHz</td><td>3</td></tr><tr><td>GSM 900 MHz and DCS 1800 MHz</td><td>4</td></tr><tr><td>GSM 850 MHz and GSM 900 MHz</td><td>5</td></tr><tr><td>GSM 850 MHz and DCS 1800 MHz</td><td>6</td></tr><tr><td>GSM 850 MHz and PCS 1900 MHz</td><td>7</td></tr><tr><td>GSM 900 MHz and PCS 1900 MHz</td><td>8</td></tr><tr><td>GSM 850 MHz, GSM 900 MHz, and DCS 1800 MHz</td><td>9</td></tr><tr><td>GSM 850 MHz, GSM 900 MHz, and PCS 1900 MHz</td><td>10</td></tr></tbody></table>
+<ol start="4"><li>Enter the command <code>AT+SBAND?</code> and press enter. The module should reply with the current band settings, as shown in Figure 20-5.</li></ol>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="483" height="326" style="width:235px" loading="lazy" alt="Figure 20-5: Example band interrogation"></a><figcaption><b>Figure 20-5:</b> Example band interrogation</figcaption></figure>
+<figure class="fig side-fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="331" height="330" style="width:161px" loading="lazy" alt="Figure 20-6: Successful band change"></a><figcaption><b>Figure 20-6:</b> Successful band change</figcaption></figure>
+<ol start="5"><li>To set the GSM module to the required band, enter the command <code>AT+SBAND=x</code>, where <code>x</code> is the band number selected from Table 20-1. The shield should return <em>OK</em>, as shown in Figure 20-6.</li><li>Finally, reset the Arduino and make sure that it connects to the network and displays <code>+SIND: 4</code>. Connect a jumper wire between the GND and RST pins on the Arduino for a second to trigger a reset, and the status codes should appear on the terminal screen, as shown in Figure 20-7.</li></ol>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="588" height="330" style="width:286px" loading="lazy" alt="Figure 20-7: Successfully connected to the network"></a><figcaption><b>Figure 20-7:</b> Successfully connected to the network</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>You need to change the </em><code>SBAND</code><em> value only once, because the setting is stored in the GSM </em> <em>shield’s EEPROM. However, if you relocate and use a different cell network, you may </em> <em>have to change this value. </em></p></aside>
+<p>One final test is needed: Call your GSM shield using another telephone. If you have outgoing caller ID activated on the phone you’re calling from, the number should appear in the GSM shield output, as shown in Figure 20-8. (Note that your number will replace the 0452280886 number used in the figure.)</p>
+<figure class="fig side-fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="338" height="202" style="width:164px" loading="lazy" alt="Figure 20-8: Results of calling the GSM shield"></a><figcaption><b>Figure 20-8:</b> Results of calling   the GSM shield</figcaption></figure>
+<p>At this stage, you can be confident that everything is working as expected. Now on to the projects!</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../20-cellular-communications/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 20: Cellular Communications</span><span class="ch">Chapter 20 · Cellular Communications</span></a><a class="nx" data-nav="next" href="../../20-cellular-communications/02-project-63-building-an-arduino-dialer/index.html"><span class="dir">Next →</span><span class="t">Project #63: Building an Arduino Dialer</span><span class="ch">Chapter 20 · Cellular Communications</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

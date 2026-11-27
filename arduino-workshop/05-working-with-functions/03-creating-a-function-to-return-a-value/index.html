@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creating a Function to Return a Value — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 5: Working with Functions · Creating a Function to Return a Value">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 5 · Creating a Function to Return a Value</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../05-working-with-functions/02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html" title="Project #10: Creating a Function to Set the Number of Blinks">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 5 · Working with Functions</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-9-creating-a-function-to-repeat-an-action/index.html">Project #9: Creating a Function to Repeat an Action</a><a href="../02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html">Project #10: Creating a Function to Set the Number of Blinks</a><a href="../03-creating-a-function-to-return-a-value/index.html" aria-current=page>Creating a Function to Return a Value</a><a href="../04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</a><a href="../05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html">Displaying Data from the Arduino in the Serial Monitor</a><a href="../06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html">Project #12: Displaying the Temperature in the Serial Monitor</a><a href="../07-making-decisions-with-while-statements/index.html">Making Decisions with while Statements</a><a href="../08-sending-data-from-the-serial-monitor-to-the-arduino/index.html">Sending Data from the Serial Monitor to the Arduino</a><a href="../09-project-13-multiplying-a-number-by-two/index.html">Project #13: Multiplying a Number by Two</a><a href="../10-long-variables/index.html">long Variables</a><a href="../11-project-14-using-long-variables/index.html">Project #14: Using long Variables</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../05-working-with-functions/04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html" title="Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:25.4%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5 · Working with Functions</a></p>
+  <h1>Creating a Function to Return a Value</h1>
+  <p class="sec-meta">Book page 98</p>
+</div>
+<article class="prose">
+<p>In addition to creating functions that accept values entered as parameters (as <code>void blinkLED()</code> did in Project 10), you can also create functions that return a value, in the same way that <code>analogRead()</code> returns a value between 0 and 1,023 when measuring an analog input, as demonstrated in Project 8. The <code>void</code> that appears at the start of functions up to this point means that the function doesn’t return anything—that is, the function’s return value is <code>void</code>. Let’s create some useful functions that return actual values.</p>
+<p>Consider this function that converts degrees Celsius to Fahrenheit:</p>
+<pre class="code"><code>float convertTemp(float celsius)
+{
+  float fahrenheit = 0;
+  fahrenheit = (1.8 * celsius) + 32;
+  return fahrenheit;
+}</code></pre>
+<p>In the first line, we define the function name (<code>convertTemp</code>), its return variable type (<code>float</code>), and any variables that we might want to pass into the function (<code>float celsius</code>). To use this function, we send it an existing variable. For example, if we wanted to convert 40 degrees Celsius to Fahren­ heit and store the result in a <code>float</code> variable called <code>tempf</code>, then we would call <code>convertTemp</code> like so:</p>
+<pre class="code"><code>  tempf = convertTemp(40);</code></pre>
+<p>This would place <code>40</code> into the <code>convertTemp</code> variable <code>celsius</code> and use it in the calculation <code>fahrenheit = (1.8 * celsius) + 32</code> in the <code>convertTemp</code> function. The result is then returned into the variable <code>tempf</code> with the <code>convertTemp</code> line <code>return fahrenheit</code>.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../05-working-with-functions/02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html"><span class="dir">← Previous</span><span class="t">Project #10: Creating a Function to Set the Number of Blinks</span><span class="ch">Chapter 5 · Working with Functions</span></a><a class="nx" data-nav="next" href="../../05-working-with-functions/04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html"><span class="dir">Next →</span><span class="t">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</span><span class="ch">Chapter 5 · Working with Functions</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

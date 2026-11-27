@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 12: Motors and Movement · Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 12 · Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../12-motors-and-movement/08-infrared-distance-sensors/index.html" title="Infrared Distance Sensors">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 12 · Motors and Movement</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-making-small-motions-with-servos/index.html">Making Small Motions with Servos</a><a href="../02-project-38-building-an-analog-thermometer/index.html">Project #38: Building an Analog Thermometer</a><a href="../03-using-electric-motors/index.html">Using Electric Motors</a><a href="../04-project-39-controlling-the-motor/index.html">Project #39: Controlling the Motor</a><a href="../05-project-40-building-and-controlling-a-tank-robot/index.html">Project #40: Building and Controlling a Tank Robot</a><a href="../06-sensing-collisions/index.html">Sensing Collisions</a><a href="../07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html">Project #41: Detecting Tank Bot Collisions with a Microswitch</a><a href="../08-infrared-distance-sensors/index.html">Infrared Distance Sensors</a><a href="../09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html" aria-current=page>Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</a><a href="../10-ultrasonic-distance-sensors/index.html">Ultrasonic Distance Sensors</a><a href="../11-project-43-detecting-tank-bot-collisions-with-an-ultrasonic/index.html">Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../12-motors-and-movement/10-ultrasonic-distance-sensors/index.html" title="Ultrasonic Distance Sensors">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:67.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12 · Motors and Movement</a></p>
+  <h1>Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</h1>
+  <p class="sec-meta">Book pages 249–251</p>
+</div>
+<article class="prose">
+<h2>IR Distance Sensor</h2>
+<p>Now let’s use the IR sensor with our tank bot instead of the microswitch. We’ll use a slightly modified version of Project 41. Instead of using an interrupt, we’ll create the function <code>checkDistance()</code> that changes the variable <code>crash</code> to <code>true</code> if the distance measured by the IR sensor is around 20 cm or less. We’ll use this in the <code>goForward()</code> forward motion <code>do... while</code> loop.</p>
+<p>Connect the IR sensor to your tank, and then enter and upload this sketch:</p>
+<pre class="code"><code> // Project 42 - Detecting Tank Bot Collisions with IR Distance Sensor
+ int m1speed=6;     // digital pins for speed control
+ int m2speed=5;
+ int m1direction=7; // digital pins for direction control
+ int m2direction=4;
+ boolean crash=false;
+ void setup()
+ {
+   pinMode(m1direction, OUTPUT);
+   pinMode(m2direction, OUTPUT);
+   delay(5000);
+ }
+ void backUp()
+ {
+    digitalWrite(m1direction,LOW); // reverse
+    digitalWrite(m2direction,LOW); // reverse
+    analogWrite(m1speed, 200);// speed
+    analogWrite(m2speed, 200);
+    delay(2000);
+    analogWrite(m1speed, 0);// speed
+    analogWrite(m2speed, 0);
+ }
+ void checkDistance()
+ {
+<span class="cm">❶</span>   if (analogRead(0)&gt;460)
+   {
+     crash=true;
+   }
+ }
+ void goForward(int duration, int pwm)
+ {
+   long a,b;
+   boolean move=true;
+   a=millis();
+   do
+   {
+     checkDistance();
+     if (crash==false)
+     {
+       digitalWrite(m1direction,HIGH); // forward
+       digitalWrite(m2direction,HIGH); // forward
+       analogWrite(m1speed, pwm); // speed
+       analogWrite(m2speed, pwm);
+     }
+     if (crash==true)
+     {
+       backUp();
+       crash=false;
+     }
+     b=millis()-a;
+     if (b&gt;=duration)
+     {
+       move=false;
+     }
+   } while (move!=false);
+   // stop motors
+   analogWrite(m1speed, 0);
+   analogWrite(m2speed, 0);
+ }
+ void loop()
+ {
+   goForward(5000, 255);
+   delay(2000);
+ }</code></pre>
+<p>This sketch operates using the same methods used in Project 41, except this version constantly takes distance measurements at <span class="co">❶</span> and sets the crash variable to <code>true</code> if the distance between the IR sensor and an object is less than about 20 cm.</p>
+<p>After running the tank and using this sensor, you should see the benefits of using a noncontact collision sensor. It’s simple to add more sensors to the same tank, such as sensors at the front and rear or at each corner. You should be able to add code to check each sensor in turn and make a decision based on the returned distance value.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../12-motors-and-movement/08-infrared-distance-sensors/index.html"><span class="dir">← Previous</span><span class="t">Infrared Distance Sensors</span><span class="ch">Chapter 12 · Motors and Movement</span></a><a class="nx" data-nav="next" href="../../12-motors-and-movement/10-ultrasonic-distance-sensors/index.html"><span class="dir">Next →</span><span class="t">Ultrasonic Distance Sensors</span><span class="ch">Chapter 12 · Motors and Movement</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

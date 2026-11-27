@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #51: Creating an IR Remote Control Tank — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 15: Infrared Remote Control · Project #51: Creating an IR Remote Control Tank">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 15 · Project #51: Creating an IR Remote Control Tank</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../15-infrared-remote-control/03-project-50-creating-an-ir-remote-control-arduino/index.html" title="Project #50: Creating an IR Remote Control Arduino">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 15 · Infrared Remote Control</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-is-infrared/index.html">What Is Infrared?</a><a href="../02-setting-up-for-infrared/index.html">Setting Up for Infrared</a><a href="../03-project-50-creating-an-ir-remote-control-arduino/index.html">Project #50: Creating an IR Remote Control Arduino</a><a href="../04-project-51-creating-an-ir-remote-control-tank/index.html" aria-current=page>Project #51: Creating an IR Remote Control Tank</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../15-infrared-remote-control/05-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:80.3%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 15 · Infrared Remote Control</a></p>
+  <h1>Project #51: Creating an IR Remote Control Tank</h1>
+  <p class="sec-meta">Book pages 291–293</p>
+</div>
+<article class="prose">
+<p>To show you how to integrate an IR remote control into an existing project, we’ll add IR to the tank described for Project 40. In this project, instead of presetting the tank’s direction and distances, the sketch will show you how to control these actions with a simple Sony TV remote.</p>
+<h2>The Hardware</h2>
+<p>The required hardware is the same as that required for the tank you built for Project 40, with the addition of the IR receiver module in the method described earlier in this chapter. In the following sketch, the tank will respond to the buttons that you press on the remote control as follows: press 2 for forward, 8 for backward, 4 for rotate left, and 6 for rotate right.</p>
+<h2>The Sketch</h2>
+<p>After reassembling your tank and adding the IR receiver, enter and upload the following sketch:</p>
+<pre class="code"><code>// Project 51 - Creating an IR Remote Control Tank
+int receiverpin = 11;       // pin 1 of IR receiver to Arduino digital pin 11
+#include &lt;IRremote.h&gt;
+IRrecv irrecv(receiverpin); // create instance of &#x27;irrecv&#x27;
+decode_results results;
+int m1speed     = 6; // digital pins for speed control
+int m2speed     = 5;
+int m1direction = 7; // digital pins for direction control
+int m2direction = 4;
+void setup()
+{
+  pinMode(m1direction, OUTPUT);
+  pinMode(m2direction, OUTPUT);
+  irrecv.enableIRIn(); // start IR receiver
+}
+void goForward(int duration, int pwm)
+{
+  digitalWrite(m1direction, HIGH); // forward
+  digitalWrite(m2direction, HIGH); // forward
+  analogWrite(m1speed, pwm);       // at selected speed
+  analogWrite(m2speed, pwm);
+  delay(duration);                 // and duration
+  analogWrite(m1speed, 0);         // then stop
+  analogWrite(m2speed, 0);
+}
+void goBackward(int duration, int pwm)
+{
+  digitalWrite(m1direction, LOW);  // backward
+  digitalWrite(m2direction, LOW);  // backward
+  analogWrite(m1speed, pwm);       // at selected speed
+  analogWrite(m2speed, pwm);
+  delay(duration);
+  analogWrite(m1speed, 0);         // then stop
+  analogWrite(m2speed, 0);
+}
+void rotateRight(int duration, int pwm)
+{
+  digitalWrite(m1direction, HIGH); // forward
+  digitalWrite(m2direction, LOW);  // backward
+  analogWrite(m1speed, pwm);       // at selected speed
+  analogWrite(m2speed, pwm);
+  delay(duration);                 // and duration
+  analogWrite(m1speed, 0);         // then stop
+  analogWrite(m2speed, 0);
+}
+void rotateLeft(int duration, int pwm)
+{
+  digitalWrite(m1direction, LOW);  // backward
+  digitalWrite(m2direction, HIGH); // forward
+  analogWrite(m1speed, pwm);       // at selected speed
+  analogWrite(m2speed, pwm);
+  delay(duration);                 // and duration
+  analogWrite(m1speed, 0);         // then stop
+  analogWrite(m2speed, 0);
+}
+// translateIR takes action based on IR code received, uses Sony IR codes
+void translateIR()
+{
+  switch(results.value)
+  {
+    case 0x810:  goForward(250, 255);   break; // 2
+    case 0xC10:  rotateLeft(250, 255);  break; // 4
+    case 0xA10:  rotateRight(250, 255); break; // 6
+    case 0xE10:  goBackward(250, 255);  break; // 8
+  }
+}
+void loop()
+{
+  if (irrecv.decode(&amp;results)) // have we received an IR signal?
+  {
+    translateIR();
+    for (int z = 0 ; z &lt; 2 ; z++) // ignore the repeated codes
+    {
+      irrecv.resume(); // receive the next value
+    }
+  }
+}</code></pre>
+<p>This sketch should look somewhat familiar to you. Basically, instead of turning on digital pins, it calls the motor control functions that were used in the tank from Chapter 12.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../15-infrared-remote-control/03-project-50-creating-an-ir-remote-control-arduino/index.html"><span class="dir">← Previous</span><span class="t">Project #50: Creating an IR Remote Control Arduino</span><span class="ch">Chapter 15 · Infrared Remote Control</span></a><a class="nx" data-nav="next" href="../../15-infrared-remote-control/05-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 15 · Infrared Remote Control</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #12: Displaying the Temperature in the Serial Monitor — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 5: Working with Functions · Project #12: Displaying the Temperature in the Serial Monitor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 5 · Project #12: Displaying the Temperature in the Serial Monitor</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../05-working-with-functions/05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html" title="Displaying Data from the Arduino in the Serial Monitor">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 5 · Working with Functions</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-9-creating-a-function-to-repeat-an-action/index.html">Project #9: Creating a Function to Repeat an Action</a><a href="../02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html">Project #10: Creating a Function to Set the Number of Blinks</a><a href="../03-creating-a-function-to-return-a-value/index.html">Creating a Function to Return a Value</a><a href="../04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</a><a href="../05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html">Displaying Data from the Arduino in the Serial Monitor</a><a href="../06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html" aria-current=page>Project #12: Displaying the Temperature in the Serial Monitor</a><a href="../07-making-decisions-with-while-statements/index.html">Making Decisions with while Statements</a><a href="../08-sending-data-from-the-serial-monitor-to-the-arduino/index.html">Sending Data from the Serial Monitor to the Arduino</a><a href="../09-project-13-multiplying-a-number-by-two/index.html">Project #13: Multiplying a Number by Two</a><a href="../10-long-variables/index.html">long Variables</a><a href="../11-project-14-using-long-variables/index.html">Project #14: Using long Variables</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../05-working-with-functions/07-making-decisions-with-while-statements/index.html" title="Making Decisions with while Statements">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:27.2%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5 · Working with Functions</a></p>
+  <h1>Project #12: Displaying the Temperature in the Serial Monitor</h1>
+  <p class="sec-meta">Book pages 103–105</p>
+</div>
+<article class="prose">
+<p>Using the hardware from Project 8, we’ll display temperature data in Celsius and Fahrenheit in the Serial Monitor window. To do this, we’ll create one function to determine the temperature values and another to display them in the Serial Monitor.</p>
+<p>Enter this code into the IDE:</p>
+<pre class="code"><code> // Project 12 - Displaying the Temperature in the Serial Monitor
+ float celsius    = 0;
+ float fahrenheit = 0;
+ void setup()
+ {
+   Serial.begin(9600);
+ }
+<span class="cm">❶</span> void findTemps()
+ {
+   float voltage = 0;
+   float sensor  = 0;
+   // read the temperature sensor and convert the result to degrees C and F
+   sensor  = analogRead(0);
+   voltage = (sensor * 5000) / 1024;  // convert the raw sensor value to millivolts
+   voltage = voltage - 500;           // remove the voltage offset
+   celsius = voltage / 10;            // convert millivolts to Celsius
+   fahrenheit = (1.8 * celsius) + 32; // convert Celsius to Fahrenheit
+ }
+<span class="cm">❷</span> void displayTemps()
+ {
+    Serial.print(&quot;Temperature is &quot;);
+    Serial.print(celsius, 2);
+    Serial.print(&quot; deg. C / &quot;);
+    Serial.print(fahrenheit, 2);
+    Serial.println(&quot; deg. F&quot;);
+ // use .println here so the next reading starts on a new line
+ }
+ void loop()
+ {
+   findTemps();
+   displayTemps();
+   delay(1000);
+ }</code></pre>
+<p>A lot is happening in this sketch, but we’ve created two functions, <code>findTemps()</code> at <span class="co">❶</span> and <code>displayTemps()</code> at <span class="co">❷</span>, to simplify things. These functions are called in <code>void loop()</code>, which is quite simple. Thus you see one reason to create your own functions: to make your sketches easier to understand and the code more modular and possibly reusable.</p>
+<p>After uploading the sketch, wait a few seconds, and then display the Serial Monitor. The temperature in your area should be displayed in a similar manner to that shown in Figure 5-4.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="699" height="538" style="width:340px" loading="lazy" alt="Figure 5-4: Result from Project 12"></a><figcaption><b>Figure 5-4:</b> Result from Project 12</figcaption></figure>
+<h2>Debugging with the Serial Monitor</h2>
+<pre class="code"><code>  Serial.println(&quot;now in findTemps()&quot;);</code></pre>
+<p>The Serial Monitor can be used to help <em>debug</em> (locate and fix errors) your sketch. For example, if you insert <code>Serial.println();</code> statements in your sketch containing brief notes about the location in the sketch, then you can see when the Arduino passes each statement. For example, you might use the line inside the function <code>findTemps()</code> to let you know when the Arduino is running that particular function.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../05-working-with-functions/05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html"><span class="dir">← Previous</span><span class="t">Displaying Data from the Arduino in the Serial Monitor</span><span class="ch">Chapter 5 · Working with Functions</span></a><a class="nx" data-nav="next" href="../../05-working-with-functions/07-making-decisions-with-while-statements/index.html"><span class="dir">Next →</span><span class="t">Making Decisions with while Statements</span><span class="ch">Chapter 5 · Working with Functions</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

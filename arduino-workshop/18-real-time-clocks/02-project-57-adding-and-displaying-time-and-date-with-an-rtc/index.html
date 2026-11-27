@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #57: Adding and Displaying Time and Date with an RTC — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 18: Real-time Clocks · Project #57: Adding and Displaying Time and Date with an RTC">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 18 · Project #57: Adding and Displaying Time and Date with an RTC</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../18-real-time-clocks/01-connecting-the-rtc-module/index.html" title="Connecting the RTC Module">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 18 · Real-time Clocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-connecting-the-rtc-module/index.html">Connecting the RTC Module</a><a href="../02-project-57-adding-and-displaying-time-and-date-with-an-rtc/index.html" aria-current=page>Project #57: Adding and Displaying Time and Date with an RTC</a><a href="../03-project-58-creating-a-simple-digital-clock/index.html">Project #58: Creating a Simple Digital Clock</a><a href="../04-project-59-creating-an-rfid-time-clock-system/index.html">Project #59: Creating an RFID Time-Clock System</a><a href="../05-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../18-real-time-clocks/03-project-58-creating-a-simple-digital-clock/index.html" title="Project #58: Creating a Simple Digital Clock">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:90.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 18 · Real-time Clocks</a></p>
+  <h1>Project #57: Adding and Displaying Time and Date with an RTC</h1>
+  <p class="sec-meta">Book pages 322–326</p>
+</div>
+<article class="prose">
+<p>In this project you’ll learn how to set the time and date on the RTC and then retrieve and display it in the Serial Monitor. Time and date information can be useful for various types of projects, such as temperature loggers and alarm clocks.</p>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>Arduino and USB cable</li><li>Various connecting wires</li><li>Maxim DS3232 RTC module</li></ul>
+<h2>The Sketch</h2>
+<p>Connect the module to the Arduino as described earlier in the chapter, and then enter but <em>do not upload</em> the following sketch:</p>
+<pre class="code"><code> // Project 57 - Adding and Displaying Time and Date with an RTC
+<span class="cm">❶</span> #include &quot;Wire.h&quot;
+ #define DS3232_I2C_ADDRESS 0x68
+ // Convert normal decimal numbers to binary coded decimal
+<span class="cm">❷</span> byte decToBcd(byte val)
+ {
+   return( (val/10*16) + (val%10) );
+ }
+ // Convert binary coded decimal to normal decimal numbers
+ byte bcdToDec(byte val)
+ {
+   return( (val/16*10) + (val%16) );
+ }
+ void setup()
+ {
+   Wire.begin();
+   Serial.begin(9600);
+   // set the initial time here:
+   // DS3232 seconds, minutes, hours, day, date, month, year
+<span class="cm">❸</span>   setDS3232time(0, 56, 23, 3, 30, 10, 12);
+ }
+<span class="cm">❹</span> void setDS3232time(byte second, byte minute, byte hour, byte dayOfWeek, byte
+ dayOfMonth, byte month, byte year)
+ {
+   // sets time and date data to DS3232
+   Wire.beginTransmission(DS3232_I2C_ADDRESS);
+   Wire.write(0); // set next input to start at the seconds register
+   Wire.write(decToBcd(second));     // set seconds
+   Wire.write(decToBcd(minute));     // set minutes
+   Wire.write(decToBcd(hour));       // set hours
+   Wire.write(decToBcd(dayOfWeek));  // set day of week (1=Sunday, 7=Saturday)
+   Wire.write(decToBcd(dayOfMonth)); // set date (1 to 31)
+   Wire.write(decToBcd(month));      // set month
+   Wire.write(decToBcd(year));       // set year (0 to 99)
+   Wire.endTransmission();
+ }
+<span class="cm">❺</span> void readDS3232time(byte *second,
+ byte *minute,
+ byte *hour,
+ byte *dayOfWeek,
+ byte *dayOfMonth,
+ byte *month,
+ byte *year)
+ {
+   Wire.beginTransmission(DS3232_I2C_ADDRESS);
+   Wire.write(0); // set DS3232 register pointer to 00h
+   Wire.endTransmission();
+   Wire.requestFrom(DS3232_I2C_ADDRESS, 7);
+   // request seven bytes of data from DS3232 starting from register 00h
+   *second     = bcdToDec(Wire.read() &amp; 0x7f);
+   *minute     = bcdToDec(Wire.read());
+   *hour       = bcdToDec(Wire.read() &amp; 0x3f);
+   *dayOfWeek  = bcdToDec(Wire.read());
+   *dayOfMonth = bcdToDec(Wire.read());
+   *month      = bcdToDec(Wire.read());
+   *year       = bcdToDec(Wire.read());
+ }
+ void displayTime()
+ {
+   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
+   // retrieve data from DS3232
+<span class="cm">❻</span>   readDS3232time(&amp;second, &amp;minute, &amp;hour, &amp;dayOfWeek, &amp;dayOfMonth, &amp;month,
+   &amp;year);
+   // send it to the serial monitor
+   Serial.print(hour, DEC);
+   // convert the byte variable to a decimal number when displayed
+   Serial.print(&quot;:&quot;);
+   if (minute&lt;10)
+   {
+       Serial.print(&quot;0&quot;);
+   }
+   Serial.print(minute, DEC);
+   Serial.print(&quot;:&quot;);
+   if (second&lt;10)
+   {
+       Serial.print(&quot;0&quot;);
+   }
+   Serial.print(second, DEC);
+   Serial.print(&quot;  &quot;);
+   Serial.print(dayOfMonth, DEC);
+   Serial.print(&quot;/&quot;);
+   Serial.print(month, DEC);
+   Serial.print(&quot;/&quot;);
+   Serial.print(year, DEC);
+   Serial.print(&quot;  Day of week: &quot;);
+   switch(dayOfWeek){
+   case 1:
+     Serial.println(&quot;Sunday&quot;);
+     break;
+   case 2:
+     Serial.println(&quot;Monday&quot;);
+     break;
+   case 3:
+     Serial.println(&quot;Tuesday&quot;);
+     break;
+   case 4:
+     Serial.println(&quot;Wednesday&quot;);
+     break;
+   case 5:
+     Serial.println(&quot;Thursday&quot;);
+     break;
+   case 6:
+     Serial.println(&quot;Friday&quot;);
+     break;
+   case 7:
+     Serial.println(&quot;Saturday&quot;);
+     break;
+   }
+ }
+ void loop()
+ {
+    displayTime(); // display the real-time clock data on the Serial Monitor,
+    delay(1000);   // every second
+ }</code></pre>
+<h2>How It Works</h2>
+<p>This sketch might look complex, but it’s really not so difficult. At <span class="co">❶</span>, we import the I<sup>2</sup>C library and set the bus address of the RTC in the sketch as <code>0x68</code>. At <span class="co">❷</span>, two custom functions convert decimal numbers to binarycoded decimal (BCD) values and return those values. We perform these conversions because the DS3232 stores values in BCD format.</p>
+<p>At <span class="co">❸</span>, we use the function <code>setDS3232time</code> to pass the time and date information to the RTC IC like this:</p>
+<pre class="code"><code>setDS3232time( second , minute , hour , dayOfWeek , dayOfMonth , month , year )</code></pre>
+<p>To use this function, simply insert the required data into the various parameters. The <code>dayOfWeek</code> parameter is a number between 1 and 7 representing Sunday through Saturday, respectively. The information for <code>year</code> is only two digits—for example, you’d use <code>13</code> for the year 2013. (The 20 is assumed.) You can insert either fixed values (as in this sketch) or byte variables that contain the parameters.</p>
+<p>Thus, to set the time in the RTC, we enter the current date and time values into the <code>setDS3232time</code> function at <span class="co">❹</span>. Now you can upload the sketch. Having done that once, we comment out the function by placing <code>//</code> in front of the <code>setDS3232time</code> function at <span class="co">❹</span>, and then we re-upload the sketch to ensure that the time isn’t set to the original value every time the sketch starts!</p>
+<p>Finally, the function <code>readDS3232time</code> at <span class="co">❺</span> reads the time and date from the RTC and inserts the data into byte variables. This is used at <span class="co">❻</span> inside the function <code>displayTime</code>, which simply retrieves the data and displays it in the Serial Monitor by printing the contents of the time variables.</p>
+<p>Now upload your sketch and open the Serial Monitor. The results should look similar to those shown in Figure 18-2.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="492" height="319" style="width:239px" loading="lazy" alt="Figure 18-2: Results from Project 57"></a><figcaption><b>Figure 18-2:</b> Results from Project 57</figcaption></figure>
+<p>You can use the contents of the sketch for Project 57 as a basis for other time-related projects. The functions <code>decToBcd</code>, <code>bcdToDec</code>, <code>readDS3232time</code>, and <code>setDS3232time</code> can be inserted and thus reused in future projects. That’s one of the benefits of using the Arduino platform: Once you write a useful procedure, it can often be reused later with little or no modification.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../18-real-time-clocks/01-connecting-the-rtc-module/index.html"><span class="dir">← Previous</span><span class="t">Connecting the RTC Module</span><span class="ch">Chapter 18 · Real-time Clocks</span></a><a class="nx" data-nav="next" href="../../18-real-time-clocks/03-project-58-creating-a-simple-digital-clock/index.html"><span class="dir">Next →</span><span class="t">Project #58: Creating a Simple Digital Clock</span><span class="ch">Chapter 18 · Real-time Clocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

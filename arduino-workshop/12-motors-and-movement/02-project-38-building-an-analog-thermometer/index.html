@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #38: Building an Analog Thermometer — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 12: Motors and Movement · Project #38: Building an Analog Thermometer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 12 · Project #38: Building an Analog Thermometer</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../12-motors-and-movement/01-making-small-motions-with-servos/index.html" title="Making Small Motions with Servos">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 12 · Motors and Movement</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-making-small-motions-with-servos/index.html">Making Small Motions with Servos</a><a href="../02-project-38-building-an-analog-thermometer/index.html" aria-current=page>Project #38: Building an Analog Thermometer</a><a href="../03-using-electric-motors/index.html">Using Electric Motors</a><a href="../04-project-39-controlling-the-motor/index.html">Project #39: Controlling the Motor</a><a href="../05-project-40-building-and-controlling-a-tank-robot/index.html">Project #40: Building and Controlling a Tank Robot</a><a href="../06-sensing-collisions/index.html">Sensing Collisions</a><a href="../07-project-41-detecting-tank-bot-collisions-with-a-microswitch/index.html">Project #41: Detecting Tank Bot Collisions with a Microswitch</a><a href="../08-infrared-distance-sensors/index.html">Infrared Distance Sensors</a><a href="../09-project-42-detecting-tank-bot-collisions-with-ir-distance-se/index.html">Project #42: Detecting Tank Bot Collisions with 
+IR Distance Sensor</a><a href="../10-ultrasonic-distance-sensors/index.html">Ultrasonic Distance Sensors</a><a href="../11-project-43-detecting-tank-bot-collisions-with-an-ultrasonic/index.html">Project #43: Detecting Tank Bot Collisions with an Ultrasonic Distance Sensor</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../12-motors-and-movement/03-using-electric-motors/index.html" title="Using Electric Motors">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:63.6%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 12 · Motors and Movement</a></p>
+  <h1>Project #38: Building an Analog Thermometer</h1>
+  <p class="sec-meta">Book pages 228–230</p>
+</div>
+<article class="prose">
+<p>Using our servo and the TMP36 temperature sensor from earlier chapters, we’ll build an analog thermometer. We’ll measure the temperature and then convert this measurement to an angle between 0 and 180 degrees to indicate a temperature between 0 and 30 degrees Celsius. The servo will rotate to the angle that matches the current temperature.</p>
+<h2>The Hardware</h2>
+<p>The required hardware is minimal:</p>
+<ul><li>One TMP36 temperature sensor</li><li>One breadboard</li><li>One small servo</li><li>Various connecting wires</li><li>Arduino and USB cable</li></ul>
+<h2>The Schematic</h2>
+<p>The circuit is also very simple, as shown in Figure 12-3.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="855" height="756" style="width:416px" loading="lazy" alt="Figure 12-3: Schematic for Project 38"></a><figcaption><b>Figure 12-3:</b> Schematic for Project 38</figcaption></figure>
+<h2>The Sketch</h2>
+<p>The sketch will determine the temperature using the same method used in Project 8. Then it will convert the temperature into an angular rotation value for the servo.</p>
+<p>Enter and upload the following sketch:</p>
+<pre class="code"><code>// Project 38 - Building an Analog Thermometer
+float voltage = 0;
+float  sensor = 0;
+float currentC = 0;
+int      angle = 0;
+#include &lt;Servo.h&gt;
+Servo myservo;
+void setup()
+{
+  myservo.attach(4);
+}
+int calculateservo(float temperature)
+{
+  float resulta;
+  int resultb;
+  resulta = -6 * temperature;
+  resulta = resulta + 180;
+  resultb = int(resulta);
+  return resultb;
+}
+void loop()
+{
+  // read current temperature
+  sensor = analogRead(0);
+  voltage = (sensor*5000)/1024;
+  voltage = voltage-500;
+  currentC = voltage/10;
+  // display current temperature on servo
+  angle = calculateservo(currentC);
+  // convert temperature to a servo position
+  if (angle&gt;=0 &amp;&amp; angle &lt;=30)
+  {
+    myservo.write(angle); // set servo to temperature
+    delay(1000);
+  }
+}</code></pre>
+<p>Most of this sketch should be clear to you at this point, but the function <code>calculateservo()</code> is new. This function converts the temperature into the matching angle for the servo to use according to the following formula:</p>
+<p>angle = (–6 × temperature) + 180</p>
+<p>You might find it useful to make a <em>backing sheet</em> to show the range of temperatures that the servo will display, with a small arrow to create a realistic effect. An example backing sheet is shown in Figure 12-4.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="706" height="363" style="width:343px" loading="lazy" alt="Figure 12-4: A backing sheet indicates the temperature on our thermometer."></a><figcaption><b>Figure 12-4:</b> A backing sheet indicates the temperature on our thermometer.</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../12-motors-and-movement/01-making-small-motions-with-servos/index.html"><span class="dir">← Previous</span><span class="t">Making Small Motions with Servos</span><span class="ch">Chapter 12 · Motors and Movement</span></a><a class="nx" data-nav="next" href="../../12-motors-and-movement/03-using-electric-motors/index.html"><span class="dir">Next →</span><span class="t">Using Electric Motors</span><span class="ch">Chapter 12 · Motors and Movement</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

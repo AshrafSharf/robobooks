@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #46: Recording the Position of a Moving Object over Time — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 13: Using GPS with Your Arduino · Project #46: Recording the Position of a Moving Object over Time">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 13 · Project #46: Recording the Position of a Moving Object over Time</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../13-using-gps-with-your-arduino/04-project-45-creating-an-accurate-gps-based-clock/index.html" title="Project #45: Creating an Accurate GPS-based Clock">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 13 · Using GPS with Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-what-is-gps/index.html">What Is GPS?</a><a href="../02-testing-the-gps-shield/index.html">Testing the GPS Shield</a><a href="../03-project-44-creating-a-simple-gps-receiver/index.html">Project #44: Creating a Simple GPS Receiver</a><a href="../04-project-45-creating-an-accurate-gps-based-clock/index.html">Project #45: Creating an Accurate GPS-based Clock</a><a href="../05-project-46-recording-the-position-of-a-moving-object-over-ti/index.html" aria-current=page>Project #46: Recording the Position of a Moving Object over Time</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../13-using-gps-with-your-arduino/06-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:72.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 13 · Using GPS with Your Arduino</a></p>
+  <h1>Project #46: Recording the Position of a Moving Object over Time</h1>
+  <p class="sec-meta">Book pages 265–269</p>
+</div>
+<article class="prose">
+<h2>over Time</h2>
+<p>Now that you know how to receive GPS coordinates and convert them into normal variables, we can use this information with the microSD card shield from Chapter 8 to build a GPS logger. Our logger will record our position over time by logging the GPS data over time. The addition of the microSD card shield will allow you to record the movement of a car, truck, boat, or any other moving object that allows GPS signal reception; later, you can review the information on a computer.</p>
+<h2>The Hardware</h2>
+<p>The required hardware is the same as that used for the previous examples, except that you need to replace the LCD shield with the microSD shield from Chapter 8, and you’ll use external power. In our example, we’ll record the time, position information, and estimated speed of travel.</p>
+<h2>The Sketch</h2>
+<p>After assembling your hardware, enter and upload the following sketch:</p>
+<pre class="code"><code> // Project 46 - Recording the Position of a Moving Object over Time
+ #include &lt;SD.h&gt;
+ #include &lt;TinyGPS.h&gt;
+ // Create an instance of the TinyGPS object
+ TinyGPS gps;
+ void getgps(TinyGPS &amp;gps);
+ void setup()
+ {
+   pinMode(10, OUTPUT);
+   Serial.begin(9600);
+   // check that the microSD card exists and can be used
+   if (!SD.begin(8)) {
+     Serial.println(&quot;Card failed, or not present&quot;);
+     // stop the sketch
+     return;
+   }
+   Serial.println(&quot;microSD card is ready&quot;);
+ }
+ void getgps(TinyGPS &amp;gps)
+ {
+   float latitude, longitude;
+   int year;
+   byte month, day, hour, minute, second, hundredths;
+   //decode and display position data
+   gps.f_get_position(&amp;latitude, &amp;longitude);
+   File dataFile = SD.open(&quot;DATA.TXT&quot;, FILE_WRITE);
+   // if the file is ready, write to it
+<span class="cm">❶</span>   if (dataFile)
+   {
+<span class="cm">❷</span>     dataFile.print(&quot;Lat: &quot;);
+     dataFile.print(latitude,5);
+     dataFile.print(&quot; &quot;);
+     dataFile.print(&quot;Long: &quot;);
+     dataFile.print(longitude,5);
+     dataFile.print(&quot; &quot;);
+     // decode and display time data
+     gps.crack_datetime(&amp;year,&amp;month,&amp;day,&amp;hour,&amp;minute,&amp;second,&amp;hundredths);
+     // correct for your time zone as in Project 45
+     hour=hour+11;
+     if (hour&gt;23)
+     {
+       hour=hour-24;
+     }
+    if (hour&lt;10)
+     {
+       dataFile.print(&quot;0&quot;);
+     }
+     dataFile.print(hour, DEC);
+     dataFile.print(&quot;:&quot;);
+     if (minute&lt;10)
+     {
+       dataFile.print(&quot;0&quot;);
+     }
+     dataFile.print(minute, DEC);
+     dataFile.print(&quot;:&quot;);
+     if (second&lt;10)
+     {
+       dataFile.print(&quot;0&quot;);
+     }
+     dataFile.print(second, DEC);
+     dataFile.print(&quot; &quot;);
+     dataFile.print(gps.f_speed_kmph());
+<span class="cm">❸</span>     dataFile.println(&quot;km/h&quot;);
+     dataFile.close();
+<span class="cm">❹</span>     delay(30000);  // record a measurement every 30 seconds
+   }
+ }
+ void loop()
+ {
+   byte a;
+   if ( Serial.available() &gt; 0 )  // if there is data coming into the serial line
+   {
+     a = Serial.read();          // get the byte of data
+     if(gps.encode(a))           // if there is valid GPS data...
+     {
+<span class="cm">❺</span>       getgps(gps);              // then grab the data and display it on the LCD
+     }
+   }
+ }</code></pre>
+<p>This sketch uses the same code used in Projects 44 and 45 in <code>void loop()</code> to receive data from the GPS receiver and pass it on to other functions. At <span class="co">❺</span>, the text from the GPS receiver is passed into the <em>TinyGPS</em> library to decode the data into useful variables. At <span class="co">❶</span>, the microSD card is checked to determine whether data can be written to it, and from <span class="co">❷</span> to <span class="co">❸</span>, the relevant GPS data is written to the text file on the microSD card. Because the file is closed after every write, you can remove the power source from the Arduino without warning the sketch, and you should do so before inserting or removing the microSD card. Finally, you can set the interval between recording data at <span class="co">❹</span> by changing the value in the <code>delay()</code> function.</p>
+<h2>Displaying Locations on a Map</h2>
+<p>After operating your GPS logger, the resulting text file should look similar to Figure 13-10.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="654" height="363" style="width:318px" loading="lazy" alt="Figure 13-10: Results from Project 46"></a><figcaption><b>Figure 13-10:</b> Results from Project 46</figcaption></figure>
+<p>Once you have this data, you can enter it into Google Maps manually and review the path taken by the GPS logger, point by point. But a more interesting method is to display the entire route taken on one map. To do this, open the text file as a spreadsheet, separate the position data, and add a header row, as shown in Figure 13-11. Then save it as a <em>.csv</em> file.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="574" height="516" style="width:279px" loading="lazy" alt="Figure 13-11: Captured position data"></a><figcaption><b>Figure 13-11:</b> Captured position data</figcaption></figure>
+<p>Now visit the GPS Visualizer website (<em>http://www.gpsvisualizer.com/</em>). In the Get Started Now box, click <strong>Choose File</strong> and select your data file. Choose <strong>Google Maps</strong> as the output format, and then click <strong>Go!</strong>. The movement of your GPS logger should be shown on a map similar to the one in Figure 13-12, which you can then adjust and explore.</p>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="524" height="459" style="width:255px" loading="lazy" alt="Figure 13-12: Mapped GPS logger data"></a><figcaption><b>Figure 13-12:</b> Mapped GPS logger data</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../13-using-gps-with-your-arduino/04-project-45-creating-an-accurate-gps-based-clock/index.html"><span class="dir">← Previous</span><span class="t">Project #45: Creating an Accurate GPS-based Clock</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a><a class="nx" data-nav="next" href="../../13-using-gps-with-your-arduino/06-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 13 · Using GPS with Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

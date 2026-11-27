@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The I2C Bus — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 17: Data Buses · The I2C Bus">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 17 · The I2C Bus</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../17-data-buses/00-introduction/index.html" title="Chapter 17: Data Buses">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 17 · Data Buses</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-i2c-bus/index.html" aria-current=page>The I2C Bus</a><a href="../02-project-54-using-an-external-eeprom/index.html">Project #54: Using an External EEPROM</a><a href="../03-project-55-using-a-port-expander-ic/index.html">Project #55: Using a Port Expander IC</a><a href="../04-the-spi-bus/index.html">The SPI Bus</a><a href="../05-project-56-using-a-digital-rheostat/index.html">Project #56: Using a Digital Rheostat</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../17-data-buses/02-project-54-using-an-external-eeprom/index.html" title="Project #54: Using an External EEPROM">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:86.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 17 · Data Buses</a></p>
+  <h1>The I2C Bus</h1>
+  <p class="sec-meta">Book pages 308–309</p>
+</div>
+<article class="prose">
+<p>The I<sup>2</sup>C bus, also known as the <em>Two Wire </em> <em>Interface (TWI)</em> bus, is a simple and easy device used for data communication. Data is transferred between devices and the Arduino through two wires, known as <em>SDA</em> and <em>SCL</em> (the data line and clock line, respectively). In the case of the Arduino Uno, the SDA pin is A4 and the SCL pin is A5, as shown in Figure 17-1. Some newer R3 boards also have dedicated I<sup>2</sup>C pins at the upper-left corner for convenient access.</p>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="331" height="240" style="width:161px" loading="lazy" alt="Figure 17-1: The I 2C bus con- nectors on the Arduino Uno"></a><figcaption><b>Figure 17-1:</b> The I 2C bus con- nectors on the Arduino Uno</figcaption></figure>
+<p>On the I<sup>2</sup>C bus, the Arduino is considered the <em>master device</em>, and each IC out on the bus is a <em>slave</em>. Each slave has its own address, a hexadecimal number that allows the Arduino to address and communicate with each device. Each device usually has a range of I<sup>2</sup>C bus addresses to choose from, which is detailed in the manufacturer’s data sheet. The particular addresses available are determined by wiring the IC pins a certain way.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Because the Arduino runs on 5 V, your I </em><sup><em>2</em></sup><em>C device must also operate on 5 V or be able </em> <em>to tolerate it. Always confirm this by contacting the seller or manufacturer before use.</em></p></aside>
+<p>To use the I<sup>2</sup>C bus, you’ll need to use the <code>Wire</code> library (included with the Arduino IDE):</p>
+<pre class="code"><code>#include &lt;Wire.h&gt;</code></pre>
+<p>Next, in <code>void setup()</code>, activate the bus with this:</p>
+<pre class="code"><code>Wire.begin();</code></pre>
+<p>Data is transmitted along the bus 1 byte at a time. To send a byte of data from the Arduino to a device on the bus, three functions are required:</p>
+<ol><li>The first function initiates communication with the following line of code (where <code>address</code> is the slave’s bus address in hexadecimal—for example <code>0x50</code>):</li></ol>
+<pre class="code"><code>Wire.beginTransmission( address );</code></pre>
+<ol start="2"><li>The second function sends 1 byte of data from the Arduino to the device addressed by the previous function (where <code>data</code> is a variable containing 1 byte of data; you can send more than 1 byte, but you’ll need to use one <code>Wire.write()</code> for each byte):</li></ol>
+<pre class="code"><code>Wire.write(data);</code></pre>
+<ol start="3"><li>Finally, once you have finished sending data to a particular device, use this to end the transmission:</li></ol>
+<pre class="code"><code>Wire.endTransmission();</code></pre>
+<p>To request that data from an I<sup>2</sup>C device be sent to the Arduino, start with <code>Wire.beginTransmission(address)</code>, followed by the following (where <code>x</code> is the number of bytes of data to request):</p>
+<pre class="code"><code>Wire.requestFrom( address , x );</code></pre>
+<p>Next, use the following function to store the incoming byte into a variable:</p>
+<pre class="code"><code>incoming = Wire.read(); // incoming is the variable receiving the byte of data</code></pre>
+<p>Now finalize the transaction with <code>Wire.endTransmission()</code>, and we’ll put these functions to use in the next project.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../17-data-buses/00-introduction/index.html"><span class="dir">← Previous</span><span class="t">Chapter 17: Data Buses</span><span class="ch">Chapter 17 · Data Buses</span></a><a class="nx" data-nav="next" href="../../17-data-buses/02-project-54-using-an-external-eeprom/index.html"><span class="dir">Next →</span><span class="t">Project #54: Using an External EEPROM</span><span class="ch">Chapter 17 · Data Buses</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

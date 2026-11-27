@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Required Software — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 1: Getting Started · Required Software">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 1 · Required Software</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../01-getting-started/03-parts-and-accessories/index.html" title="Parts and Accessories">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 1 · Getting Started</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-the-possibilities-are-endless/index.html">The Possibilities Are Endless</a><a href="../02-strength-in-numbers/index.html">Strength in Numbers</a><a href="../03-parts-and-accessories/index.html">Parts and Accessories</a><a href="../04-required-software/index.html" aria-current=page>Required Software</a><a href="../05-safety/index.html">Safety</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../01-getting-started/05-safety/index.html" title="Safety">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:2.9%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 1 · Getting Started</a></p>
+  <h1>Required Software</h1>
+  <p class="sec-meta">Book pages 7–18</p>
+</div>
+<article class="prose">
+<p>You should be able to program your Arduino with just about any computer using a piece of software called an <em>integrated development environment (IDE)</em>. To run this software, your computer should have one of the following operating systems installed:</p>
+<ul><li>Mac OS X or higher</li><li>Windows XP 32- or 64-bit, or higher</li><li>Linux 32- or 64-bit (Ubuntu or similar)</li></ul>
+<p>Now is a good time to download and install the IDE, so jump to the heading that matches your operating system and follow the instructions. Make sure you have or buy the matching USB cable for your Arduino from the supplier as well. Even if you don’t have your Arduino board yet, you can still download and explore the IDE. Because the IDE version number can change quite rapidly, the number in this book may not match the current version, but the instructions should still work.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>Unfortunately, as this book went to press, there were issues with Windows 8 instal-</em> <em>lations. If you have Windows 8, visit the Arduino Forum at </em>http://arduino.cc/forum/index.php/topic,94651.15.html<em> for guidance and discussion.</em></p></aside>
+<h2>Mac OS X</h2>
+<p>In this section, you’ll find instructions for downloading and configuring the Arduino IDE in Mac OS X.</p>
+<h3>Installing the IDE</h3>
+<p>To install the IDE on your Mac, follow these instructions:</p>
+<ol><li>Using a web browser such as Safari, visit the software download page located at <em>http://arduino.cc/en/Main/Software/</em>, as shown in Figure 1-7.</li></ol>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="854" height="427" style="width:415px" loading="lazy" alt="Figure 1-7: The IDE download page in Safari"></a><figcaption><b>Figure 1-7:</b> The IDE download page in Safari</figcaption></figure>
+<ol start="2"><li>Click the <strong>Mac OS X</strong> link. The file will start downloading, and it will appear in the Downloads window shown in Figure 1-8.</li></ol>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="532" height="193" style="width:259px" loading="lazy" alt="Figure 1-8: File download is complete."></a><figcaption><b>Figure 1-8:</b> File download is complete.</figcaption></figure>
+<ol start="3"><li>Once it’s finished downloading, double-click the file to start the installation process. You will then be presented with the window shown in Figure 1-9.</li></ol>
+<figure class="fig"><a href="img/fig-03.webp" target="_blank" rel="noopener"><img src="img/fig-03.webp" width="595" height="670" style="width:289px" loading="lazy" alt="Figure 1-9: Your new Arduino IDE folder"></a><figcaption><b>Figure 1-9:</b> Your new Arduino IDE folder</figcaption></figure>
+<aside class="note"><span class="lbl">NOTE</span><p><em>The third file icon shown in Figure 1-9 needs to be installed only if you have an </em> <em>Arduino board older than the current Uno. </em></p></aside>
+<ol start="4"><li>Drag the Arduino icon over the Applications folder and release the mouse button. A temporary status window will appear as the file is copied.</li><li>Now connect your Arduino to your Mac with the USB cable. After a moment, the dialog shown in Figure 1-10 will appear.</li></ol>
+<figure class="fig"><a href="img/fig-04.webp" target="_blank" rel="noopener"><img src="img/fig-04.webp" width="596" height="234" style="width:290px" loading="lazy" alt="Figure 1-10: A new Arduino board is detected. Your dialog may read Uno instead of Eleven."></a><figcaption><b>Figure 1-10:</b> A new Arduino board is detected. Your   dialog may read Uno instead of Eleven.</figcaption></figure>
+<ol start="6"><li>Click <strong>Network Preferences...</strong>, and then click <strong>Apply</strong> in the Network box. You can ignore the “not configured” status message.</li></ol>
+<h3>Setting Up the IDE </h3>
+<p>Once you have downloaded the IDE, use the following instructions to open and configure the IDE:</p>
+<ol><li>Open the Applications folder in Finder (shown in Figure 1-11) and double-click the Arduino icon.</li></ol>
+<figure class="fig"><a href="img/fig-05.webp" target="_blank" rel="noopener"><img src="img/fig-05.webp" width="783" height="262" style="width:381px" loading="lazy" alt="Figure 1-11: Your Applications folder"></a><figcaption><b>Figure 1-11:</b> Your Applications folder</figcaption></figure>
+<ol start="2"><li>A window may appear warning you about opening a web app. If it does, click <strong>Open</strong> to continue. You will then be presented with the IDE, as shown in Figure 1-12.</li></ol>
+<figure class="fig"><a href="img/fig-06.webp" target="_blank" rel="noopener"><img src="img/fig-06.webp" width="891" height="515" style="width:433px" loading="lazy" alt="Figure 1-12: The IDE in Mac OS X"></a><figcaption><b>Figure 1-12:</b> The IDE in Mac OS X</figcaption></figure>
+<ol start="3"><li>You’re almost there—just two more things to do before your Arduino IDE is ready to use. First, you need to tell the IDE which type of socket the Arduino is connected to. Select <strong>Tools</strong>4<strong>Serial Port</strong> and select the <strong>/dev/tty.usbmodem1d11</strong> option, as shown in Figure 1-13.</li></ol>
+<figure class="fig"><a href="img/fig-07.webp" target="_blank" rel="noopener"><img src="img/fig-07.webp" width="720" height="383" style="width:350px" loading="lazy" alt="Figure 1-13: Selecting the USB port"></a><figcaption><b>Figure 1-13:</b> Selecting the USB port</figcaption></figure>
+<ol start="4"><li>The final step is to tell the IDE which Arduino board you have connected. This is crucial, since Arduino boards do differ. For example, if you have the most common board, the Uno, then select <strong>Tools</strong>4<strong>Board</strong>4<strong>Arduino </strong> <strong>Uno</strong>, as shown in Figure 1-14. The differences in Arduino boards are explained in more detail in Chapter 11.</li></ol>
+<p>Now your hardware and software are ready to work for you. Next, move on to “Safety” on page 18.</p>
+<figure class="fig"><a href="img/fig-08.webp" target="_blank" rel="noopener"><img src="img/fig-08.webp" width="873" height="575" style="width:424px" loading="lazy" alt="Figure 1-14: Selecting the correct Arduino board"></a><figcaption><b>Figure 1-14:</b> Selecting the correct Arduino board</figcaption></figure>
+<h2>Windows XP and Later</h2>
+<p>In this section, you’ll find instructions for downloading the IDE, installing drivers, and configuring the IDE in Windows.</p>
+<h3>Installing the IDE</h3>
+<p>To install the Arduino IDE for Windows, follow these instructions:</p>
+<ol><li>Using a web browser such as Firefox, visit the software download page located at <em>http://arduino.cc/en/Main/Software/</em>, as shown in Figure 1-15.</li></ol>
+<figure class="fig"><a href="img/fig-09.webp" target="_blank" rel="noopener"><img src="img/fig-09.webp" width="861" height="456" style="width:418px" loading="lazy" alt="Figure 1-15: The IDE download page in Windows Firefox"></a><figcaption><b>Figure 1-15:</b> The IDE download page in Windows Firefox</figcaption></figure>
+<ol start="2"><li>Click the <strong>Windows</strong> link, and the dialog shown in Figure 1-16 will appear. Select <strong>Open with Windows Explorer</strong>, and then click <strong>OK</strong>. The file will start to download, as shown in Figure 1-17.</li></ol>
+<figure class="fig"><a href="img/fig-10.webp" target="_blank" rel="noopener"><img src="img/fig-10.webp" width="894" height="408" style="width:434px" loading="lazy" alt="Figure 1-16: Downloading the file"></a><figcaption><b>Figure 1-16:</b> Downloading the file</figcaption></figure>
+<figure class="fig"><a href="img/fig-11.webp" target="_blank" rel="noopener"><img src="img/fig-11.webp" width="647" height="214" style="width:314px" loading="lazy" alt="Figure 1-17: Firefox shows the progress of your download."></a><figcaption><b>Figure 1-17:</b> Firefox shows the progress of your download.</figcaption></figure>
+<ol start="3"><li>Once the download is complete, double-click the file, and the window shown in Figure 1-18 will appear.</li></ol>
+<figure class="fig"><a href="img/fig-12.webp" target="_blank" rel="noopener"><img src="img/fig-12.webp" width="814" height="443" style="width:396px" loading="lazy" alt="Figure 1-18: The IDE package"></a><figcaption><b>Figure 1-18:</b> The IDE package</figcaption></figure>
+<ol start="4"><li>Copy the folder named <em>arduino-0022</em> (or something similar) to the location where you store your applications. Once the copying is finished, locate the folder and open it to reveal the Arduino application icon, as shown in Figure 1-19. You may wish to copy the icon and place a short-cut on the desktop for easier access in the future.</li></ol>
+<figure class="fig"><a href="img/fig-13.webp" target="_blank" rel="noopener"><img src="img/fig-13.webp" width="894" height="434" style="width:434px" loading="lazy" alt="Figure 1-19: Your IDE folder with the Arduino application icon selected"></a><figcaption><b>Figure 1-19:</b> Your IDE folder with the Arduino application icon selected</figcaption></figure>
+<h3>Installing Drivers</h3>
+<p>The next task is to install the drivers for your Arduino board’s USB interface.</p>
+<ol><li>Connect your Arduino to your PC with the USB cable. After a few moments an error message will be displayed, which will say something like “Device driver software not successfully installed.” Just close that dialog or balloon.</li><li>Navigate to the Windows Control Panel. Open the Device Manager and scroll down until you see the Arduino, as shown in Figure 1-20.</li></ol>
+<figure class="fig"><a href="img/fig-14.webp" target="_blank" rel="noopener"><img src="img/fig-14.webp" width="531" height="310" style="width:258px" loading="lazy" alt="Figure 1-20: The Device Manager"></a><figcaption><b>Figure 1-20:</b> The Device Manager</figcaption></figure>
+<ol start="3"><li>Right-click <strong>Arduino Uno</strong> under Other Devices and select <strong>Update Driver </strong> <strong>Software</strong>. Then, select the <strong>Browse my computer for driver soft­ware</strong> option that appears in the next dialog. Another Browse For Folder dialog will appear; click <strong>Browse</strong>, and navigate to the <em>drivers</em> folder in the newly installed Arduino software folder (shown in Figure 1-21). Click <strong>OK</strong>.</li></ol>
+<figure class="fig"><a href="img/fig-15.webp" target="_blank" rel="noopener"><img src="img/fig-15.webp" width="804" height="593" style="width:391px" loading="lazy" alt="Figure 1-21: Locating the drivers folder"></a><figcaption><b>Figure 1-21:</b> Locating the drivers folder</figcaption></figure>
+<ol start="4"><li>Click <strong>Next</strong> in the dialog that follows. Windows may present a message stating that it “cannot verify the publisher of the driver software.” Click <strong>Install this software anyway</strong>. After a short wait, Windows will tell you that the driver is installed and the COM port number the Arduino is connected to, as shown in Figure 1-22.</li></ol>
+<figure class="fig"><a href="img/fig-16.webp" target="_blank" rel="noopener"><img src="img/fig-16.webp" width="723" height="433" style="width:351px" loading="lazy" alt="Figure 1-22: The drivers have been updated successfully."></a><figcaption><b>Figure 1-22:</b> The drivers have been updated successfully.</figcaption></figure>
+<h3>Setting Up the IDE</h3>
+<p>Okay, we’re almost there—just two more things to do to finish setting up the IDE.</p>
+<ol><li>Open the Arduino IDE. You need to tell the IDE which type of socket the Arduino is connected to by selecting <strong>Tools</strong>4<strong>Serial Port</strong> and selecting the COM port number that appeared in the Update Driver Software window.</li><li>The final step is to tell the IDE which Arduino board we have connected. This is crucial, as the Arduino boards do differ. For example, if you have the Uno, select <strong>Tools</strong>4<strong>Board</strong>4<strong>Arduino Uno</strong>. The differences in Arduino boards are explained in more detail in Chapter 11.</li></ol>
+<p>Now that your Arduino IDE is set up, you can move on to “Safety” on page 18.</p>
+<h2>Ubuntu Linux 9.04 and Later</h2>
+<p>If you are running Ubuntu Linux, here are instructions for downloading and setting up the Arduino IDE.</p>
+<h3>Installing the IDE</h3>
+<p>Use the following instructions to install the IDE:</p>
+<ol><li>Using a web browser such as Firefox, visit the software download page located at <em>http://arduino.cc/en/Main/Software/</em>, as shown in Figure 1-23.</li></ol>
+<figure class="fig"><a href="img/fig-17.webp" target="_blank" rel="noopener"><img src="img/fig-17.webp" width="829" height="586" style="width:403px" loading="lazy" alt="Figure 1-23: The IDE download page in Ubuntu Firefox"></a><figcaption><b>Figure 1-23:</b> The IDE download page in Ubuntu Firefox</figcaption></figure>
+<ol start="2"><li>Click the Linux <strong>32-bit</strong> or <strong>64-bit</strong> link, depending on your system. When the dialog in Figure 1-24 appears, select <strong>Open with Archive Manager</strong> and click <strong>OK</strong>.</li></ol>
+<figure class="fig"><a href="img/fig-18.webp" target="_blank" rel="noopener"><img src="img/fig-18.webp" width="692" height="480" style="width:336px" loading="lazy" alt="Figure 1-24: Downloading the file"></a><figcaption><b>Figure 1-24:</b> Downloading the file</figcaption></figure>
+<ol start="3"><li>After the file has downloaded, it will be displayed in the Archive Manager, as shown in Figure 1-25. Copy the <em>arduino-0022</em> folder (or something similar) to your usual application or Home folder.</li></ol>
+<figure class="fig"><a href="img/fig-19.webp" target="_blank" rel="noopener"><img src="img/fig-19.webp" width="848" height="351" style="width:412px" loading="lazy" alt="Figure 1-25: The IDE package"></a><figcaption><b>Figure 1-25:</b> The IDE package</figcaption></figure>
+<h3>Setting Up the IDE</h3>
+<p>Next, you’ll configure the IDE.</p>
+<ol><li>Connect your Arduino to your PC with the USB cable. At this point you want to run the Arduino IDE, so locate the <em>arduino-0022</em> folder you copied earlier and double-click the <em>arduino</em> file that’s selected in Figure 1-26.</li></ol>
+<figure class="fig"><a href="img/fig-20.webp" target="_blank" rel="noopener"><img src="img/fig-20.webp" width="823" height="435" style="width:400px" loading="lazy" alt="Figure 1-26: Your Arduino IDE folder with the arduino file selected"></a><figcaption><b>Figure 1-26:</b> Your Arduino IDE folder with the arduino file selected</figcaption></figure>
+<ol start="2"><li>If the dialog shown in Figure 1-27 appears, click <strong>Run</strong>, and you will be presented with the IDE, as shown in Figure 1-28.</li></ol>
+<figure class="fig"><a href="img/fig-21.webp" target="_blank" rel="noopener"><img src="img/fig-21.webp" width="698" height="251" style="width:339px" loading="lazy" alt="Figure 1-27: Granting permission to run the IDE"></a><figcaption><b>Figure 1-27:</b> Granting permission to run the IDE</figcaption></figure>
+<figure class="fig"><a href="img/fig-22.webp" target="_blank" rel="noopener"><img src="img/fig-22.webp" width="824" height="561" style="width:400px" loading="lazy" alt="Figure 1-28: The IDE in Ubuntu"></a><figcaption><b>Figure 1-28:</b> The IDE in Ubuntu</figcaption></figure>
+<ol start="3"><li>Now that the IDE is running, we need to tell it which type of socket the Arduino is connected to. Select <strong>Tools</strong>4<strong>Serial Port</strong> and select the <strong>/dev/</strong> <strong>ttyACMx</strong> port, where <strong>x</strong> is a single digit (there should be only one port with a name like this).</li><li>Next, tell the IDE which Arduino you have connected. This is crucial, as Arduino boards do differ. For example, if you have the Uno, select <strong>Tools</strong>4<strong>Board</strong>4<strong>Arduino Uno</strong>. The differences in Arduino boards are explained in more detail in Chapter 11.</li></ol>
+<p>Now your hardware and software are ready to work for you.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../01-getting-started/03-parts-and-accessories/index.html"><span class="dir">← Previous</span><span class="t">Parts and Accessories</span><span class="ch">Chapter 1 · Getting Started</span></a><a class="nx" data-nav="next" href="../../01-getting-started/05-safety/index.html"><span class="dir">Next →</span><span class="t">Safety</span><span class="ch">Chapter 1 · Getting Started</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

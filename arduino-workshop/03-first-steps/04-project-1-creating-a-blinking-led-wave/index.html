@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #1: Creating a Blinking LED Wave — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 3: First Steps · Project #1: Creating a Blinking LED Wave">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 3 · Project #1: Creating a Blinking LED Wave</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../03-first-steps/03-electronic-components/index.html" title="Electronic Components">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 3 · First Steps</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-planning-your-projects/index.html">Planning Your Projects</a><a href="../02-about-electricity/index.html">About Electricity</a><a href="../03-electronic-components/index.html">Electronic Components</a><a href="../04-project-1-creating-a-blinking-led-wave/index.html" aria-current=page>Project #1: Creating a Blinking LED Wave</a><a href="../05-using-variables/index.html">Using Variables</a><a href="../06-project-2-repeating-with-for-loops/index.html">Project #2: Repeating with for Loops</a><a href="../07-varying-led-brightness-with-pulse-width-modulation/index.html">Varying LED Brightness with Pulse-Width Modulation</a><a href="../08-project-3-demonstrating-pwm/index.html">Project #3: Demonstrating PWM</a><a href="../09-more-electric-components/index.html">More Electric Components</a><a href="../10-higher-voltage-circuits/index.html">Higher-Voltage Circuits</a><a href="../11-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../03-first-steps/05-using-variables/index.html" title="Using Variables">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:9.8%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 3 · First Steps</a></p>
+  <h1>Project #1: Creating a Blinking LED Wave</h1>
+  <p class="sec-meta">Book pages 43–45</p>
+</div>
+<article class="prose">
+<p>Let’s put some LEDs and resistors to work. In this project, we’ll use five LEDs to emulate the front of the famous TV show vehicle KITT from the television show <em>Knight Rider</em>, creating a kind of wavelike light pattern.</p>
+<h2>The Algorithm</h2>
+<p>Here’s our algorithm for this project:</p>
+<ol><li>Turn on LED 1.</li><li>Wait half a second.</li><li>Turn off LED 1.</li><li>Turn on LED 2.</li><li>Wait half a second.</li><li>Turn off LED 2.</li><li>Continue until LED 5 is turned on, at which point the process reverses from LED 5 to 1.</li><li>Repeat indefinitely.</li></ol>
+<h2>The Hardware</h2>
+<p>Here’s what you’ll need to create this project:</p>
+<ul><li>Five LEDs</li><li>Five 560 Ω resistors</li><li>One breadboard</li><li>Various connecting wires</li><li>Arduino and USB cable</li></ul>
+<p>We will connect the LEDs to digital pins 2 through 6 via the 560-ohm current-limiting resistors.</p>
+<h2>The Sketch</h2>
+<p>Now for our sketch. Enter this code into the IDE:</p>
+<pre class="code"><code> // Project 1 - Creating a Blinking LED Wave
+<span class="cm">❶</span> void setup()
+ {
+   pinMode(2, OUTPUT);     // LED 1 control pin is set up as an output
+   pinMode(3, OUTPUT);     // same for LED 2 to LED 5
+   pinMode(4, OUTPUT);
+   pinMode(5, OUTPUT);
+   pinMode(6, OUTPUT);
+ }
+<span class="cm">❷</span> void loop()
+ {
+   digitalWrite(2, HIGH);  // Turn LED 1 on
+   delay(500);             // wait half a second
+   digitalWrite(2, LOW);   // Turn LED 1 off
+   digitalWrite(3, HIGH);  // and repeat for LED 2 to 5
+   delay(500);
+   digitalWrite(3, LOW);
+   digitalWrite(4, HIGH);
+   delay(500);
+   digitalWrite(4, LOW);
+   digitalWrite(5, HIGH);
+   delay(500);
+   digitalWrite(5, LOW);
+   digitalWrite(6, HIGH);
+   delay(500);
+   digitalWrite(6, LOW);
+   digitalWrite(5, HIGH);
+   delay(500);
+   digitalWrite(5, LOW);
+   digitalWrite(4, HIGH);
+   delay(500);
+   digitalWrite(4, LOW);
+   digitalWrite(3, HIGH);
+   delay(500);
+   digitalWrite(3, LOW);
+   // the loop() will now loop around and start from the top again
+ }</code></pre>
+<p>In <code>void setup()</code> at <span class="co">❶</span>, the digital I/O pins are set to outputs, because we want them to send current to the LEDs on demand. We specify when to turn on each LED using the <code>digitalWrite()</code> function in the <code>void loop()</code> <span class="co">❷</span> section of the sketch.</p>
+<h2>The Schematic</h2>
+<p>Now let’s build the circuit. Circuit layout can be described in several ways. For the first few projects in this book, we’ll use physical layout diagrams similar to the one shown in Figure 3-13.</p>
+<p>By comparing the wiring diagram to the functions in the sketch, you can begin to make sense of the circuit. For example, when we use <code>digitalWrite(2, HIGH)</code>, a high voltage of 5 V flows from digital pin 2, through the current-limiting resistor, through the LED via the anode and then the cathode, and finally back to the Arduino’s GND socket to complete the circuit. Then, when we use <code>digitalWrite(2, LOW)</code>, the current stops and the LED turns off.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="948" height="687" style="width:461px" loading="lazy" alt="Figure 3-13: Circuit layout for Project 1"></a><figcaption><b>Figure 3-13:</b> Circuit layout for Project 1</figcaption></figure>
+<h2>Running the Sketch</h2>
+<p>Now connect your Arduino and upload the sketch. After a second or two, the LEDs should blink from left to right and then back again. Success is a wonderful thing—embrace it!</p>
+<p>If nothing happens, however, then immediately remove the USB cable from the Arduino and check that you typed the sketch correctly. If you find an error, fix it and upload your sketch again. If your sketch matches exactly and the LEDs still don’t blink, check your wiring on the breadboard.</p>
+<p>You now know how to make an LED blink with your Arduino, but this sketch is somewhat inefficient. For example, if you wanted to modify this sketch to make the LEDs cycle more quickly, you would need to alter each <code>delay(500)</code>. There is a better way.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../03-first-steps/03-electronic-components/index.html"><span class="dir">← Previous</span><span class="t">Electronic Components</span><span class="ch">Chapter 3 · First Steps</span></a><a class="nx" data-nav="next" href="../../03-first-steps/05-using-variables/index.html"><span class="dir">Next →</span><span class="t">Using Variables</span><span class="ch">Chapter 3 · First Steps</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

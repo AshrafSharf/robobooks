@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bitwise Arithmetic — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 6: Numbers, Variables, and Arithmetic · Bitwise Arithmetic">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 6 · Bitwise Arithmetic</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/12-led-matrix-display-modules/index.html" title="LED Matrix Display Modules">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 6 · Numbers, Variables, and Arithmetic</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-generating-random-numbers/index.html">Generating Random Numbers</a><a href="../02-project-15-creating-an-electronic-die/index.html">Project #15: Creating an Electronic Die</a><a href="../03-a-quick-course-in-binary/index.html">A Quick Course in Binary</a><a href="../04-increasing-digital-outputs-with-shift-registers/index.html">Increasing Digital Outputs with Shift Registers</a><a href="../05-project-16-creating-an-led-binary-number-display/index.html">Project #16: Creating an LED Binary Number Display</a><a href="../06-project-17-making-a-binary-quiz-game/index.html">Project #17: Making a Binary Quiz Game</a><a href="../07-arrays/index.html">Arrays</a><a href="../08-seven-segment-led-displays/index.html">Seven-Segment LED Displays</a><a href="../09-project-18-creating-a-single-digit-display/index.html">Project #18: Creating a Single-Digit Display</a><a href="../10-project-19-controlling-two-seven-segment-led-display-modules/index.html">Project #19: Controlling Two Seven-Segment LED Display Modules</a><a href="../11-project-20-creating-a-digital-thermometer/index.html">Project #20: Creating a Digital Thermometer</a><a href="../12-led-matrix-display-modules/index.html">LED Matrix Display Modules</a><a href="../13-bitwise-arithmetic/index.html" aria-current=page>Bitwise Arithmetic</a><a href="../14-project-21-creating-an-led-matrix/index.html">Project #21: Creating an LED Matrix</a><a href="../15-project-22-creating-images-on-an-led-matrix/index.html">Project #22: Creating Images on an LED Matrix</a><a href="../16-project-23-displaying-an-image-on-an-led-matrix/index.html">Project #23: Displaying an Image on an LED Matrix</a><a href="../17-project-24-animating-an-led-matrix/index.html">Project #24: Animating an LED Matrix</a><a href="../18-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../06-numbers-variables-and-arithmetic/14-project-21-creating-an-led-matrix/index.html" title="Project #21: Creating an LED Matrix">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:38.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 6 · Numbers, Variables, and Arithmetic</a></p>
+  <h1>Bitwise Arithmetic</h1>
+  <p class="sec-meta">Book pages 139–141</p>
+</div>
+<article class="prose">
+<p>We can use <em>bitwise arithmetic</em> to manipulate integer and byte variables using their binary representations. The value in using bitwise arithmetic, rather than base-10 arithmetic, is that bitwise can help increase the speed of controlling digital input and output pins and can compare numbers in binary form.</p>
+<p>There are six <em>bitwise operators</em>: AND, OR, XOR, NOT, bitshift left, and bitshift right. Each is discussed in the following sections. (Although these examples use binary numbers, the same operations could be performed using integers and bytes.)</p>
+<h2>The Bitwise AND Operator</h2>
+<p>The AND operator (<code>&amp;</code>) is used to compare two binary numbers bit by bit. If the bits in the same column of both numbers are 1, then the resulting value’s bit is set to 1; if the bits are not 1, then the result is set to 0. Consider, for example, these 3-byte variables:</p>
+<pre class="code"><code>byte a = B00110011;
+byte b = B01010001;
+byte c = 0;</code></pre>
+<pre class="code"><code>  c = a &amp; b;</code></pre>
+<p>The result of the comparison will be 00010001. Expanding this result in a text-comment diagram can show this in more detail:</p>
+<pre class="code"><code>byte a = B00110011;
+//        ||||||||
+byte b = B01010001;
+//        ||||||||
+//        00010001  c = a &amp; b; // c is equal to a &#x27;AND&#x27;ed with b</code></pre>
+<h2>The Bitwise OR Operator</h2>
+<p>The OR operator (<code>|</code>) compares two binary numbers, but instead of returning a 1 if both numbers in a column are 1, it returns a 1 if <em>either</em> value in the column is 1. If both numbers in a column are 0, then 0 is returned.</p>
+<pre class="code"><code>byte a = B00110011;
+byte b = B01010001;
+byte c = 0;</code></pre>
+<pre class="code"><code>  c = a | b;</code></pre>
+<p>Using the same demonstration bytes as before, the result of the comparison will be 01110011.</p>
+<h2>The Bitwise XOR Operator</h2>
+<p>The XOR operator (<code>^</code>) returns a 1 result if the bits are different and a 0 result if they are the same.</p>
+<pre class="code"><code>byte a = B00111100;
+byte b = B01011010;
+byte c = 0;</code></pre>
+<pre class="code"><code>  c = a ^ b;</code></pre>
+<p>Using our demonstration bytes again, the result of the comparison will be 01100110.</p>
+<h2>The Bitwise NOT Operator</h2>
+<pre class="code"><code>byte a = B00111100;
+byte b = 0;
+b = ~a;</code></pre>
+<p>The NOT operator (<code>~</code>) simply reverses, or flips, the bits in each column: 0s are changed to 1s, and 1s are changed to 0s. Consider this example: If we store a bitwise NOT of byte <code>a</code> in byte <code>b</code> like so, then <code>b</code> contains 11000011.</p>
+<h2>Bitshift Left and Right</h2>
+<pre class="code"><code>byte a = B00100101;
+byte b = a &lt;&lt; 4;</code></pre>
+<p>The bitshift left (<code>&lt;&lt;</code>) and bitshift right (<code>&gt;&gt;</code>) operators move bits to the left or right by a certain number of positions. For example, if the contents of <code>a</code> are shifted left four spaces, like so, then the result is the value 01010000 for <code>b</code>. The bits in <code>a</code> are moved left four spaces, and the empty spaces are filled with 0s.</p>
+<pre class="code"><code>byte a = B11110001;
+byte b = a &gt;&gt; 4;</code></pre>
+<p>If we shift in the other direction, like so, then the value for <code>b</code> will be 00001111.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../06-numbers-variables-and-arithmetic/12-led-matrix-display-modules/index.html"><span class="dir">← Previous</span><span class="t">LED Matrix Display Modules</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a><a class="nx" data-nav="next" href="../../06-numbers-variables-and-arithmetic/14-project-21-creating-an-led-matrix/index.html"><span class="dir">Next →</span><span class="t">Project #21: Creating an LED Matrix</span><span class="ch">Chapter 6 · Numbers, Variables, and Arithmetic</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

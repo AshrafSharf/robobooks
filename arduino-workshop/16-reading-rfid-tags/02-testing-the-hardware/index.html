@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Testing the Hardware — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 16: Reading RFID Tags · Testing the Hardware">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 16 · Testing the Hardware</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../16-reading-rfid-tags/01-inside-rfid-devices/index.html" title="Inside RFID Devices">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 16 · Reading RFID Tags</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-inside-rfid-devices/index.html">Inside RFID Devices</a><a href="../02-testing-the-hardware/index.html" aria-current=page>Testing the Hardware</a><a href="../03-project-52-creating-a-simple-rfid-control-system/index.html">Project #52: Creating a Simple RFID Control System</a><a href="../04-storing-data-in-the-arduino-s-built-in-eeprom/index.html">Storing Data in the Arduino’s Built-in EEPROM</a><a href="../05-project-53-creating-an-rfid-control-with-last-action-memory/index.html">Project #53: Creating an RFID Control with 
+“Last Action” Memory</a><a href="../06-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../16-reading-rfid-tags/03-project-52-creating-a-simple-rfid-control-system/index.html" title="Project #52: Creating a Simple RFID Control System">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:82.7%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 16 · Reading RFID Tags</a></p>
+  <h1>Testing the Hardware</h1>
+  <p class="sec-meta">Book pages 297–298</p>
+</div>
+<article class="prose">
+<p>In this section you’ll connect the RFID reader to the Arduino and then test that it’s working with a simple sketch that reads RFID cards and sends the data to the Serial Monitor.</p>
+<h2>The Schematic</h2>
+<p>Figure 16-3 shows the RFID module connections.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="816" height="442" style="width:397px" loading="lazy" alt="Figure 16-3: RFID module connections"></a><figcaption><b>Figure 16-3:</b> RFID module connections</figcaption></figure>
+<h2>Testing the Schematic</h2>
+<p>Once the RFID reader is connected to the Arduino, you can test it by placing the black jumper across the left and center pins of the jumper section. Then, to make the connections between the RFID reader and the Arduino, follow these steps, using female-to-male jumper wires:</p>
+<ol><li>Connect the included coil plug to the antenna socket.</li><li>Connect the reader GND to the Arduino GND.</li><li>Connect VCC to Arduino 5V.</li><li>Connect RX to Arduino pin D0.</li><li>Connect TX to Arduino pin D1.</li></ol>
+<aside class="note"><span class="lbl">NOTE</span><p><em>When uploading sketches to the RFID-connected Arduino, be sure to remove the wire </em> <em>between the RFID reader RX and Arduino pin D0. Then reconnect it after the sketch </em> <em>has been uploaded successfully. This is because the D0 pin is also used by the Arduino </em> <em>board to communicate and receive sketches.</em></p></aside>
+<h3>The Test Sketch</h3>
+<p>Enter and upload Listing 16-1.</p>
+<figure class="listing"><pre class="code"><code>// Listing 16-1
+int data1 = 0;
+void setup()
+{
+  Serial.begin(9600);
+}
+void loop()
+{
+  if (Serial.available() &gt; 0) {
+    data1 = Serial.read();
+    // display incoming number
+    Serial.print(&quot; &quot;);
+    Serial.print(data1, DEC);
+  }
+}</code></pre><figcaption><b>Listing 16-1:</b> RFID test sketch</figcaption></figure>
+<h3>Check Serial Monitor</h3>
+<p>Open the Serial Monitor window and wave an RFID tag over the coil. The results should look similar to Figure 16-4.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="524" height="211" style="width:255px" loading="lazy" alt="Figure 16-4: Example output from Listing 16-1"></a><figcaption><b>Figure 16-4:</b> Example output from Listing 16-1</figcaption></figure>
+<p>Notice that 14 numbers are displayed in the Serial Monitor window. This is the RFID tag’s unique ID number, which we’ll use in future sketches to identify the tag being read. Now record the numbers that result from each of your tags, because you’ll need them for the next few projects.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../16-reading-rfid-tags/01-inside-rfid-devices/index.html"><span class="dir">← Previous</span><span class="t">Inside RFID Devices</span><span class="ch">Chapter 16 · Reading RFID Tags</span></a><a class="nx" data-nav="next" href="../../16-reading-rfid-tags/03-project-52-creating-a-simple-rfid-control-system/index.html"><span class="dir">Next →</span><span class="t">Project #52: Creating a Simple RFID Control System</span><span class="ch">Chapter 16 · Reading RFID Tags</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Improving Analog Measurement Precision with a Reference Voltage — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 4: Building Blocks · Improving Analog Measurement Precision with a Reference Voltage">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 4 · Improving Analog Measurement Precision with a Reference Voltage</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../04-building-blocks/09-doing-arithmetic-with-an-arduino/index.html" title="Doing Arithmetic with an Arduino">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 4 · Building Blocks</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-using-schematic-diagrams/index.html">Using Schematic Diagrams</a><a href="../02-the-capacitor/index.html">The Capacitor</a><a href="../03-digital-inputs/index.html">Digital Inputs</a><a href="../04-project-4-demonstrating-a-digital-input/index.html">Project #4: Demonstrating a Digital Input</a><a href="../05-boolean-variables/index.html">Boolean Variables</a><a href="../06-project-5-controlling-traffic/index.html">Project #5: Controlling Traffic</a><a href="../07-analog-vs-digital-signals/index.html">Analog vs. Digital Signals</a><a href="../08-project-6-creating-a-single-cell-battery-tester/index.html">Project #6: Creating a Single-Cell Battery Tester</a><a href="../09-doing-arithmetic-with-an-arduino/index.html">Doing Arithmetic with an Arduino</a><a href="../10-improving-analog-measurement-precision-with-a-reference-volt/index.html" aria-current=page>Improving Analog Measurement Precision with a Reference Voltage</a><a href="../11-the-variable-resistor/index.html">The Variable Resistor</a><a href="../12-piezoelectric-buzzers/index.html">Piezoelectric Buzzers</a><a href="../13-project-7-trying-out-a-piezo-buzzer/index.html">Project #7: Trying Out a Piezo Buzzer</a><a href="../14-project-8-creating-a-quick-read-thermometer/index.html">Project #8: Creating a Quick-Read Thermometer</a><a href="../15-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../04-building-blocks/11-the-variable-resistor/index.html" title="The Variable Resistor">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:20.2%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 4 · Building Blocks</a></p>
+  <h1>Improving Analog Measurement Precision with a Reference Voltage</h1>
+  <p class="sec-meta">Book pages 84–86</p>
+</div>
+<article class="prose">
+<h2>Reference Voltage</h2>
+<p>As demonstrated in Project 6, the <code>analogRead()</code> function returns a value proportional to a voltage between 0 and 5 V. The upper value (5 V) is the <em>reference voltage</em>, the maximum voltage that the Arduino analog inputs will accept and return the highest value for (1,023).</p>
+<p>To increase precision while reading even lower voltages, we can use a lower reference voltage. For example, when the reference voltage is 5 V, <code>analogRead()</code> represents this with a value from 0 to 1,023. However, if we need to measure only a voltage with a maximum of (for example) 2 V, then we can alter the Arduino output to represent 2 V using the 0–1,023 value range to allow for more precise measurement. You can do this with either an external or internal reference voltage, as discussed next.</p>
+<h2>Using an External Reference Voltage</h2>
+<figure class="fig side-fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="230" height="156" style="width:112px" loading="lazy" alt="Figure 4-32: The Arduino Uno AREF pin"></a><figcaption><b>Figure 4-32:</b> The  Arduino Uno AREF pin</figcaption></figure>
+<p>The first method of using a reference voltage is with the <em>AREF</em> (<em>a</em>nalog <em>ref</em>erence) pin, as shown in Figure 4-32.</p>
+<p>We can introduce a new reference voltage by connecting the voltage into the AREF pin and the matching GND to the Arduino’s GND. Note that this can lower the reference voltage but will not raise it, because the reference voltage connected to an Arduino Uno must not exceed 5 V. A simple way to set a lower reference voltage is by creating a <em>voltage divider</em> with two resistors, as shown in Figure 4-33.</p>
+<figure class="fig"><a href="img/fig-02.webp" target="_blank" rel="noopener"><img src="img/fig-02.webp" width="899" height="618" style="width:437px" loading="lazy" alt="Figure 4-33: Voltage divider circuit"></a><figcaption><b>Figure 4-33:</b> Voltage divider circuit</figcaption></figure>
+<p>The values of <em>R1</em> and <em>R2</em> will determine the reference voltage according to the following formula:</p>
+<p>R2 V=V R1+R3 outin</p>
+<p><em>V</em><sub><em>out</em></sub> is the reference voltage, and <em>V</em><sub><em>in</em></sub> is the input voltage—in this case 5 V. <em>R1</em> and <em>R2</em> are the resistor values in ohms.</p>
+<p>The simplest way to divide the voltage is to split <em>V</em><sub><em>in</em></sub> in half by setting <em>R1</em> and <em>R2</em> to the same value—for example, 10 kΩ each. When you’re doing this, it’s best to use the lowest-tolerance resistors you can find, such as 1 percent; confirm their true resistance values with a multimeter, and use those confirmed values in the calculation. Furthermore, it’s also a very good idea to place a 100 nF capacitor between AREF and GND to avoid a noisy AREF and prevent unstable analog readings.</p>
+<p>When using an external reference voltage, insert the following line in the <code>void setup()</code> section of your sketch:</p>
+<pre class="code"><code>     analogReference(EXTERNAL); // select AREF pin for reference voltage</code></pre>
+<h2>Using the Internal Reference Voltage</h2>
+<p>The Arduino Uno also has an internal 1.1 V reference voltage. If this meets your needs, no hardware changes are required. Just add this line to <code>void setup()</code>:</p>
+<pre class="code"><code>     analogReference(INTERNAL); // select internal 1.1 V reference voltage</code></pre>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../04-building-blocks/09-doing-arithmetic-with-an-arduino/index.html"><span class="dir">← Previous</span><span class="t">Doing Arithmetic with an Arduino</span><span class="ch">Chapter 4 · Building Blocks</span></a><a class="nx" data-nav="next" href="../../04-building-blocks/11-the-variable-resistor/index.html"><span class="dir">Next →</span><span class="t">The Variable Resistor</span><span class="ch">Chapter 4 · Building Blocks</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interrupts — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 8: Expanding Your Arduino · Interrupts">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 8 · Interrupts</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../08-expanding-your-arduino/09-project-31-creating-a-stopwatch/index.html" title="Project #31: Creating a Stopwatch">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 8 · Expanding Your Arduino</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-shields/index.html">Shields</a><a href="../02-protoshields/index.html">ProtoShields</a><a href="../03-project-28-creating-a-custom-shield-with-eight-leds/index.html">Project #28: Creating a Custom Shield with Eight LEDs</a><a href="../04-expanding-sketches-with-libraries/index.html">Expanding Sketches with Libraries</a><a href="../05-microsd-memory-cards/index.html">MicroSD Memory Cards</a><a href="../06-project-29-writing-data-to-the-memory-card/index.html">Project #29: Writing Data to the Memory Card</a><a href="../07-project-30-creating-a-temperature-logging-device/index.html">Project #30: Creating a Temperature-Logging Device</a><a href="../08-timing-applications-with-millis-and-micros/index.html">Timing Applications with millis() and micros()</a><a href="../09-project-31-creating-a-stopwatch/index.html">Project #31: Creating a Stopwatch</a><a href="../10-interrupts/index.html" aria-current=page>Interrupts</a><a href="../11-project-32-using-interrupts/index.html">Project #32: Using Interrupts</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../08-expanding-your-arduino/11-project-32-using-interrupts/index.html" title="Project #32: Using Interrupts">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:52.0%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 8 · Expanding Your Arduino</a></p>
+  <h1>Interrupts</h1>
+  <p class="sec-meta">Book pages 184–185</p>
+</div>
+<article class="prose">
+<p>An <em>interrupt </em>in the Arduino world is basically a signal that allows a function to be called at any time within a sketch—for example, when a digital input pin’s state changes or a timer event is triggered. Interrupts are perfect for calling a function to interrupt the normal operation of a sketch, such as when a button is pressed.</p>
+<p>When an interrupt is triggered, the normal operation and running of your program in the <code>void loop()</code> is halted temporarily, the interrupt function is called and executed, and then when the interrupt function exits, whatever was happening in the main loop starts exactly from where it left off.</p>
+<p>Keep in mind that interrupt functions should be short and usually simple. They should exit quickly, and if the interrupt function does something that the main loop may already be doing, then the interrupt function is temporarily going to override whatever the main loop was doing. For example, if the main loop is regularly sending <em>Hello</em> out the serial port and the interrupt function sends <em>---</em> when it is triggered, then you will see any of these come out the serial port: <em>H----ello</em>, <em>He----llo</em>, <em>Hel----lo</em>, <em>Hell----o</em>, or <em>Hello----</em>.</p>
+<p>The Arduino Uno offers two interrupts that are available using digital pins 2 and 3. When properly configured, the Arduino will monitor the voltage applied to the pins. When the voltage changes in a certain, defined way (when a button is pressed, for example), an interrupt is triggered, causing a corresponding function to run—maybe something like “Stop Pressing Me!”</p>
+<h2>Interrupt Modes</h2>
+<p>One of four changes (or <em>modes</em>) can trigger an interrupt:</p>
+<ul><li><code>LOW</code>: No current is applied to the interrupt pin.</li><li><code>CHANGE</code>: The current changes, either between on and off or between off and on.</li><li><code>RISING</code>: The current changes from off to on at 5 V.</li><li><code>FALLING</code>: The current changes from on at 5 V to off.</li></ul>
+<p>For example, to detect when a button attached to an interrupt pin has been pressed, we could use the <code>RISING</code> mode. Or, for example, if you had an electric trip wire running around your garden (connected between 5 V and the interrupt pin), then you could use the <code>FALLING</code> mode to detect when the wire has been tripped and broken.</p>
+<aside class="note"><span class="lbl">NOTE</span><p><em>The </em><code>delay()</code><em> and </em><code>Serial.available()</code><em> functions will not work within a function that </em> <em>has been called by an interrupt. </em></p></aside>
+<h2>Configuring Interrupts</h2>
+<p>To configure interrupts, use the following in <code>void setup()</code>:</p>
+<pre class="code"><code>  attachInterrupt(0, function, mode);
+  attachInterrupt(1, function, mode);</code></pre>
+<p>Here, <code>0</code> is for digital pin 2, <code>1</code> is for digital pin 3, <code>function</code> is the name of the function to call when the interrupt is triggered, and <code>mode</code> is one of the four modes that triggers the interrupt.</p>
+<h2>Activating or Deactivating Interrupts</h2>
+<p>Sometimes within a sketch you won’t want to use the interrupts. Deactivate them using the following:</p>
+<pre class="code"><code>noInterrupts(); // deactivate interrupts</code></pre>
+<p>And then reactivate them with this:</p>
+<pre class="code"><code>interrupts(); // reactivate interrupts</code></pre>
+<p>Interrupts work quickly and they are very sensitive, which makes them useful for time-critical applications or for “emergency stop” buttons on projects.</p>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../08-expanding-your-arduino/09-project-31-creating-a-stopwatch/index.html"><span class="dir">← Previous</span><span class="t">Project #31: Creating a Stopwatch</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a><a class="nx" data-nav="next" href="../../08-expanding-your-arduino/11-project-32-using-interrupts/index.html"><span class="dir">Next →</span><span class="t">Project #32: Using Interrupts</span><span class="ch">Chapter 8 · Expanding Your Arduino</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>

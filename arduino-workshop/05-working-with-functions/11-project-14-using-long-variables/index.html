@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project #14: Using long Variables — Arduino Workshop</title>
+<meta name="description" content="Arduino Workshop · Chapter 5: Working with Functions · Project #14: Using long Variables">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../../../assets/book.css">
+<link rel="stylesheet" href="../../../assets/arduino.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <div class="crumb"><span class="c1"><a href="../../../index.html">Library</a> · <a href="../../index.html">Arduino Workshop</a></span><span class="c2">Ch 5 · Project #14: Using long Variables</span></div>
+  <a class="tb-btn" data-nav="prev" href="../../05-working-with-functions/10-long-variables/index.html" title="long Variables">←</a><details class="drawer"><summary class="tb-btn" title="Sections in this chapter">☰</summary><div class="drawer-panel"><div class="dh">Chapter 5 · Working with Functions</div><a href="../00-introduction/index.html">Introduction</a><a href="../01-project-9-creating-a-function-to-repeat-an-action/index.html">Project #9: Creating a Function to Repeat an Action</a><a href="../02-project-10-creating-a-function-to-set-the-number-of-blinks/index.html">Project #10: Creating a Function to Set the Number of Blinks</a><a href="../03-creating-a-function-to-return-a-value/index.html">Creating a Function to Return a Value</a><a href="../04-project-11-creating-a-quick-read-thermometer-that-blinks-the/index.html">Project #11: Creating a Quick-Read Thermometer That Blinks the Temperature</a><a href="../05-displaying-data-from-the-arduino-in-the-serial-monitor/index.html">Displaying Data from the Arduino in the Serial Monitor</a><a href="../06-project-12-displaying-the-temperature-in-the-serial-monitor/index.html">Project #12: Displaying the Temperature in the Serial Monitor</a><a href="../07-making-decisions-with-while-statements/index.html">Making Decisions with while Statements</a><a href="../08-sending-data-from-the-serial-monitor-to-the-arduino/index.html">Sending Data from the Serial Monitor to the Arduino</a><a href="../09-project-13-multiplying-a-number-by-two/index.html">Project #13: Multiplying a Number by Two</a><a href="../10-long-variables/index.html">long Variables</a><a href="../11-project-14-using-long-variables/index.html" aria-current=page>Project #14: Using long Variables</a><a href="../12-looking-ahead/index.html">Looking Ahead</a></div></details><a class="tb-btn" data-nav="next" href="../../05-working-with-functions/12-looking-ahead/index.html" title="Looking Ahead">→</a><button class="tb-btn" data-theme-toggle title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+</div><div class="progress"><span style="width:30.1%"></span></div></header>
+<main class="wrap">
+<div class="sec-head">
+  <p class="eyebrow"><a href="../index.html">Chapter 5 · Working with Functions</a></p>
+  <h1>Project #14: Using long Variables</h1>
+  <p class="sec-meta">Book pages 107–109</p>
+</div>
+<article class="prose">
+<p>We’ll use the Serial Monitor to accept <code>long</code> variables and numbers larger than one digit. This sketch accepts a number of many digits, multiplies that number by 2, and then returns the result to the Serial Monitor.</p>
+<pre class="code"><code>// Project 14 - Using long Variables
+long number = 0;
+long a = 0;
+void setup()
+{
+  Serial.begin(9600);
+}
+void loop()
+{
+  number = 0;     // zero the incoming number ready for a new read
+  Serial.flush(); // clear any &quot;junk&quot; out of the serial buffer before waiting
+  while (Serial.available() == 0)
+  {
+    // do nothing until something comes into the serial buffer,
+    // when something does come in, Serial.available will return how many
+    // characters are waiting in the buffer to process
+  }
+  // one character of serial data is available, begin calculating
+  while (Serial.available() &gt; 0)
+  {
+    // move any previous digit to the next column on the left;
+    // in other words, 1 becomes 10 while there is data in the buffer
+    number = number * 10;
+    // read the next number in the buffer and subtract the character 0
+    // from it to convert it to the actual integer number
+    a = Serial.read() - &#x27;0&#x27;;
+    // add this value a into the accumulating number
+    number = number + a;
+    // allow a short delay for more serial data to come into Serial.available
+    delay(5);
+  }
+  Serial.print(&quot;You entered: &quot;);
+  Serial.println(number);
+  Serial.print(number);
+  Serial.print(&quot; multiplied by two is &quot;);
+  number = number * 2;
+  Serial.println(number);
+}</code></pre>
+<p>In this example, two <code>while</code> loops allow the Arduino to accept multiple digits from the Serial Monitor. When the first digit is entered (the leftmost digit of the number entered), it is converted to a number and then added to the total variable <code>number</code>. If that’s the only digit, the sketch moves on. If another digit is entered (for example, the <em>2</em> in <em>42</em>), then the total is multiplied by 10 to shift the first digit to the left, and then the new digit is added to the total. This cycle repeats until the rightmost digit has been added to the total.</p>
+<p>Figure 5-6 shows the input and output of this sketch.</p>
+<figure class="fig"><a href="img/fig-01.webp" target="_blank" rel="noopener"><img src="img/fig-01.webp" width="565" height="356" style="width:275px" loading="lazy" alt="Figure 5-6: Sample input and output from Project 14"></a><figcaption><b>Figure 5-6:</b> Sample input and output from Project 14</figcaption></figure>
+</article>
+<nav class="pager"><a class="" data-nav="prev" href="../../05-working-with-functions/10-long-variables/index.html"><span class="dir">← Previous</span><span class="t">long Variables</span><span class="ch">Chapter 5 · Working with Functions</span></a><a class="nx" data-nav="next" href="../../05-working-with-functions/12-looking-ahead/index.html"><span class="dir">Next →</span><span class="t">Looking Ahead</span><span class="ch">Chapter 5 · Working with Functions</span></a></nav>
+</main><footer class="site">Arduino Workshop · John Boxall · © 2013 No Starch Press. HTML edition generated from the PDF for study use.</footer><script src="../../../assets/book.js"></script>
+</body>
+</html>
